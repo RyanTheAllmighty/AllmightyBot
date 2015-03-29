@@ -1,3 +1,4 @@
 {
-    "join_message": "Never fear, AllmightyBot is here!"
+    "join_message": "Never fear, AllmightyBot is here!",
+    "hosting": "Thanks for watching! We're now hosting {0} so please go over to http://www.twitch.tv/{0} and show them some love!"
 }

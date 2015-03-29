@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/RyanTheAllmighty/AllmightyBot-Node",
   "dependencies": {
+    "string-format": "^0.5.0",
     "twitch-irc": "^1.2.5",
     "twitch-irc-api": "^1.0.1",
     "twitch-irc-db": "^1.0.0"
