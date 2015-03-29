@@ -23,8 +23,10 @@ var connection = require('../inc/connection');
 
 module.exports.enabled = true;
 
-module.exports.name = 'test';
+module.exports.name = 'exit';
 
 module.exports.callback = function () {
-    return 'Test';
+    connection.disconnect();
+
+    return lang.exit_message;
 };
