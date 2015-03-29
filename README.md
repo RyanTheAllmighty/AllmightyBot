@@ -26,7 +26,7 @@ The listeners folder contains all the listeners for the bot and is loaded when s
 
 If you wish to disable/enable a listener, simply edit the listener you want to disable in the listeners folder and change the below to enable/disable a command:
 
-```
+```javascript
 module.exports.enabled = true;
 ```
 
@@ -34,7 +34,7 @@ To make your own listener you only need to supply 2 things.
 
 Firsty the event it's listening for:
 
-```
+```javascript
 module.exports.listening_for = 'chat';
 ```
 
@@ -42,7 +42,7 @@ You can find a list of all the events possible to listen to [here](https://githu
 
 Secondly you'll need to specify a callback to run when the event happens:
 
-```
+```javascript
 module.exports.callback = function (channel, user, message) {
     connection.client.say(channel, user.username + ': ' + message);
 };
@@ -52,6 +52,16 @@ For best results, take a look at the existing listeners and go from there.
 
 ### Commands
 TBA
+
+### FAQ
+> Why make your own bot and not use one of the many many existing ones?
+Well because I didn't want to :P I wanted to be able to have full control to add/remove/change anything I wanted to and I also wanted to increase my programming skills a bit by doing this.
+
+> Why did you change the bot from Java to NodeJS?
+I stopped developing the Java version and decided to do the NodeJS version as a way to learn NodeJS a bit more. From there I discovered just how wonderful NodeJS can be especially when combined with NPM so stuck with it.
+
+> Why are you forcing the use of RethinkDB rather than a static database like SQLite?
+Again I am a fan of RethinkDB, it's clustering opportunities and simplicity so I went with it. By requiring this though I have pretty much stopped the average person from simply running it on their own home computer, but like the start of this README states, I'm making this for me and me alone, so my design decisions are based upon what I plan to do with it now and in the future.
 
 ### Help/Support
 If you have any issues/questions/suggestions, please make an issue [here](https://github.com/RyanTheAllmighty/AllmightyBot-Node/issues)
