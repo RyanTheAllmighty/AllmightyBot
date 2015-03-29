@@ -49,7 +49,6 @@ module.exports.loadCommands = function () {
             commands[command.name] = command;
         }
     });
-    console.log(commands);
 };
 
 module.exports.findCommand = function (name, callback) {

@@ -3,5 +3,7 @@
     "bot_oauth_token": "",
     "channels_to_join": [
         ""
-    ]
+    ],
+    "rethinkdb_host": "127.0.0.1",
+    "rethinkdb_port": 28015
 }

@@ -17,7 +17,7 @@
  */
 
 var irc = require('twitch-irc');
-var db = require('twitch-irc-db')({database: './data'});
+var r = require('rethinkdb');
 var api = require('twitch-irc-api');
 
 var commands = require('./commands');
@@ -40,6 +40,23 @@ var client = new irc.client({
 });
 
 module.exports.client = client;
+
+r.connect({host: settings.rethinkdb_host, port: settings.rethinkdb_port}, function (err, conn) {
+    if (err) {
+        throw err;
+    }
+
+    var emptyFunction = function () {
+
+    };
+
+    r.dbCreate('allmightybot').run(conn, emptyFunction);
+    r.db('allmightybot').tableCreate('user_joins').run(conn, emptyFunction);
+    r.db('allmightybot').tableCreate('user_parts').run(conn, emptyFunction);
+    r.db('allmightybot').tableCreate('user_messages').run(conn, emptyFunction);
+
+    module.exports.rdb_connection = conn;
+});
 
 module.exports.load = function () {
     commands.loadCommands();

@@ -7,7 +7,7 @@ This is a rewrite of my old [AllmightyBot](https://github.com/RyanTheAllmighty/A
 It's only really intended for my own personal use, mainly due to the documentation will be completely lacking and the application will be buggy and mostly unsupported, but of course it's open source under GNU GPLv3 license so anybody can feel free to download it, use it, modify it, etc.
 
 ### How to install
-Make sure you have installed [NodeJS](https://nodejs.org/) and have it working. Then run the below command to install all required modules:
+Make sure you have installed [NodeJS](https://nodejs.org/) and [RethinkDB](http://rethinkdb.com/). Then run the below command to install all required modules:
 
 ```
 npm install

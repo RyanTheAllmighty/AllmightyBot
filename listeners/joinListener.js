@@ -19,6 +19,8 @@
 var settings = require('../settings.json');
 var lang = require('../lang.json');
 
+var r = require('rethinkdb');
+
 var connection = require('../inc/connection');
 
 module.exports.enabled = true;
@@ -28,5 +30,10 @@ module.exports.listening_for = 'join';
 module.exports.callback = function (channel, username) {
     if (username === settings.bot_username) {
         connection.client.say(channel, lang.join_message);
+    } else {
+        r.db('allmightybot').table('user_joins').insert({
+            username: username,
+            time: new Date()
+        }).run(connection.rdb_connection);
     }
 };
