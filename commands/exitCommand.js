@@ -25,8 +25,10 @@ module.exports.enabled = true;
 
 module.exports.name = 'exit';
 
-module.exports.callback = function () {
+module.exports.callback = function (channel, user, message) {
+    connection.client.say(channel, lang.exit_message);
+
     connection.disconnect();
 
-    return lang.exit_message;
+    process.exit();
 };

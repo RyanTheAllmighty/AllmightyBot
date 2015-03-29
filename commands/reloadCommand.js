@@ -25,8 +25,8 @@ module.exports.enabled = true;
 
 module.exports.name = 'reload';
 
-module.exports.callback = function () {
+module.exports.callback = function (channel, user, message) {
     connection.reloadCommands();
 
-    return 'Commands reloaded!';
+    connection.client.say(channel, lang.commands_reloaded);
 };

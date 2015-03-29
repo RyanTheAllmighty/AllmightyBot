@@ -25,6 +25,9 @@ module.exports.enabled = true;
 
 module.exports.name = 'test';
 
-module.exports.callback = function () {
-    return 'Test';
+module.exports.callback = function (channel, user, message) {
+    console.log(channel);
+    console.log(user);
+    console.log(message);
+    connection.client.say(channel, 'Test');
 };

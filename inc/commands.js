@@ -46,7 +46,7 @@ module.exports.loadCommands = function () {
         var command = require('../commands/' + file);
 
         if (command.enabled) {
-            commands[command.name] = command.callback;
+            commands[command.name] = command;
         }
     });
     console.log(commands);
@@ -57,5 +57,5 @@ module.exports.findCommand = function (name, callback) {
         return callback(new Error('No command found with that name!'))
     }
 
-    return callback(null, commands[name]());
+    return callback(null, commands[name]);
 };
