@@ -16,22 +16,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
+var settings = require('../settings.json');
+var lang = require('../lang.json');
 
-var format = require('string-format');
-format.extend(String.prototype);
+var connection = require('../inc/connection');
 
-var commands = require('./inc/commands');
-var listeners = require('./inc/listeners');
-var connection = require('./inc/connection');
+module.exports.enabled = true;
 
-commands.loadCommands();
+module.exports.name = 'test';
 
-listeners.forEach(function (listener) {
-    console.log('Loading listener ' + listener);
-    connection.client.addListener(listener.listening_for, listener.callback);
-});
-
-console.log('Bot finished loading all the listeners');
-
-connection.client.connect();
+module.exports.callback = function () {
+    return 'Test';
+};

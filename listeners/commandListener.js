@@ -16,16 +16,32 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-var fs = require('fs');
+var settings = require('../settings.json');
+var lang = require('../lang.json');
 
-var listeners = [];
+var connection = require('../inc/connection');
+var commands = require('../inc/commands');
 
-fs.readdirSync('./listeners/').forEach(function (file) {
-    var listener = require('./listeners/' + file);
+module.exports.enabled = true;
 
-    if (listener.enabled) {
-        listeners.push(listener);
+module.exports.listening_for = 'chat';
+
+module.exports.callback = function (channel, user, message) {
+    if (message[0] == '!') {
+        var name = message;
+
+        if (name.indexOf(" ") != 0) {
+            name = message.split(" ")[0];
+        }
+
+        name = name.substr(1);
+
+        commands.findCommand(name, function (err, res) {
+            if (err) {
+                return console.error(err);
+            }
+
+            return connection.client.say(channel, res);
+        });
     }
-});
-
-module.exports = listeners;
+};

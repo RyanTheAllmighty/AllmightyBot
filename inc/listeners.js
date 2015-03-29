@@ -16,22 +16,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict';
+var fs = require('fs');
 
-var format = require('string-format');
-format.extend(String.prototype);
+var listeners = [];
 
-var commands = require('./inc/commands');
-var listeners = require('./inc/listeners');
-var connection = require('./inc/connection');
+fs.readdirSync('listeners/').forEach(function (file) {
+    var listener = require('../listeners/' + file);
 
-commands.loadCommands();
-
-listeners.forEach(function (listener) {
-    console.log('Loading listener ' + listener);
-    connection.client.addListener(listener.listening_for, listener.callback);
+    if (listener.enabled) {
+        listeners.push(listener);
+    }
 });
 
-console.log('Bot finished loading all the listeners');
-
-connection.client.connect();
+module.exports = listeners;
