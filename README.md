@@ -55,12 +55,15 @@ TBA
 
 ### FAQ
 > Why make your own bot and not use one of the many many existing ones?
+
 Well because I didn't want to :P I wanted to be able to have full control to add/remove/change anything I wanted to and I also wanted to increase my programming skills a bit by doing this.
 
 > Why did you change the bot from Java to NodeJS?
+
 I stopped developing the Java version and decided to do the NodeJS version as a way to learn NodeJS a bit more. From there I discovered just how wonderful NodeJS can be especially when combined with NPM so stuck with it.
 
 > Why are you forcing the use of RethinkDB rather than a static database like SQLite?
+
 Again I am a fan of RethinkDB, it's clustering opportunities and simplicity so I went with it. By requiring this though I have pretty much stopped the average person from simply running it on their own home computer, but like the start of this README states, I'm making this for me and me alone, so my design decisions are based upon what I plan to do with it now and in the future.
 
 ### Help/Support
