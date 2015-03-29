@@ -24,7 +24,31 @@ And voila you're all done. Of course you may want to look at the other json file
 ### Listeners
 The listeners folder contains all the listeners for the bot and is loaded when started up. There is no need to do anything else other than make the .js files in the listeners folder for them to start working.
 
-If you wish to disable/enable a listener, simply add or remove the .disabled from the filename. Only listeners with .js filenames will be loaded.
+If you wish to disable/enable a listener, simply edit the listener you want to disable in the listeners folder and change the below to enable/disable a command:
+
+```
+module.exports.enabled = true;
+```
+
+To make your own listener you only need to supply 2 things.
+
+Firsty the event it's listening for:
+
+```
+module.exports.listening_for = 'chat';
+```
+
+You can find a list of all the events possible to listen to [here](https://github.com/twitch-irc/documentation/tree/master/03_Events) making sure to go into the page for the event and using the first parameter.
+
+Secondly you'll need to specify a callback to run when the event happens:
+
+```
+module.exports.callback = function (channel, user, message) {
+    connection.client.say(channel, user.username + ': ' + message);
+};
+```
+
+For best results, take a look at the existing listeners and go from there.
 
 ### Commands
 TBA
