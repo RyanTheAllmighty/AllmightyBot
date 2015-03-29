@@ -1,0 +1,24 @@
+{
+  "name": "AllmightyBot-Node",
+  "version": "1.0.0",
+  "description": "Rewrite of AllmightyBot in NodeJS.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RyanTheAllmighty/AllmightyBot-Node.git"
+  },
+  "author": "RyanTheAllmighty <ryantheallmighty@atlauncher.com> (http://www.ryandowling.me/)",
+  "license": "GNU GPLv3",
+  "bugs": {
+    "url": "https://github.com/RyanTheAllmighty/AllmightyBot-Node/issues"
+  },
+  "homepage": "https://github.com/RyanTheAllmighty/AllmightyBot-Node",
+  "dependencies": {
+    "twitch-irc": "^1.2.5",
+    "twitch-irc-api": "^1.0.1",
+    "twitch-irc-db": "^1.0.0"
+  }
+}
