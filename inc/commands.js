@@ -37,6 +37,10 @@ var fs = require('fs');
 
 var commands = {};
 
+module.exports.unload = function () {
+    commands = {};
+};
+
 module.exports.loadCommands = function () {
     fs.readdirSync('commands/').forEach(function (file) {
         var command = require('../commands/' + file);
@@ -45,6 +49,7 @@ module.exports.loadCommands = function () {
             commands[command.name] = command.callback;
         }
     });
+    console.log(commands);
 };
 
 module.exports.findCommand = function (name, callback) {

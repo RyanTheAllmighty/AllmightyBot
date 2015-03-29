@@ -21,17 +21,4 @@
 var format = require('string-format');
 format.extend(String.prototype);
 
-var commands = require('./inc/commands');
-var listeners = require('./inc/listeners');
-var connection = require('./inc/connection');
-
-commands.loadCommands();
-
-listeners.forEach(function (listener) {
-    console.log('Loading listener ' + listener);
-    connection.client.addListener(listener.listening_for, listener.callback);
-});
-
-console.log('Bot finished loading all the listeners');
-
-connection.client.connect();
+require('./inc/connection').connect();
