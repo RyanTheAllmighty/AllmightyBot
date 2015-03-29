@@ -16,17 +16,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-var settings = require('../settings.json');
-var lang = require('../lang.json');
-
 var connection = require('../inc/connection');
 
-module.exports.enabled = true;
+module.exports.enabled = false;
 
-module.exports.listening_for = 'join';
+module.exports.listening_for = 'chat';
 
-module.exports.callback = function (channel, username) {
-    if (username === settings.bot_username) {
-        connection.client.say(channel, lang.join_message);
-    }
+module.exports.callback = function (channel, user, message) {
+    connection.client.say(channel, user.username + ': ' + message);
 };

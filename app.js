@@ -16,14 +16,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 var listeners = require('./listeners');
 
 var connection = require('./inc/connection');
 
-connection.client.connect();
-
-connection.client.addListener('join', listeners.botJoinListener);
-
-connection.client.addListener('chat', function (channel, user, message) {
-    console.log(user.username + ': ' + message);
+listeners.forEach(function (listener) {
+    console.log('Loading listener ' + listener)
+    connection.client.addListener(listener.listening_for, listener.callback);
 });
+
+console.log('Bot finished loading all the listeners');
+
+connection.client.connect();

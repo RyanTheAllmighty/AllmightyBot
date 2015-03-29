@@ -18,11 +18,14 @@
 
 var fs = require('fs');
 
-var listeners = {};
+var listeners = [];
 
 fs.readdirSync('./listeners/').forEach(function (file) {
-    var name = file.substr(0, file.indexOf('.'));
-    listeners[name] = require('./listeners/' + file);
+    var listener = require('./listeners/' + file);
+
+    if (listener.enabled) {
+        listeners.push(listener);
+    }
 });
 
 module.exports = listeners;
