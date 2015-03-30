@@ -47,13 +47,16 @@ r.connect({host: settings.rethinkdb_host, port: settings.rethinkdb_port}, functi
     }
 
     var emptyFunction = function () {
-
+        // This is here so errors from the below db queries don't throw their exceptions
     };
 
     r.dbCreate('allmightybot').run(conn, emptyFunction);
     r.db('allmightybot').tableCreate('user_joins').run(conn, emptyFunction);
+    r.db('allmightybot').table('user_joins').indexCreate('username').run(conn, emptyFunction);
     r.db('allmightybot').tableCreate('user_parts').run(conn, emptyFunction);
+    r.db('allmightybot').table('user_parts').indexCreate('username').run(conn, emptyFunction);
     r.db('allmightybot').tableCreate('user_messages').run(conn, emptyFunction);
+    r.db('allmightybot').table('user_messages').indexCreate('username').run(conn, emptyFunction);
 
     module.exports.rdb_connection = conn;
 });

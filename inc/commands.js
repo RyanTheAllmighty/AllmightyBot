@@ -37,12 +37,17 @@ var fs = require('fs');
 
 var commands = {};
 
+var requireHacks = require('./requireHacks');
+
 module.exports.unload = function () {
     commands = {};
 };
 
 module.exports.loadCommands = function () {
     fs.readdirSync('commands/').forEach(function (file) {
+        // Remove from the require cache so we can reload it's information
+        requireHacks.uncache('../commands/' + file);
+
         var command = require('../commands/' + file);
 
         if (command.enabled) {
