@@ -18,7 +18,6 @@
 
 var irc = require('twitch-irc');
 var r = require('rethinkdb');
-var api = require('twitch-irc-api');
 
 var commands = require('./commands');
 var listeners = require('./listeners');
@@ -29,8 +28,8 @@ var connected = false;
 
 var client = new irc.client({
     options: {
-        debug: true,
-        debugDetails: true
+        debug: settings.debug,
+        debugDetails: settings.debug_details
     },
     identity: {
         username: settings.bot_username,
@@ -62,16 +61,16 @@ r.connect({host: settings.rethinkdb_host, port: settings.rethinkdb_port}, functi
 });
 
 module.exports.load = function () {
+    console.log('Loading all the commands!');
     commands.loadCommands();
+    console.log('Finished loading all the commands!');
 
-    console.log('Finished loading all the commands');
-
+    console.log('Loading all the listeners!');
     listeners.forEach(function (listener) {
         console.log('Loading listener ' + listener);
         client.addListener(listener.listening_for, listener.callback);
     });
-
-    console.log('Finished loading all the listeners');
+    console.log('Finished loading all the listeners!');
 };
 
 module.exports.reloadCommands = function () {

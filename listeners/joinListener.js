@@ -28,7 +28,7 @@ module.exports.enabled = true;
 module.exports.listening_for = 'join';
 
 module.exports.callback = function (channel, username) {
-    if (username === settings.bot_username) {
+    if (username === settings.bot_username && settings.bot_says_welcome) {
         connection.client.say(channel, lang.join_message);
     } else {
         r.db('allmightybot').table('user_joins').insert({

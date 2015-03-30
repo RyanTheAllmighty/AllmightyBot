@@ -21,7 +21,7 @@ var lang = require('../lang.json');
 
 var connection = require('../inc/connection');
 
-module.exports.enabled = false;
+module.exports.enabled = true;
 
 module.exports.name = 'test';
 
