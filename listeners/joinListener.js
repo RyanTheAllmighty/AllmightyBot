@@ -16,26 +16,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+// WARNING: The join listener is useless, only counts the first join by the bot
+
 var settings = require('../settings.json');
 var lang = require('../lang.json');
 
-var r = require('rethinkdbdash')();
-
 var connection = require('../inc/connection');
+var chatterChecker = require('../inc/chatterChecker');
 
 module.exports.enabled = true;
 
 module.exports.listening_for = 'join';
 
 module.exports.callback = function (channel, username) {
-    if (username === settings.bot_username) {
-        if (settings.bot_says_welcome) {
-            connection.client.say(channel, lang.join_message);
-        }
-    } else {
-        r.db('allmightybot').table('user_joins').insert({
-            username: username,
-            time: new Date()
-        }).run();
+    if (settings.bot_says_welcome) {
+        connection.client.say(channel, lang.join_message);
     }
+
+    chatterChecker.startCheckingChatters();
 };

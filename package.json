@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/RyanTheAllmighty/AllmightyBot-Node",
   "dependencies": {
+    "lodash": "^3.6.0",
     "request": "^2.54.0",
     "rethinkdbdash": "^1.16.13",
     "string-format": "^0.5.0",
