@@ -17,15 +17,18 @@
  */
 
 var fs = require('fs');
+var requireHacks = require('./requireHacks');
+var connection = require('./connection');
 
-var listeners = [];
+module.exports.loadListeners = function () {
+    fs.readdirSync('listeners/').forEach(function (file) {
+        // Remove from the require cache so we can reload it's information
+        requireHacks.uncache('../listeners/' + file);
 
-fs.readdirSync('listeners/').forEach(function (file) {
-    var listener = require('../listeners/' + file);
+        var listener = require('../listeners/' + file);
 
-    if (listener.enabled) {
-        listeners.push(listener);
-    }
-});
-
-module.exports = listeners;
+        if (listener.enabled) {
+            connection.client.addListener(listener.listening_for, listener.callback);
+        }
+    });
+};

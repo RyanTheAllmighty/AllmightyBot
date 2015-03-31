@@ -66,11 +66,14 @@ module.exports.load = function () {
     console.log('Finished loading all the commands!');
 
     console.log('Loading all the listeners!');
-    listeners.forEach(function (listener) {
-        console.log('Loading listener ' + listener);
-        client.addListener(listener.listening_for, listener.callback);
-    });
+    listeners.loadListeners();
     console.log('Finished loading all the listeners!');
+};
+
+module.exports.reloadListeners = function () {
+    client.removeAllListeners();
+
+    listeners.loadListeners();
 };
 
 module.exports.reloadCommands = function () {
