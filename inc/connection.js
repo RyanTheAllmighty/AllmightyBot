@@ -40,7 +40,7 @@ var client = new irc.client({
         username: settings.bot_username,
         password: settings.bot_oauth_token
     },
-    channels: settings.channels_to_join
+    channels: [settings.channel_to_join]
 });
 
 module.exports.client = client;
