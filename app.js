@@ -16,4 +16,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require('./inc/connection').connect();
+var connection = require('./inc/connection');
+var chatterChecker = require('./inc/chatterChecker');
+var alreadyExiting = false;
+
+function exitHandler() {
+    if (!alreadyExiting) {
+        alreadyExiting = true;
+        console.log('Program is exiting!');
+
+        chatterChecker.stopCheckingChatters();
+        chatterChecker.partAllUsers();
+
+        process.exit();
+    }
+}
+
+process.on('exit', exitHandler);
+process.on('SIGINT', exitHandler);
+process.on('uncaughtException', exitHandler);
+
+connection.connect();

@@ -40,6 +40,17 @@ module.exports.stopCheckingChatters = function () {
     });
 };
 
+module.exports.partAllUsers = function () {
+    users.forEach(function (username) {
+        console.log('User ' + username + ' parted!');
+
+        r.db('allmightybot').table('user_parts').insert({
+            username: username,
+            time: new Date()
+        }).run();
+    });
+};
+
 module.exports.logChatters = function (channel) {
     console.log('Checking the chatters in the room');
 
