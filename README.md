@@ -21,6 +21,13 @@ node app.js
 
 And voila you're all done. Of course you may want to look at the other json files such as the lang.json and also start to setup all your commands and listeners.
 
+### Setting up an environment
+If you want to setup an environment to run or dev the bot in, you can take a look at [this repository](https://github.com/zoontek/vagrant-rethinkdb) for a Vagrant script which includes everything you need to get started.
+
+All files in the shared folder where you clone the repository will be available in the virtual machine at /home/vagrant/shared to which you can then run the application from there.
+
+For help on installing and using Vagrant, take a look at [their website](https://www.vagrantup.com/) which pairs well with [VirtualBox](https://www.virtualbox.org/)
+
 ### Listeners
 The listeners folder contains all the listeners for the bot and is loaded when started up. There is no need to do anything else other than make the .js files in the listeners folder for them to start working.
 
@@ -49,13 +56,6 @@ module.exports.callback = function (channel, user, message) {
 ```
 
 For best results, take a look at the existing listeners and go from there.
-
-### Setup an environment
-If you want to setup an environment to run or dev the bot in, you can take a look at [this repository](https://github.com/zoontek/vagrant-rethinkdb) for a Vagrant script which includes everything you need to get started.
-
-All files in the shared folder where you clone the repository will be available in the virtual machine at /home/vagrant/shared to which you can then run the application from there.
-
-For help on installing and using Vagrant, take a look at [their website](https://www.vagrantup.com/) which pairs well with [VirtualBox](https://www.virtualbox.org/)
 
 ### Commands
 TBA
