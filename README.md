@@ -50,6 +50,13 @@ module.exports.callback = function (channel, user, message) {
 
 For best results, take a look at the existing listeners and go from there.
 
+### Setup an environment
+If you want to setup an environment to run or dev the bot in, you can take a look at [this repository](https://github.com/zoontek/vagrant-rethinkdb) for a Vagrant script which includes everything you need to get started.
+
+All files in the shared folder where you clone the repository will be available in the virtual machine at /home/vagrant/shared to which you can then run the application from there.
+
+For help on installing and using Vagrant, take a look at [their website](https://www.vagrantup.com/) which pairs well with [VirtualBox](https://www.virtualbox.org/)
+
 ### Commands
 TBA
 
