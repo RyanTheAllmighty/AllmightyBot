@@ -1,4 +1,4 @@
-AllmightyBot-Node
+AllmightyBot
 ====================================
 
 ### What is it?
