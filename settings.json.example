@@ -1,9 +1,15 @@
 {
+    "debug": true,
+    "debug_details": true,
+
     "bot_username": "",
     "bot_oauth_token": "",
     "channels_to_join": [
         ""
     ],
+
+    "bot_says_welcome": false,
+
     "rethinkdb_host": "127.0.0.1",
     "rethinkdb_port": 28015
 }
