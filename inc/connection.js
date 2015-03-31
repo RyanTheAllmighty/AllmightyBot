@@ -22,7 +22,7 @@ var format = require('string-format');
 format.extend(String.prototype);
 
 var irc = require('twitch-irc');
-var r = require('rethinkdb');
+var r = require('rethinkdbdash')();
 
 var commands = require('./commands');
 var listeners = require('./listeners');
@@ -44,26 +44,6 @@ var client = new irc.client({
 });
 
 module.exports.client = client;
-
-r.connect({host: settings.rethinkdb_host, port: settings.rethinkdb_port}, function (err, conn) {
-    if (err) {
-        throw err;
-    }
-
-    var emptyFunction = function () {
-        // This is here so errors from the below db queries don't throw their exceptions
-    };
-
-    r.dbCreate('allmightybot').run(conn, emptyFunction);
-    r.db('allmightybot').tableCreate('user_joins').run(conn, emptyFunction);
-    r.db('allmightybot').table('user_joins').indexCreate('username').run(conn, emptyFunction);
-    r.db('allmightybot').tableCreate('user_parts').run(conn, emptyFunction);
-    r.db('allmightybot').table('user_parts').indexCreate('username').run(conn, emptyFunction);
-    r.db('allmightybot').tableCreate('user_messages').run(conn, emptyFunction);
-    r.db('allmightybot').table('user_messages').indexCreate('username').run(conn, emptyFunction);
-
-    module.exports.rdb_connection = conn;
-});
 
 module.exports.load = function () {
     console.log('Loading all the commands!');
@@ -87,11 +67,26 @@ module.exports.reloadCommands = function () {
     commands.loadCommands();
 };
 
+module.exports.createTables = function () {
+    var emptyFunction = function () {
+
+    };
+
+    r.dbCreate('allmightybot').run().error(emptyFunction);
+    r.db('allmightybot').tableCreate('user_joins').run().error(emptyFunction);
+    r.db('allmightybot').table('user_joins').indexCreate('username').run().error(emptyFunction);
+    r.db('allmightybot').tableCreate('user_parts').run().error(emptyFunction);
+    r.db('allmightybot').table('user_parts').indexCreate('username').run().error(emptyFunction);
+    r.db('allmightybot').tableCreate('user_messages').run().error(emptyFunction);
+    r.db('allmightybot').table('user_messages').indexCreate('username').run().error(emptyFunction);
+};
+
 module.exports.connect = function () {
     if (connected) {
         return console.error(new Error('Cannot connect again as we\'re already connected!'));
     }
 
+    module.exports.createTables();
     module.exports.load();
 
     client.connect();

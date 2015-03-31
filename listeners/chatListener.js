@@ -16,17 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+var settings = require('../settings.json');
+
 var r = require('rethinkdbdash')();
 
 var connection = require('../inc/connection');
 
 module.exports.enabled = true;
 
-module.exports.listening_for = 'part';
+module.exports.listening_for = 'chat';
 
-module.exports.callback = function (channel, username) {
-    r.db('allmightybot').table('user_parts').insert({
-        username: username,
-        time: new Date()
-    }).run();
+module.exports.callback = function (channel, user, message) {
+    if (user.username !== settings.bot_username) {
+        console.log(user);
+
+        r.db('allmightybot').table('user_messages').insert({
+            username: user.username,
+            message: message,
+            emotes: user.emote,
+            special: user.special,
+            time: new Date()
+        }).run();
+    }
 };
