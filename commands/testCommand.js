@@ -1,5 +1,5 @@
 /*
- * AllmightyBot Node - https://github.com/RyanTheAllmighty/AllmightyBot-Node
+ * AllmightyBot - https://github.com/RyanTheAllmighty/AllmightyBot
  * Copyright (C) 2015 RyanTheAllmighty
  *
  * This program is free software: you can redistribute it and/or modify

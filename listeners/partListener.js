@@ -1,5 +1,5 @@
 /*
- * AllmightyBot Node - https://github.com/RyanTheAllmighty/AllmightyBot-Node
+ * AllmightyBot - https://github.com/RyanTheAllmighty/AllmightyBot
  * Copyright (C) 2015 RyanTheAllmighty
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,9 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
-var settings = require('../settings.json');
-var lang = require('../lang.json');
 
 var r = require('rethinkdb');
 
