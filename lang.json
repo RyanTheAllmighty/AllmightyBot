@@ -2,5 +2,10 @@
     "join_message": "Never fear, AllmightyBot is here!",
     "hosting": "Thanks for watching! We're now hosting {0} so please go over to http://www.twitch.tv/{0} and show them some love!",
     "exit_message": "Goodbye!",
-    "reloaded": "Commands reloaded"
+    "reloaded": "Commands reloaded",
+    "new_seed": "Let's get a new seed. Type !seed (seed name) to suggest a seed. For example to suggest a seed of Example Seed use !seed Example Seed",
+    "seed_added": "One or more seeds have been added to the list!",
+    "seed_pick_none": "There was no winner as no seeds were submitted!",
+    "seed_pick": "The winner was {0} with a seed of '{1}'",
+    "seed_details": "The seed for this world was picked by {0} and is '{1}'"
 }
