@@ -79,6 +79,8 @@ module.exports.createTables = function () {
     r.db('allmightybot').table('user_parts').indexCreate('username').run().error(emptyFunction);
     r.db('allmightybot').tableCreate('user_messages').run().error(emptyFunction);
     r.db('allmightybot').table('user_messages').indexCreate('username').run().error(emptyFunction);
+    r.db('allmightybot').tableCreate('command_settings').run().error(emptyFunction);
+    r.db('allmightybot').table('command_settings').indexCreate('command_name').run().error(emptyFunction);
 };
 
 module.exports.connect = function () {

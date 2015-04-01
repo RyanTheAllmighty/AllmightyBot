@@ -17,6 +17,7 @@
  */
 
 var connection = require('./inc/connection');
+var commands = require('./inc/commands');
 var chatterChecker = require('./inc/chatterChecker');
 var alreadyExiting = false;
 
@@ -27,6 +28,7 @@ function exitHandler() {
 
         chatterChecker.stopCheckingChatters();
         chatterChecker.partAllUsers();
+        commands.unload();
 
         process.exit();
     }

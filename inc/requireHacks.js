@@ -19,7 +19,7 @@
 // From http://stackoverflow.com/a/14801711
 
 /**
- * Removes a module from the cache
+ * Removes a module from the cache.
  */
 module.exports.uncache = function (moduleName) {
     // Run over the cache looking for the files
@@ -38,8 +38,7 @@ module.exports.uncache = function (moduleName) {
 };
 
 /**
- * Runs over the cache to search for all the cached
- * files
+ * Runs over the cache to search for all the cached files.
  */
 module.exports.searchCache = function (moduleName, callback) {
     // Resolve the module identified by the specified name

@@ -41,7 +41,9 @@ var commands = {};
 var requireHacks = require('./requireHacks');
 
 module.exports.unload = function () {
-    commands = {};
+    Object.keys(commands).forEach(function (key) {
+        delete commands[key];
+    });
 };
 
 module.exports.loadCommands = function () {
@@ -59,6 +61,12 @@ module.exports.loadCommands = function () {
             } else {
                 commands[command.name] = command;
             }
+        }
+    });
+
+    Object.keys(commands).forEach(function (key) {
+        if (!_.isUndefined(commands[key].load)) {
+            commands[key].load();
         }
     });
 };

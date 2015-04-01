@@ -18,7 +18,7 @@
 
 var connection = require('../inc/connection');
 
-module.exports.enabled = true;
+module.exports.enabled = false;
 
 module.exports.listening_for = 'chat';
 

@@ -20,6 +20,7 @@ var lang = require('../lang.json');
 
 var connection = require('../inc/connection');
 var _ = require('lodash');
+var r = require('rethinkdbdash')();
 
 var currentSeed;
 var seeds = [];
@@ -40,7 +41,7 @@ module.exports.callback = function (command_name, channel, user, message) {
 
                 connection.client.say(channel, lang.seed_added);
             } else {
-                if (typeof currentSeed != undefined) {
+                if (!_.isUndefined(currentSeed)) {
                     connection.client.say(channel, lang.seed_details.format(currentSeed.username, currentSeed.seed));
                 }
             }
@@ -59,6 +60,19 @@ module.exports.callback = function (command_name, channel, user, message) {
                 } else {
                     currentSeed = _.shuffle(seeds)[0];
 
+                    var object = {
+                        command_name: (_.isArray(module.exports.name) ? module.exports.name.join() : module.exports.name),
+                        current_seed: currentSeed
+                    };
+
+                    r.db('allmightybot').table('command_settings').filter({command_name: object.name}).run().then(function (res) {
+                        if (res.length == 0) {
+                            r.db('allmightybot').table('command_settings').insert(object).run();
+                        }
+                    }).error(function (err) {
+                        console.error(err);
+                    });
+
                     connection.client.say(channel, lang.seed_pick.format(currentSeed.username, currentSeed.seed));
                 }
 
@@ -66,4 +80,16 @@ module.exports.callback = function (command_name, channel, user, message) {
             }
             break;
     }
+};
+
+module.exports.load = function () {
+    r.db('allmightybot').table('command_settings').filter({command_name: (_.isArray(module.exports.name) ? module.exports.name.join() : module.exports.name)}).run(function (err, res) {
+        if (err) {
+            return console.error(err);
+        }
+
+        if (res.length != 0 && _.isUndefined(currentSeed)) {
+            currentSeed = res[0].current_seed;
+        }
+    });
 };
