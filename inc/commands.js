@@ -34,6 +34,7 @@
  */
 
 var fs = require('fs');
+var _ = require('lodash');
 
 var commands = {};
 
@@ -51,7 +52,13 @@ module.exports.loadCommands = function () {
         var command = require('../commands/' + file);
 
         if (command.enabled) {
-            commands[command.name] = command;
+            if (_.isArray(command.name)) {
+                command.name.forEach(function (name) {
+                    commands[name] = command;
+                });
+            } else {
+                commands[command.name] = command;
+            }
         }
     });
 };

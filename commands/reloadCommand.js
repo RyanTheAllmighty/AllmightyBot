@@ -23,7 +23,7 @@ var connection = require('../inc/connection');
 
 module.exports.enabled = true;
 
-module.exports.name = 'reload';
+module.exports.name = ['reload', 'refresh'];
 
 module.exports.callback = function (channel, user, message) {
     connection.reloadListeners();
