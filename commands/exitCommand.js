@@ -16,7 +16,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-var settings = require('../settings.json');
 var lang = require('../lang.json');
 
 var connection = require('../inc/connection');
@@ -25,7 +24,7 @@ module.exports.enabled = true;
 
 module.exports.name = 'exit';
 
-module.exports.callback = function (channel, user, message) {
+module.exports.callback = function (command_name, channel, user, message) {
     connection.client.say(channel, lang.exit_message);
 
     connection.disconnect();

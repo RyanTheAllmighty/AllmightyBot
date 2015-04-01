@@ -25,7 +25,7 @@ module.exports.enabled = true;
 
 module.exports.name = 'test';
 
-module.exports.callback = function (channel, user, message) {
+module.exports.callback = function (command_name, channel, user, message) {
     console.log(channel);
     console.log(user);
     console.log(message);

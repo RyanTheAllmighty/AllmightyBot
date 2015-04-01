@@ -38,7 +38,7 @@ module.exports.callback = function (channel, user, message) {
                 return console.error(err);
             }
 
-            res.callback(channel, user, message);
+            res.callback(name, channel, user, message);
         });
     }
 };
