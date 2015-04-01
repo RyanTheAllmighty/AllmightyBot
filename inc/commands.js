@@ -37,6 +37,7 @@ var fs = require('fs');
 var _ = require('lodash');
 
 var commands = {};
+var commandsLoaded = [];
 
 var requireHacks = require('./requireHacks');
 
@@ -65,7 +66,9 @@ module.exports.loadCommands = function () {
     });
 
     Object.keys(commands).forEach(function (key) {
-        if (!_.isUndefined(commands[key].load)) {
+        if (!_.isUndefined(commands[key].load) && !_.contains(commandsLoaded, (_.isArray(commands[key].name) ? commands[key].name.join() : commands[key].name))) {
+            console.log('Loading the command ' + (_.isArray(commands[key].name) ? commands[key].name.join() : commands[key].name));
+            commandsLoaded.push((_.isArray(commands[key].name) ? commands[key].name.join() : commands[key].name));
             commands[key].load();
         }
     });
