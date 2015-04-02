@@ -47,23 +47,33 @@ module.exports.unload = function () {
     });
 };
 
-module.exports.loadCommands = function () {
-    fs.readdirSync('commands/').forEach(function (file) {
-        // Remove from the require cache so we can reload it's information
-        requireHacks.uncache('../commands/' + file);
+var loadCommandsFromDir = function (dir) {
+    fs.readdirSync(dir).forEach(function (file) {
+        var thisFile = dir + file;
 
-        var command = require('../commands/' + file);
+        if (fs.statSync(thisFile).isDirectory()) {
+            loadCommandsFromDir(thisFile + '/')
+        } else {
+            // Remove from the require cache so we can reload it's information
+            requireHacks.uncache('../' + thisFile);
 
-        if (command.enabled) {
-            if (_.isArray(command.name)) {
-                command.name.forEach(function (name) {
-                    commands[name] = command;
-                });
-            } else {
-                commands[command.name] = command;
+            var command = require('../' + thisFile);
+
+            if (command.enabled) {
+                if (_.isArray(command.name)) {
+                    command.name.forEach(function (name) {
+                        commands[name] = command;
+                    });
+                } else {
+                    commands[command.name] = command;
+                }
             }
         }
     });
+};
+
+module.exports.loadCommands = function () {
+    loadCommandsFromDir('commands/');
 
     Object.keys(commands).forEach(function (key) {
         if (!_.isUndefined(commands[key].load) && !_.contains(commandsLoaded, (_.isArray(commands[key].name) ? commands[key].name.join() : commands[key].name))) {

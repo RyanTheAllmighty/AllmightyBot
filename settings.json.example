@@ -6,5 +6,7 @@
     "bot_oauth_token": "",
     "channel_to_join": "",
 
-    "bot_says_welcome": false
+    "bot_says_welcome": false,
+    "default_timeout": 600,
+    "default_slowmode_time": 30
 }

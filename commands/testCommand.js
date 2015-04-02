@@ -16,9 +16,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-var settings = require('../settings.json');
-var lang = require('../lang.json');
-
 var connection = require('../inc/connection');
 
 module.exports.enabled = true;
@@ -26,7 +23,7 @@ module.exports.enabled = true;
 module.exports.name = 'test';
 
 module.exports.callback = function (command_name, channel, user, message) {
-    if (user.special.indexOf('broadcaster') >= 0) {
+    if (connection.isBroadcaster(user)) {
         console.log(channel);
         console.log(user);
         console.log(message);

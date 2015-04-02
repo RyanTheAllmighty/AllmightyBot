@@ -16,19 +16,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-var lang = require('../lang.json');
+var settings = require('../../settings.json');
 
-var connection = require('../inc/connection');
+var connection = require('../../inc/connection');
 
 module.exports.enabled = true;
 
-module.exports.name = ['reload', 'refresh'];
+module.exports.name = 'slow';
 
 module.exports.callback = function (command_name, channel, user, message) {
-    if (connection.isBroadcaster(user)) {
-        connection.reloadListeners();
-        connection.reloadCommands();
-
-        connection.client.say(channel, lang.reloaded);
+    if (!connection.isMod(user)) {
+        return console.error(new Error('The slow command can only be run by a mod!'));
     }
+
+    var length = settings.default_slowmode_time;
+
+    if (message.split(' ').length == 2) {
+        length = message.split(' ')[1];
+    }
+
+    connection.client.slow(channel, length);
 };

@@ -47,7 +47,7 @@ module.exports.callback = function (command_name, channel, user, message) {
             }
             break;
         case 'newseed':
-            if (user.special.indexOf('broadcaster') >= 0) {
+            if (connection.isBroadcaster(user)) {
                 if (!pickingSeeds) {
                     pickingSeeds = true;
 
@@ -56,7 +56,7 @@ module.exports.callback = function (command_name, channel, user, message) {
             }
             break;
         case 'pickseed':
-            if (user.special.indexOf('broadcaster') >= 0) {
+            if (connection.isBroadcaster(user)) {
                 if (pickingSeeds) {
                     if (seeds.length == 0) {
                         connection.client.say(channel, lang.seed_pick_none);

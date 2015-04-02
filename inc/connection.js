@@ -83,6 +83,14 @@ module.exports.createTables = function () {
     r.db('allmightybot').table('command_settings').indexCreate('command_name').run().error(emptyFunction);
 };
 
+module.exports.isMod = function (user) {
+    return user.special.indexOf('mod') >= 0 || user.special.indexOf('broadcaster') >= 0
+};
+
+module.exports.isBroadcaster = function (user) {
+    return user.special.indexOf('broadcaster') >= 0
+};
+
 module.exports.connect = function () {
     if (connected) {
         return console.error(new Error('Cannot connect again as we\'re already connected!'));

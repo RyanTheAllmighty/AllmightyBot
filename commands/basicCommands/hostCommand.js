@@ -16,19 +16,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-var lang = require('../lang.json');
-
-var connection = require('../inc/connection');
+var connection = require('../../inc/connection');
 
 module.exports.enabled = true;
 
-module.exports.name = ['reload', 'refresh'];
+module.exports.name = 'host';
 
 module.exports.callback = function (command_name, channel, user, message) {
-    if (connection.isBroadcaster(user)) {
-        connection.reloadListeners();
-        connection.reloadCommands();
-
-        connection.client.say(channel, lang.reloaded);
+    if (!connection.isBroadcaster(user)) {
+        return console.error(new Error('The host command can only be run by the caster!'));
     }
+
+    if (message.split(' ').length != 2) {
+        return console.error(new Error('No username was passed in to host!'));
+    }
+
+    connection.client.host(channel, message.split(' ')[1]);
 };

@@ -16,19 +16,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-var lang = require('../lang.json');
-
-var connection = require('../inc/connection');
+var connection = require('../../inc/connection');
 
 module.exports.enabled = true;
 
-module.exports.name = ['reload', 'refresh'];
+module.exports.name = 'r9koff';
 
 module.exports.callback = function (command_name, channel, user, message) {
-    if (connection.isBroadcaster(user)) {
-        connection.reloadListeners();
-        connection.reloadCommands();
-
-        connection.client.say(channel, lang.reloaded);
+    if (!connection.isMod(user)) {
+        return console.error(new Error('The r9koff command can only be run by a mod!'));
     }
+
+    connection.client.r9kbetaoff(channel);
 };
