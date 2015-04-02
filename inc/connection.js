@@ -45,6 +45,10 @@ var client = new irc.client({
 
 module.exports.client = client;
 
+module.exports.client.say = function (channel, message) {
+    console.log('You tried to say something!');
+};
+
 module.exports.load = function () {
     console.log('Loading all the commands!');
     commands.loadCommands();

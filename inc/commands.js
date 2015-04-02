@@ -53,23 +53,25 @@ var loadCommandsFromDir = function (dir) {
         if (fs.statSync(thisFile).isDirectory()) {
             loadCommandsFromDir(thisFile + '/')
         } else {
-            // Remove from the require cache so we can reload it's information
-            requireHacks.uncache('../' + thisFile);
+            if (thisFile.slice(-3) == '.js') {
+                // Remove from the require cache so we can reload it's information
+                requireHacks.uncache('../' + thisFile);
 
-            var command = require('../' + thisFile);
+                var command = require('../' + thisFile);
 
-            if (!_.isUndefined(command.load)) {
-                console.log('Loading the command ' + (_.isArray(command.name) ? command.name.join() : command.name));
-                command.load();
-            }
+                if (!_.isUndefined(command.load)) {
+                    console.log('Loading the command ' + (_.isArray(command.name) ? command.name.join() : command.name));
+                    command.load();
+                }
 
-            if (command.enabled) {
-                if (_.isArray(command.name)) {
-                    command.name.forEach(function (name) {
-                        commands[name] = command;
-                    });
-                } else {
-                    commands[command.name] = command;
+                if (command.enabled) {
+                    if (_.isArray(command.name)) {
+                        command.name.forEach(function (name) {
+                            commands[name] = command;
+                        });
+                    } else {
+                        commands[command.name] = command;
+                    }
                 }
             }
         }
