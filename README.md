@@ -13,7 +13,7 @@ Make sure you have installed [NodeJS](https://nodejs.org/) and [RethinkDB](http:
 npm install
 ```
 
-Then after that's finished you must copy the settings.json.example to settings.json and fill it out, then run:
+Then after that's finished you must copy the settings.json.example to settings.json and fill it out, and do the same for the lang.json.example file, then run:
 
 ```
 node app.js
@@ -31,7 +31,7 @@ For help on installing and using Vagrant, take a look at [their website](https:/
 ### Listeners
 The listeners folder contains all the listeners for the bot and is loaded when started up. There is no need to do anything else other than make the .js files in the listeners folder for them to start working.
 
-If you wish to disable/enable a listener, simply edit the listener you want to disable in the listeners folder and change the below to enable/disable a command:
+If you wish to disable/enable a listener, simply edit the listener you want to disable in the listeners folder and change the below to enable/disable a listener:
 
 ```javascript
 module.exports.enabled = true;
@@ -58,7 +58,34 @@ module.exports.callback = function (channel, user, message) {
 For best results, take a look at the existing listeners and go from there.
 
 ### Commands
-TBA
+The commands folder contains all the commands that the bot can respond to. There is no need to do anything else other than make the .js files in the commands folder for them to start working.
+
+You may have as many subfolders in the commands folder so you can organise it to your hearts content.
+
+If you wish to disable/enable a command, simply edit the command you want to disable in the commands folder and change the below to enable/disable a command:
+
+```javascript
+module.exports.enabled = true;
+```
+
+To make your own command you only need to supply 2 things.
+
+Firsty the command it's listening for (below would be listening for !example) which can be a string or an array of strings if you want to have the command work on multiple things:
+
+```javascript
+module.exports.name = 'example';
+// module.exports.name = ['example', 'test'];
+```
+
+Secondly you'll need to specify a callback to run when the command is triggered/called which always contains the same information in the callbacks variables:
+
+```javascript
+module.exports.callback = function (command_name, channel, user, message) {
+    connection.client.say(channel, "Example command");
+};
+```
+
+For best results, take a look at the existing commands and go from there.
 
 ### FAQ
 > Why make your own bot and not use one of the many many existing ones?

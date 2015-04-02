@@ -16,20 +16,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+var lang = require('../../lang.json');
+
 var connection = require('../../inc/connection');
 
-module.exports.enabled = true;
+module.exports.enabled = false;
 
-module.exports.name = 'host';
+module.exports.name = 'example';
 
 module.exports.callback = function (command_name, channel, user, message) {
-    if (!connection.isBroadcaster(user)) {
-        return console.error(new Error('The host command can only be run by the caster!'));
-    }
-
-    if (message.split(' ').length != 2) {
-        return console.error(new Error('No username was passed in to the host command!'));
-    }
-
-    connection.client.host(channel, message.split(' ')[1]);
+    connection.client.say(channel, lang.example);
 };

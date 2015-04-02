@@ -1,0 +1,6 @@
+# Ignore Everything
+*
+
+# Except These
+!.gitignore
+!exampleCommand.js

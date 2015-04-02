@@ -37,3 +37,6 @@ data
 
 # Settings file
 settings.json
+
+# Lang file
+lang.json
