@@ -25,9 +25,11 @@ module.exports.enabled = true;
 module.exports.name = 'exit';
 
 module.exports.callback = function (command_name, channel, user, message) {
-    connection.client.say(channel, lang.exit_message);
+    if (user.special.indexOf('broadcaster') >= 0) {
+        connection.client.say(channel, lang.exit_message);
 
-    connection.disconnect();
+        connection.disconnect();
 
-    process.exit();
+        process.exit();
+    }
 };

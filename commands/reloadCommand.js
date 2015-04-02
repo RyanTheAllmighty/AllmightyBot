@@ -26,8 +26,10 @@ module.exports.enabled = true;
 module.exports.name = ['reload', 'refresh'];
 
 module.exports.callback = function (command_name, channel, user, message) {
-    connection.reloadListeners();
-    connection.reloadCommands();
+    if (user.special.indexOf('broadcaster') >= 0) {
+        connection.reloadListeners();
+        connection.reloadCommands();
 
-    connection.client.say(channel, lang.reloaded);
+        connection.client.say(channel, lang.reloaded);
+    }
 };

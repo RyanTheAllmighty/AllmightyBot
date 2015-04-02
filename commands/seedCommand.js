@@ -47,36 +47,40 @@ module.exports.callback = function (command_name, channel, user, message) {
             }
             break;
         case 'newseed':
-            if (!pickingSeeds) {
-                pickingSeeds = true;
+            if (user.special.indexOf('broadcaster') >= 0) {
+                if (!pickingSeeds) {
+                    pickingSeeds = true;
 
-                connection.client.say(channel, lang.new_seed);
+                    connection.client.say(channel, lang.new_seed);
+                }
             }
             break;
         case 'pickseed':
-            if (pickingSeeds) {
-                if (seeds.length == 0) {
-                    connection.client.say(channel, lang.seed_pick_none);
-                } else {
-                    currentSeed = _.shuffle(seeds)[0];
+            if (user.special.indexOf('broadcaster') >= 0) {
+                if (pickingSeeds) {
+                    if (seeds.length == 0) {
+                        connection.client.say(channel, lang.seed_pick_none);
+                    } else {
+                        currentSeed = _.shuffle(seeds)[0];
 
-                    var object = {
-                        command_name: (_.isArray(module.exports.name) ? module.exports.name.join() : module.exports.name),
-                        current_seed: currentSeed
-                    };
+                        var object = {
+                            command_name: (_.isArray(module.exports.name) ? module.exports.name.join() : module.exports.name),
+                            current_seed: currentSeed
+                        };
 
-                    r.db('allmightybot').table('command_settings').filter({command_name: object.name}).run().then(function (res) {
-                        if (res.length == 0) {
-                            r.db('allmightybot').table('command_settings').insert(object).run();
-                        }
-                    }).error(function (err) {
-                        console.error(err);
-                    });
+                        r.db('allmightybot').table('command_settings').filter({command_name: object.name}).run().then(function (res) {
+                            if (res.length == 0) {
+                                r.db('allmightybot').table('command_settings').insert(object).run();
+                            }
+                        }).error(function (err) {
+                            console.error(err);
+                        });
 
-                    connection.client.say(channel, lang.seed_pick.format(currentSeed.username, currentSeed.seed));
+                        connection.client.say(channel, lang.seed_pick.format(currentSeed.username, currentSeed.seed));
+                    }
+
+                    pickingSeeds = false;
                 }
-
-                pickingSeeds = false;
             }
             break;
     }
