@@ -100,5 +100,9 @@ I stopped developing the Java version and decided to do the NodeJS version as a 
 
 Again I am a fan of RethinkDB, it's clustering opportunities and simplicity so I went with it. By requiring this though I have pretty much stopped the average person from simply running it on their own home computer, but like the start of this README states, I'm making this for me and me alone, so my design decisions are based upon what I plan to do with it now and in the future.
 
+> Why do you have all your commands as seperate .js files rather than read from a json file or something?
+
+This is how I prefer to have it to make it easier to see exactly what each command is and does and overall provide alot of flexibility in the way commands are called.
+
 ### Help/Support
 If you have any issues/questions/suggestions, please make an issue [here](https://github.com/RyanTheAllmighty/AllmightyBot-Node/issues)
