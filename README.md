@@ -51,7 +51,7 @@ Secondly you'll need to specify a callback to run when the event happens:
 
 ```javascript
 module.exports.callback = function (channel, user, message) {
-    connection.client.say(channel, user.username + ': ' + message);
+    connection.client.sendMessage(channel, user.username + ': ' + message);
 };
 ```
 
@@ -81,7 +81,7 @@ Secondly you'll need to specify a callback to run when the command is triggered/
 
 ```javascript
 module.exports.callback = function (command_name, channel, user, message) {
-    connection.client.say(channel, "Example command");
+    connection.client.sendMessage(channel, "Example command");
 };
 ```
 

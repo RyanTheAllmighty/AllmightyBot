@@ -23,5 +23,5 @@ module.exports.enabled = false;
 module.exports.listening_for = 'chat';
 
 module.exports.callback = function (channel, user, message) {
-    connection.client.say(channel, user.username + ': ' + message);
+    connection.client.sendMessage(channel, user.username + ': ' + message);
 };

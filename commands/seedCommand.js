@@ -39,10 +39,10 @@ module.exports.callback = function (command_name, channel, user, message) {
                     seed: message.split(" ")[1]
                 });
 
-                connection.client.say(channel, lang.seed_added);
+                connection.client.sendMessage(channel, lang.seed_added);
             } else {
                 if (!_.isUndefined(currentSeed)) {
-                    connection.client.say(channel, lang.seed_details.format(currentSeed.username, currentSeed.seed));
+                    connection.client.sendMessage(channel, lang.seed_details.format(currentSeed.username, currentSeed.seed));
                 }
             }
             break;
@@ -51,7 +51,7 @@ module.exports.callback = function (command_name, channel, user, message) {
                 if (!pickingSeeds) {
                     pickingSeeds = true;
 
-                    connection.client.say(channel, lang.new_seed);
+                    connection.client.sendMessage(channel, lang.new_seed);
                 }
             }
             break;
@@ -59,7 +59,7 @@ module.exports.callback = function (command_name, channel, user, message) {
             if (connection.isBroadcaster(user)) {
                 if (pickingSeeds) {
                     if (seeds.length == 0) {
-                        connection.client.say(channel, lang.seed_pick_none);
+                        connection.client.sendMessage(channel, lang.seed_pick_none);
                     } else {
                         currentSeed = _.shuffle(seeds)[0];
 
@@ -76,7 +76,7 @@ module.exports.callback = function (command_name, channel, user, message) {
                             console.error(err);
                         });
 
-                        connection.client.say(channel, lang.seed_pick.format(currentSeed.username, currentSeed.seed));
+                        connection.client.sendMessage(channel, lang.seed_pick.format(currentSeed.username, currentSeed.seed));
                     }
 
                     pickingSeeds = false;

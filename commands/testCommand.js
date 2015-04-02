@@ -27,6 +27,6 @@ module.exports.callback = function (command_name, channel, user, message) {
         console.log(channel);
         console.log(user);
         console.log(message);
-        connection.client.say(channel, 'Test');
+        connection.client.sendMessage(channel, 'Test');
     }
 };

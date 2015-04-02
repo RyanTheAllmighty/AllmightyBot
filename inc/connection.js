@@ -31,6 +31,9 @@ var settings = require('../settings.json');
 
 var connected = false;
 
+var messagesSent = 0;
+var firstMessageSent = 0;
+
 var client = new irc.client({
     options: {
         debug: settings.debug,
@@ -45,8 +48,24 @@ var client = new irc.client({
 
 module.exports.client = client;
 
-module.exports.client.say = function (channel, message) {
-    console.log('You tried to say something!');
+module.exports.client.sendMessage = function (channel, message) {
+    var timeInSeconds = Math.floor(new Date().getTime() / 1000);
+
+    if (firstMessageSent == 0) {
+        firstMessageSent = timeInSeconds;
+        messagesSent = 0;
+    } else if ((firstMessageSent + 30) <= timeInSeconds) {
+        firstMessageSent = timeInSeconds;
+        messagesSent = 0;
+    } else {
+        messagesSent = messagesSent + 1;
+    }
+
+    if (messagesSent <= settings.bot_speak_limit_per_30s) {
+        client.say(channel, message);
+    } else {
+        console.error(new Error('The bot has already spoken over it\'s limit in the past 30 seconds so not sending message so we don\'t get globally banned!'));
+    }
 };
 
 module.exports.load = function () {

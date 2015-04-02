@@ -25,5 +25,5 @@ module.exports.enabled = true;
 module.exports.listening_for = 'hosting';
 
 module.exports.callback = function (channel, target, viewers) {
-    connection.client.say(channel, lang.hosting.format(target));
+    connection.client.sendMessage(channel, lang.hosting.format(target));
 };

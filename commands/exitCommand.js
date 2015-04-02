@@ -26,7 +26,7 @@ module.exports.name = 'exit';
 
 module.exports.callback = function (command_name, channel, user, message) {
     if (connection.isBroadcaster(user)) {
-        connection.client.say(channel, lang.exit_message);
+        connection.client.sendMessage(channel, lang.exit_message);
 
         connection.disconnect();
 

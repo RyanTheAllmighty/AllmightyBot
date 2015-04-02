@@ -29,6 +29,6 @@ module.exports.callback = function (command_name, channel, user, message) {
         connection.reloadListeners();
         connection.reloadCommands();
 
-        connection.client.say(channel, lang.reloaded);
+        connection.client.sendMessage(channel, lang.reloaded);
     }
 };

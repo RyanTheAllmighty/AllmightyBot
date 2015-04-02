@@ -30,7 +30,7 @@ module.exports.listening_for = 'join';
 
 module.exports.callback = function (channel, username) {
     if (settings.bot_says_welcome) {
-        connection.client.say(channel, lang.join_message);
+        connection.client.sendMessage(channel, lang.join_message);
     }
 
     chatterChecker.startCheckingChatters();

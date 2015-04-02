@@ -25,5 +25,5 @@ module.exports.enabled = false;
 module.exports.name = 'example';
 
 module.exports.callback = function (command_name, channel, user, message) {
-    connection.client.say(channel, lang.example);
+    connection.client.sendMessage(channel, lang.example);
 };
