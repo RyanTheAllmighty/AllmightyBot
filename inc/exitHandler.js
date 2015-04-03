@@ -16,21 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-var connection = require('../../inc/connection');
-var functions = require('../../inc/functions');
-var settings = require('../../settings.json');
-var lang = require('../../lang.json');
+var connection = require('./connection');
+var commands = require('./commands');
+var chatterChecker = require('./chatterChecker');
+var alreadyExiting = false;
 
-module.exports.enabled = true;
+module.exports = function () {
+    if (!alreadyExiting) {
+        alreadyExiting = true;
+        console.log('Program is exiting!');
 
-module.exports.name = 'uptime';
+        connection.disconnect();
 
-module.exports.callback = function (command_name, channel, user, message) {
-    functions.isLive(function (err, live, since) {
-        if (live) {
-            connection.client.sendMessage(channel, lang.uptime_today.format(settings.casters_display_name, connection.timeBetween(new Date(), since)));
-        } else {
-            connection.client.sendMessage(channel, lang.uptime_offline.format(settings.casters_display_name));
-        }
-    });
+        chatterChecker.stopCheckingChatters();
+
+        commands.unload();
+
+        console.log('Parting started!');
+        chatterChecker.partAllUsers(function () {
+            console.log('Parting finished!');
+            process.exit();
+        });
+    }
 };

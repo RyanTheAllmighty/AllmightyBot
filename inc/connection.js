@@ -133,6 +133,10 @@ module.exports.connect = function () {
 };
 
 module.exports.disconnect = function () {
+    if (typeof client == 'undefined' || !connected) {
+        return console.error(new Error('Cannot disconnect as we\'re not connected!'));
+    }
+
     client.disconnect();
 };
 

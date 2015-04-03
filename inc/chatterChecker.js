@@ -42,20 +42,15 @@ module.exports.stopCheckingChatters = function () {
 };
 
 module.exports.partAllUsers = function (mainCallback) {
-    var toDo = [];
+    async.each(users, function (username, callback) {
+        console.log('User ' + username + ' parted!');
 
-    users.forEach(function (username) {
-        toDo.push(function (callback) {
-            console.log('User ' + username + ' parted!');
-
-            r.db('allmightybot').table('user_parts').insert({
-                username: username,
-                time: new Date()
-            }).run().finally(callback);
-        })
-    });
-
-    async.series(toDo, function () {
+        r.db('allmightybot').table('user_parts').insert({
+            username: username,
+            time: new Date()
+        }).run().finally(callback);
+    }, function () {
+        console.log('Running mainCallback()');
         mainCallback();
     });
 };

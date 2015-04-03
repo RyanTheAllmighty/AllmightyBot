@@ -19,17 +19,18 @@
 var lang = require('../lang.json');
 
 var connection = require('../inc/connection');
+var exitHandler = require('../inc/exitHandler');
 
 module.exports.enabled = true;
 
 module.exports.name = 'exit';
 
 module.exports.callback = function (command_name, channel, user, message) {
-    if (connection.isBroadcaster(user)) {
-        connection.client.sendMessage(channel, lang.exit_message);
-
-        connection.disconnect();
-
-        process.exit();
+    if (!connection.isBroadcaster(user)) {
+        return console.error(new Error('The start command can only be run by the broadcaster!'));
     }
+
+    connection.client.sendMessage(channel, lang.exit_message);
+
+    exitHandler();
 };

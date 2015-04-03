@@ -17,24 +17,7 @@
  */
 
 var connection = require('./inc/connection');
-var commands = require('./inc/commands');
-var chatterChecker = require('./inc/chatterChecker');
-var alreadyExiting = false;
-
-function exitHandler() {
-    if (!alreadyExiting) {
-        alreadyExiting = true;
-        console.log('Program is exiting!');
-
-        chatterChecker.stopCheckingChatters();
-
-        commands.unload();
-
-        chatterChecker.partAllUsers(function () {
-            process.exit();
-        });
-    }
-}
+var exitHandler = require('./inc/exitHandler');
 
 process.on('exit', exitHandler);
 process.on('SIGINT', exitHandler);

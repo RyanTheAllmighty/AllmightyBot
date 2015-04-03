@@ -17,6 +17,7 @@
  */
 
 var connection = require('../../inc/connection');
+var functions = require('../../inc/functions');
 var lang = require('../../lang.json');
 var r = require('rethinkdbdash')();
 
@@ -29,18 +30,16 @@ module.exports.callback = function (command_name, channel, user, message) {
         return console.error(new Error('The start command can only be run by the broadcaster!'));
     }
 
-    r.db('allmightybot').table('streaming_times').filter(r.row('event').eq('start')).orderBy(r.desc('time')).limit(1).run().then(function (start) {
-        r.db('allmightybot').table('streaming_times').filter(r.row('event').eq('end')).orderBy(r.desc('time')).limit(1).run().then(function (end) {
-            if (start.length == 0 || (connection.timeBetween(start[0].time, end[0].time, true) < 0)) {
-                r.db('allmightybot').table('streaming_times').insert({
-                    event: 'start',
-                    time: new Date()
-                }).run();
+    functions.isLive(function (err, live, since) {
+        if (live) {
+            connection.client.sendMessage(channel, lang.stream_already_started);
+        } else {
+            r.db('allmightybot').table('streaming_times').insert({
+                event: 'start',
+                time: new Date()
+            }).run();
 
-                connection.client.sendMessage(channel, lang.stream_started);
-            } else {
-                connection.client.sendMessage(channel, lang.stream_already_started);
-            }
-        });
+            connection.client.sendMessage(channel, lang.stream_started);
+        }
     });
 };
