@@ -30,7 +30,54 @@ module.exports.isLive = function (callback) {
         }).error(function (err) {
             callback(err);
         });
+    }).error(function (err) {
+        callback(err);
     });
+};
+
+module.exports.calculateEyetime = function (username, callback) {
+    r.db('allmightybot').table('user_parts').filter(r.row('username').eq(username)).orderBy(r.asc('time')).run().then(function (parts) {
+            r.db('allmightybot').table('user_joins').filter(r.row('username').eq(username)).orderBy(r.asc('time')).run().then(function (joins) {
+                var joinTimes = [];
+                var partTimes = [];
+                var secondsInChannel = 0;
+
+                joins.forEach(function (join) {
+                    joinTimes.push(join.time);
+                });
+
+                parts.forEach(function (part) {
+                    partTimes.push(part.time);
+                });
+
+                for (var i = 0; i < partTimes.length; i++) {
+                    var partTime = partTimes[i];
+                    var theJoin = null;
+
+                    if (partTimes.length - 1 > i) {
+                        joinTimes.forEach(function (joinTime) {
+                            if (joinTime < partTime) {
+                                theJoin = joinTime;
+                            }
+                        });
+                    } else {
+                        theJoin = joinTimes[joinTimes.length - 1];
+                        partTime = new Date();
+                    }
+
+                    if (theJoin != null) {
+                        secondsInChannel += module.exports.timeBetween(partTime, theJoin, true);
+                    }
+                }
+
+                callback(null, secondsInChannel);
+            }).error(function (err) {
+                callback(err);
+            });
+        }
+    ).error(function (err) {
+            callback(err);
+        });
 };
 
 module.exports.timeBetween = function (this_date, and_this_date, return_seconds) {
@@ -45,8 +92,12 @@ module.exports.timeBetween = function (this_date, and_this_date, return_seconds)
 
     if (return_seconds) {
         return totalSeconds;
+    } else {
+        return module.exports.secondsToString(totalSeconds);
     }
+};
 
+module.exports.secondsToString = function (totalSeconds) {
     var HOURS_IN_A_DAY = 24;
     var MINUTES_IN_AN_HOUR = 60;
     var SECONDS_IN_A_MINUTE = 60;
@@ -91,7 +142,7 @@ module.exports.timeBetween = function (this_date, and_this_date, return_seconds)
             }
         }
     }
-};
+}
 
 module.exports.getMessageParts = function (message) {
     var re = /([^"]\S*|\".+?\")\s*/g;

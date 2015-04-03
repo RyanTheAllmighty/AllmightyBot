@@ -17,9 +17,8 @@
  */
 
 var connection = require('../../inc/connection');
+var functions = require('../../inc/functions');
 var lang = require('../../lang.json');
-
-var r = require('rethinkdbdash')();
 
 module.exports.enabled = true;
 
@@ -34,11 +33,16 @@ module.exports.callback = function (command_name, channel, user, message) {
         return console.error(new Error('No username was passed in to the eyetime command!'));
     }
 
-    r.db('allmightybot').table('user_parts').filter(r.row('username').eq(message.split(' ')[1])).orderBy(r.desc('time')).run().then(function (parts) {
-            r.db('allmightybot').table('user_joins').filter(r.row('username').eq(message.split(' ')[1])).orderBy(r.desc('time')).run().then(function (joins) {
-                console.log(joins);
-                console.log(parts);
-            });
+    functions.calculateEyetime(message.split(' ')[1], function (err, time) {
+        if (err) {
+            return console.error(err);
         }
-    );
+
+        if (time == 0) {
+            connection.client.sendMessage(channel, lang.eyetime_not_found.format(message.split(' ')[1]));
+        } else {
+            connection.client.sendMessage(channel, lang.eyetime.format(message.split(' ')[1], functions.secondsToString(time)));
+        }
+    });
+
 };

@@ -25,5 +25,7 @@
     "stream_not_started": "Silly strimmer! You haven't started the stream!",
     "stream_already_started": "Silly strimmer! You've already started the stream!",
     "stream_ended": "The stream has ended! Thankyou all for showing up!",
-    "stream_start_remind": "Hey strimmer! Just a reminder that you haven't started the stream!"
+    "stream_start_remind": "Hey strimmer! Just a reminder that you haven't started the stream!",
+    "eyetime": "{0} has been in the stream for {1}!",
+    "eyetime_not_found": "{0} has not visited the stream before!"
 }
