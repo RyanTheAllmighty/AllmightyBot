@@ -55,11 +55,15 @@ module.exports.calculateEyetime = function (username, callback) {
                     var theJoin = null;
 
                     if (partTimes.length - 1 > i) {
-                        joinTimes.forEach(function (joinTime) {
+                        for (var j = 0; j < joinTimes.length; j++) {
+                            var joinTime = joinTimes[j];
+
                             if (joinTime < partTime) {
                                 theJoin = joinTime;
+                            } else {
+                                break;
                             }
-                        });
+                        }
                     } else {
                         theJoin = joinTimes[joinTimes.length - 1];
                         partTime = new Date();
