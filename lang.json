@@ -16,6 +16,8 @@
     "not_online": "The stream is not online so there are no viewers!",
     "strawpoll": "A StrawPoll has been created! Go vote on it at http://strawpoll.me/{0}",
     "random_user": "Abra Kadabra, I choose you {0}",
+    "seen_user": "{0} was last seen here {1} ago!",
+    "not_seen_user": "I've never seen {0} here!",
     "twitter": "My Twitter: http://rta.pw/twitter",
     "youtube": "My YouTube: http://rta.pw/youtube",
     "website": "My Website: http://rta.pw/website",

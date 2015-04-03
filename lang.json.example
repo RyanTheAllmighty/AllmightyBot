@@ -16,5 +16,7 @@
     "not_online": "The stream is not online so there are no viewers!",
     "title": "The title of the stream is '{0}' and the game is '{1}'",
     "strawpoll": "A StrawPoll has been created! Go vote on it at http://strawpoll.me/{0}",
-    "random_user": "Abra Kadabra, I choose you {0}"
+    "random_user": "Abra Kadabra, I choose you {0}",
+    "seen_user": "{0} was last seen here {1} ago!",
+    "not_seen_user": "I've never seen {0} here!"
 }
