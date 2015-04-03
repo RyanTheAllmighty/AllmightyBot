@@ -194,3 +194,27 @@ module.exports.timeBetween = function (this_date, and_this_date, return_seconds)
         }
     }
 };
+
+module.exports.getMessageParts = function (message) {
+    var re = /([^"]\S*|\".+?\")\s*/g;
+    var m;
+
+    var matches = [];
+
+    do {
+        m = re.exec(message);
+        if (m) {
+            if (m[1][0] == '"') {
+                m[1] = m[1].slice(1);
+            }
+
+            if (m[1][m[1].length - 1] == '"') {
+                m[1] = m[1].slice(0, m[1].length - 1);
+            }
+
+            matches.push(m[1]);
+        }
+    } while (m);
+
+    return matches;
+};

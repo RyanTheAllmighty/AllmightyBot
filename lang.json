@@ -14,6 +14,7 @@
     "viewers": "There are currently {0} viewers here!",
     "title": "The title of the stream is '{0}' and the game is '{1}'",
     "not_online": "The stream is not online so there are no viewers!",
+    "strawpoll": "A StrawPoll has been created! Go vote on it at http://strawpoll.me/{0}",
     "twitter": "My Twitter: http://rta.pw/twitter",
     "youtube": "My YouTube: http://rta.pw/youtube",
     "website": "My Website: http://rta.pw/website",

@@ -14,5 +14,6 @@
     "uptime_today": "{0} has been live for {1}!",
     "viewers": "There are currently {0} viewers here!",
     "not_online": "The stream is not online so there are no viewers!",
-    "title": "The title of the stream is '{0}' and the game is '{1}'"
+    "title": "The title of the stream is '{0}' and the game is '{1}'",
+    "strawpoll": "A StrawPoll has been created! Go vote on it at http://strawpoll.me/{0}"
 }
