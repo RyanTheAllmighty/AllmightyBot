@@ -24,7 +24,7 @@ var r = require('rethinkdbdash')();
 module.exports.isLive = function (callback) {
     r.db('allmightybot').table('streaming_times').filter(r.row('event').eq('start')).orderBy(r.desc('time')).limit(1).run().then(function (start) {
         r.db('allmightybot').table('streaming_times').filter(r.row('event').eq('end')).orderBy(r.desc('time')).limit(1).run().then(function (end) {
-            var live = !((start.length == 0 && end.length == 0) || ((start.length == end.length) && module.exports.timeBetween(start[0].time, end[0].time, true) < 0));
+            var live = !((start.length == 0 && end.length == 0) || ((start.length == end.length) && this.timeBetween(start[0].time, end[0].time, true) < 0));
 
             callback(null, live, (live ? start[0].time : null));
         }).error(function (err) {
@@ -70,7 +70,7 @@ module.exports.calculateEyetime = function (username, callback) {
                     }
 
                     if (theJoin != null) {
-                        secondsInChannel += module.exports.timeBetween(partTime, theJoin, true);
+                        secondsInChannel += this.timeBetween(partTime, theJoin, true);
                     }
                 }
 
@@ -97,7 +97,7 @@ module.exports.timeBetween = function (this_date, and_this_date, return_seconds)
     if (return_seconds) {
         return totalSeconds;
     } else {
-        return module.exports.secondsToString(totalSeconds);
+        return this.secondsToString(totalSeconds);
     }
 };
 

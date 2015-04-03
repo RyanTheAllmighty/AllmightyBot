@@ -124,8 +124,8 @@ module.exports.connect = function () {
         return console.error(new Error('Cannot connect again as we\'re already connected!'));
     }
 
-    module.exports.createTables();
-    module.exports.load();
+    this.createTables();
+    this.load();
 
     client.connect();
 

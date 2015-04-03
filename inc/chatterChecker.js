@@ -24,7 +24,7 @@ var _ = require('lodash');
 var r = require('rethinkdbdash')();
 
 var cronJob = connection.client.utils.cronjobs('*/20 * * * * *', function () {
-    module.exports.logChatters(settings.channel_to_join);
+    this.logChatters(settings.channel_to_join);
 });
 
 var users = [];

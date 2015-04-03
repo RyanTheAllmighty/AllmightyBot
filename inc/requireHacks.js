@@ -24,7 +24,7 @@
 module.exports.uncache = function (moduleName) {
     // Run over the cache looking for the files
     // loaded by the specified module name
-    module.exports.searchCache(moduleName, function (mod) {
+    this.searchCache(moduleName, function (mod) {
         delete require.cache[mod.id];
     });
 

@@ -63,7 +63,7 @@ module.exports.callback = function (command_name, channel, user, message) {
                     } else {
                         currentSeed = _.shuffle(seeds)[0];
 
-                        module.exports.save(function () {
+                        this.save(function () {
                             connection.client.sendMessage(channel, lang.seed_pick.format(currentSeed.username, currentSeed.seed));
                         });
                     }
