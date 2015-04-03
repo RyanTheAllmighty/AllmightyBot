@@ -28,7 +28,7 @@ module.exports.name = 'uptime';
 module.exports.callback = function (command_name, channel, user, message) {
     functions.isLive(function (err, live, since) {
         if (live) {
-            connection.client.sendMessage(channel, lang.uptime_today.format(settings.casters_display_name, connection.timeBetween(new Date(), since)));
+            connection.client.sendMessage(channel, lang.uptime_today.format(settings.casters_display_name, functions.timeBetween(new Date(), since)));
         } else {
             connection.client.sendMessage(channel, lang.uptime_offline.format(settings.casters_display_name));
         }

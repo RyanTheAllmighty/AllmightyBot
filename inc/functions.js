@@ -146,7 +146,7 @@ module.exports.secondsToString = function (totalSeconds) {
             }
         }
     }
-}
+};
 
 module.exports.getMessageParts = function (message) {
     var re = /([^"]\S*|\".+?\")\s*/g;

@@ -17,6 +17,7 @@
  */
 
 var settings = require('../../settings.json');
+var functions = require('../../inc/functions');
 var lang = require('../../lang.json');
 
 var connection = require('../../inc/connection');
@@ -32,7 +33,7 @@ module.exports.callback = function (command_name, channel, user, message) {
         return console.error(new Error('The strawpoll command can only be run by the broadcaster!'));
     }
 
-    var parts = connection.getMessageParts(message);
+    var parts = functions.getMessageParts(message);
 
     var options = {
         url: "http://strawpoll.me/api/v2/polls",
