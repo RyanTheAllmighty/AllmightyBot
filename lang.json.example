@@ -13,5 +13,6 @@
     "posting_link_timeout": "Please ask permission before posting links! [Timed out] [{0}]",
     "uptime_today": "{0} has been live for {1}!",
     "viewers": "There are currently {0} viewers here!",
-    "not_online": "The stream is not online so there are no viewers!"
+    "not_online": "The stream is not online so there are no viewers!",
+    "title": "The title of the stream is '{0}' and the game is '{1}'"
 }
