@@ -17,19 +17,17 @@
  */
 
 var connection = require('../../inc/connection');
+var settings = require('../../settings.json');
+var lang = require('../../lang.json');
+
 var r = require('rethinkdbdash')();
 
 module.exports.enabled = true;
 
-module.exports.name = ['end', 'finish'];
+module.exports.name = 'uptime';
 
 module.exports.callback = function (command_name, channel, user, message) {
-    if (!connection.isBroadcaster(user)) {
-        return console.error(new Error('The end command can only be run by the caster!'));
-    }
-
-    r.db('allmightybot').table('streaming_times').insert({
-        event: 'end',
-        time: new Date()
-    }).run();
+    r.db('allmightybot').table('streaming_times').filter(r.row('event').eq('start')).orderBy(r.desc('time')).limit(1).run().then(function (row) {
+        connection.client.sendMessage(channel, lang.uptime_today.format(settings.casters_display_name, connection.timeBetween(row[0].time, new Date())));
+    });
 };

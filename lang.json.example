@@ -10,5 +10,6 @@
     "seed_details": "The seed for this world was picked by {0} and is '{1}'",
     "example": "This is an example response",
     "posting_link_warning": "Please ask permission before posting links! This is a warning! Next time will be a timeout!",
-    "posting_link_timeout": "Please ask permission before posting links! [Timed out] [{0}]"
+    "posting_link_timeout": "Please ask permission before posting links! [Timed out] [{0}]",
+    "uptime_today": "{0} has been live for {1}!"
 }

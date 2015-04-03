@@ -17,7 +17,7 @@
  */
 
 var connection = require('../../inc/connection');
-var r = require('rethnkdbdash')();
+var r = require('rethinkdbdash')();
 
 module.exports.enabled = true;
 

@@ -5,6 +5,7 @@
     "bot_username": "",
     "bot_oauth_token": "",
     "channel_to_join": "",
+    "casters_display_name": "",
 
     "bot_says_welcome": false,
     "default_timeout": 600,

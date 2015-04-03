@@ -132,3 +132,63 @@ module.exports.connect = function () {
 module.exports.disconnect = function () {
     client.disconnect();
 };
+
+module.exports.timeBetween = function (this_date, and_this_date, return_seconds) {
+    if (typeof return_seconds != "boolean") {
+        return_seconds = false;
+    }
+
+    var dif = this_date.getTime() - and_this_date.getTime();
+
+    var Seconds_from_T1_to_T2 = dif / 1000;
+    var totalSeconds = Math.floor(Seconds_from_T1_to_T2);
+
+    if (return_seconds) {
+        return totalSeconds;
+    }
+
+    var HOURS_IN_A_DAY = 24;
+    var MINUTES_IN_AN_HOUR = 60;
+    var SECONDS_IN_A_MINUTE = 60;
+
+    var seconds = Math.floor(totalSeconds % SECONDS_IN_A_MINUTE);
+
+    var totalMinutes = Math.floor(totalSeconds / SECONDS_IN_A_MINUTE);
+    var minutes = Math.floor(totalMinutes % MINUTES_IN_AN_HOUR);
+
+    var totalHours = Math.floor(totalMinutes / MINUTES_IN_AN_HOUR);
+    var hours = Math.floor(totalHours % HOURS_IN_A_DAY);
+
+    var days = Math.floor(totalHours / HOURS_IN_A_DAY);
+
+    if (days != 0) {
+        return days + " day" + (days == 1 ? "" : "s") + ", " + hours + " hour" + (hours == 1 ? "" : "s") + ", " + minutes + " minute" + (hours == 1 ? "" : "s") + " and " + seconds + " second" +
+            (hours == 1 ? "" : "s");
+    } else {
+        if (hours != 0) {
+            if (minutes != 0) {
+                if (seconds == 0) {
+                    return hours + " hour" + (hours == 1 ? "" : "s") + ", " + minutes + " minute" + (minutes == 1 ? "" : "s");
+                } else {
+                    return hours + " hour" + (hours == 1 ? "" : "s") + ", " + minutes + " minute" + (minutes == 1 ? "" : "s") + " and " + seconds + " second" + (seconds == 1 ? "" : "s");
+                }
+            } else {
+                if (seconds == 0) {
+                    return hours + " hour" + (hours == 1 ? "" : "s");
+                } else {
+                    return hours + " hour" + (hours == 1 ? "" : "s") + ", " + seconds + " second" + (seconds == 1 ? "" : "s");
+                }
+            }
+        } else {
+            if (minutes != 0) {
+                if (seconds == 0) {
+                    return minutes + " minute" + (minutes == 1 ? "" : "s");
+                } else {
+                    return minutes + " minute" + (minutes == 1 ? "" : "s") + " and " + seconds + " second" + (seconds == 1 ? "" : "s");
+                }
+            } else {
+                return seconds + " second" + (seconds == 1 ? "" : "s");
+            }
+        }
+    }
+};
