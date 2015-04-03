@@ -18,5 +18,6 @@
     "strawpoll": "A StrawPoll has been created! Go vote on it at http://strawpoll.me/{0}",
     "random_user": "Abra Kadabra, I choose you {0}",
     "seen_user": "{0} was last seen here {1} ago!",
-    "not_seen_user": "I've never seen {0} here!"
+    "not_seen_user": "I've never seen {0} here!",
+    "current_time": "The current time for {0} is {1}"
 }

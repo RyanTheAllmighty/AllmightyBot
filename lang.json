@@ -18,6 +18,7 @@
     "random_user": "Abra Kadabra, I choose you {0}",
     "seen_user": "{0} was last seen here {1} ago!",
     "not_seen_user": "I've never seen {0} here!",
+    "current_time": "The current time for {0} is {1}",
     "twitter": "My Twitter: http://rta.pw/twitter",
     "youtube": "My YouTube: http://rta.pw/youtube",
     "website": "My Website: http://rta.pw/website",
