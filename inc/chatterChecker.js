@@ -19,6 +19,7 @@
 var connection = require('./connection');
 var settings = require('../settings.json');
 var request = require('request');
+var async = require('async');
 var _ = require('lodash');
 var r = require('rethinkdbdash')();
 
@@ -40,14 +41,24 @@ module.exports.stopCheckingChatters = function () {
     });
 };
 
-module.exports.partAllUsers = function () {
-    users.forEach(function (username) {
-        console.log('User ' + username + ' parted!');
+module.exports.partAllUsers = function (mainCallback) {
+    var toDo = [];
 
-        r.db('allmightybot').table('user_parts').insert({
-            username: username,
-            time: new Date()
-        }).run();
+    users.forEach(function (username) {
+        toDo.push(function (callback) {
+            console.log('User ' + username + ' parted!');
+
+            r.db('allmightybot').table('user_parts').insert({
+                username: username,
+                time: new Date()
+            }).run().then(function () {
+                callback(null, null);
+            });
+        })
+    });
+
+    async.series(toDo, function() {
+        mainCallback();
     });
 };
 

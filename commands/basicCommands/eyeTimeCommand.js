@@ -35,7 +35,7 @@ module.exports.callback = function (command_name, channel, user, message) {
     }
 
     r.db('allmightybot').table('user_parts').filter(r.row('username').eq(message.split(' ')[1])).orderBy(r.desc('time')).run().then(function (parts) {
-            r.db('allmightybot').table('user_joins').filter(r.row('username').eq(message.split(' ')[1])).orderBy(r.desc('time')).limit(1).run().then(function (joins) {
+            r.db('allmightybot').table('user_joins').filter(r.row('username').eq(message.split(' ')[1])).orderBy(r.desc('time')).run().then(function (joins) {
                 console.log(joins);
                 console.log(parts);
             });
