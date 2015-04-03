@@ -17,25 +17,31 @@
  */
 
 var settings = require('../settings.json');
-
-var r = require('rethinkdbdash')();
+var lang = require('../lang.json');
 
 var connection = require('../inc/connection');
+var _ = require('lodash');
+
+var warnings = [];
 
 module.exports.enabled = true;
 
 module.exports.listening_for = 'chat';
 
 module.exports.callback = function (channel, user, message) {
-    if (user.username !== settings.bot_username) {
-        console.log(user);
+    if (!connection.isMod(user)) {
+        var matches = message.match(/[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/);
+        if (matches != null) {
+            if (_.includes(warnings, user.username)) {
+                connection.client.sendMessage(channel, lang.posting_link_timeout.format((settings.link_timeout_length / 60) + ' minutes'));
 
-        r.db('allmightybot').table('user_messages').insert({
-            username: user.username,
-            message: message,
-            emotes: user.emote,
-            special: user.special,
-            time: new Date()
-        }).run();
+                connection.client.timeout(channel, user.username, settings.link_timeout_length);
+            } else {
+                connection.client.sendMessage(channel, lang.posting_link_warning);
+
+                warnings.push(user.username);
+                connection.client.timeout(channel, user.username, 1); // Purge the message
+            }
+        }
     }
 };
