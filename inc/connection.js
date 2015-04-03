@@ -22,6 +22,7 @@ var format = require('string-format');
 format.extend(String.prototype);
 
 var irc = require('twitch-irc');
+var twitchApi = require('twitch-irc-api');
 var r = require('rethinkdbdash')();
 
 var commands = require('./commands');
@@ -47,6 +48,7 @@ var client = new irc.client({
 });
 
 module.exports.client = client;
+module.exports.api = twitchApi;
 
 module.exports.client.sendMessage = function (channel, message) {
     var timeInSeconds = Math.floor(new Date().getTime() / 1000);
