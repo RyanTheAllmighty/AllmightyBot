@@ -49,7 +49,5 @@ module.exports.callback = function (command_name, channel, user, message) {
                 });
             });
         }
-    )
-    ;
-}
-;
+    );
+};

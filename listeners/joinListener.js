@@ -33,5 +33,6 @@ module.exports.callback = function (channel, username) {
         connection.client.sendMessage(channel, lang.join_message);
     }
 
+    chatterChecker.logChatters(settings.channel_to_join);
     chatterChecker.startCheckingChatters();
 };
