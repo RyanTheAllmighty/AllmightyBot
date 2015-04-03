@@ -104,6 +104,8 @@ module.exports.createTables = function () {
     r.db('allmightybot').table('user_messages').indexCreate('username').run().error(emptyFunction);
     r.db('allmightybot').tableCreate('command_settings').run().error(emptyFunction);
     r.db('allmightybot').table('command_settings').indexCreate('command_name').run().error(emptyFunction);
+    r.db('allmightybot').tableCreate('streaming_times').run().error(emptyFunction);
+    r.db('allmightybot').table('streaming_times').indexCreate('event').run().error(emptyFunction);
 };
 
 module.exports.isMod = function (user) {
