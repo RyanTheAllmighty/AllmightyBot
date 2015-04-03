@@ -20,5 +20,9 @@
     "random_user": "Abra Kadabra, I choose you {0}",
     "seen_user": "{0} was last seen here {1} ago!",
     "not_seen_user": "I've never seen {0} here!",
-    "current_time": "The current time for {0} is {1}"
+    "current_time": "The current time for {0} is {1}",
+    "stream_started": "Hey everyone! The streams started!",
+    "stream_not_started": "Silly strimmer! You haven't started the stream!",
+    "stream_already_started": "Silly strimmer! You've already started the stream!",
+    "stream_ended": "The stream has ended! Thankyou all for showing up!"
 }

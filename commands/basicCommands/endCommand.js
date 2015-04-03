@@ -18,6 +18,7 @@
 
 var connection = require('../../inc/connection');
 var r = require('rethinkdbdash')();
+var lang = require('../../lang.json');
 
 module.exports.enabled = true;
 
@@ -25,11 +26,26 @@ module.exports.name = ['end', 'finish'];
 
 module.exports.callback = function (command_name, channel, user, message) {
     if (!connection.isBroadcaster(user)) {
-        return console.error(new Error('The end command can only be run by the caster!'));
+        return console.error(new Error('The end command can only be run by the broadcaster!'));
     }
 
-    r.db('allmightybot').table('streaming_times').insert({
-        event: 'end',
-        time: new Date()
-    }).run();
+    r.db('allmightybot').table('streaming_times').filter(r.row('event').eq('start')).orderBy(r.desc('time')).limit(1).run().then(function (start) {
+        r.db('allmightybot').table('streaming_times').filter(r.row('event').eq('end')).orderBy(r.desc('time')).limit(1).run().then(function (end) {
+            if (start.length != 0 && end.length != 0) {
+                console.log(connection.timeBetween(start[0].time, end[0].time, true));
+            }
+
+            if (start.length == 0 || (start.length != 0 && end.length != 0 && connection.timeBetween(start[0].time, end[0].time, true) < 0)) {
+                connection.client.sendMessage(channel, lang.stream_not_started);
+            } else {
+                r.db('allmightybot').table('streaming_times').insert({
+                    event: 'end',
+                    time: new Date()
+                }).run();
+
+                connection.client.sendMessage(channel, lang.stream_ended);
+            }
+        });
+    });
+
 };
