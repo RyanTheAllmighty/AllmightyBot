@@ -16,24 +16,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-var settings = require('../../settings.json');
-
 var connection = require('../../inc/connection');
 
 module.exports.enabled = true;
 
-module.exports.name = 'timeout';
+module.exports.name = 'purge';
 
 module.exports.callback = function (command_name, channel, user, message) {
     if (!connection.isMod(user)) {
-        return console.error(new Error('The timeout command can only be run by a mod!'));
+        return console.error(new Error('The purge command can only be run by a mod!'));
     }
 
-    var length = settings.default_timeout;
-
-    if (message.split(' ').length == 3) {
-        length = message.split(' ')[2];
+    if (message.split(' ').length != 2) {
+        return console.error(new Error('No username was passed in to the purge command!'));
     }
 
-    connection.client.timeout(channel, message.split(' ')[1], length);
+    connection.client.timeout(channel, message.split(' ')[1], 1);
 };
