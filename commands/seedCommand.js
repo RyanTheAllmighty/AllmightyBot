@@ -63,20 +63,9 @@ module.exports.callback = function (command_name, channel, user, message) {
                     } else {
                         currentSeed = _.shuffle(seeds)[0];
 
-                        var object = {
-                            command_name: (_.isArray(module.exports.name) ? module.exports.name.join() : module.exports.name),
-                            current_seed: currentSeed
-                        };
-
-                        r.db('allmightybot').table('command_settings').filter({command_name: object.name}).run().then(function (res) {
-                            if (res.length == 0) {
-                                r.db('allmightybot').table('command_settings').insert(object).run();
-                            }
-                        }).error(function (err) {
-                            console.error(err);
+                        module.exports.save(function () {
+                            connection.client.sendMessage(channel, lang.seed_pick.format(currentSeed.username, currentSeed.seed));
                         });
-
-                        connection.client.sendMessage(channel, lang.seed_pick.format(currentSeed.username, currentSeed.seed));
                     }
 
                     pickingSeeds = false;
@@ -95,5 +84,24 @@ module.exports.load = function () {
         if (res.length != 0 && _.isUndefined(currentSeed)) {
             currentSeed = res[0].current_seed;
         }
+    });
+};
+
+module.exports.save = function (callback) {
+    var object = {
+        command_name: (_.isArray(module.exports.name) ? module.exports.name.join() : module.exports.name),
+        current_seed: currentSeed
+    };
+
+    r.db('allmightybot').table('command_settings').filter({command_name: object.command_name}).run().then(function (res) {
+        if (res.length == 0) {
+            r.db('allmightybot').table('command_settings').insert(object).run().finally(callback);
+        } else {
+            r.db('allmightybot').table('command_settings').filter({command_name: object.command_name}).update(object).run().finally(callback);
+        }
+    }).error(function (err) {
+        console.error(err);
+
+        callback();
     });
 };

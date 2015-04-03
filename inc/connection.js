@@ -86,10 +86,11 @@ module.exports.reloadListeners = function () {
     listeners.loadListeners();
 };
 
-module.exports.reloadCommands = function () {
-    commands.unload();
-
-    commands.loadCommands();
+module.exports.reloadCommands = function (callback) {
+    commands.unload(function () {
+        commands.loadCommands();
+        callback();
+    });
 };
 
 module.exports.createTables = function () {

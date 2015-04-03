@@ -26,9 +26,10 @@ function exitHandler() {
         alreadyExiting = true;
         console.log('Program is exiting!');
 
+        chatterChecker.stopCheckingChatters();
+
         commands.unload();
 
-        chatterChecker.stopCheckingChatters();
         chatterChecker.partAllUsers(function () {
             process.exit();
         });

@@ -51,13 +51,11 @@ module.exports.partAllUsers = function (mainCallback) {
             r.db('allmightybot').table('user_parts').insert({
                 username: username,
                 time: new Date()
-            }).run().then(function () {
-                callback(null, null);
-            });
+            }).run().finally(callback);
         })
     });
 
-    async.series(toDo, function() {
+    async.series(toDo, function () {
         mainCallback();
     });
 };

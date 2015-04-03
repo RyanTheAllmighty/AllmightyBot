@@ -34,15 +34,32 @@
  */
 
 var fs = require('fs');
+var async = require('async');
 var _ = require('lodash');
 
 var commands = {};
 
 var requireHacks = require('./requireHacks');
 
-module.exports.unload = function () {
+module.exports.unload = function (mainCallback) {
+    var toDo = [];
+
     Object.keys(commands).forEach(function (key) {
-        delete commands[key];
+        toDo.push(function (callback) {
+            if (!_.isUndefined(commands[key].save)) {
+                commands[key].save(function () {
+                    delete commands[key];
+                    callback();
+                });
+            } else {
+                delete commands[key];
+                callback();
+            }
+        })
+    });
+
+    async.series(toDo, function () {
+        mainCallback();
     });
 };
 
