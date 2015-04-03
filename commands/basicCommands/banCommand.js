@@ -27,5 +27,9 @@ module.exports.callback = function (command_name, channel, user, message) {
         return console.error(new Error('The ban command can only be run by a mod!'));
     }
 
-    connection.client.ban(channel, user.username);
+    if (message.split(' ').length != 2) {
+        return console.error(new Error('No username was passed in to the ban command!'));
+    }
+
+    connection.client.ban(channel, message.split(' ')[1]);
 };
