@@ -27,7 +27,13 @@ module.exports.enabled = true;
 module.exports.name = 'uptime';
 
 module.exports.callback = function (command_name, channel, user, message) {
-    r.db('allmightybot').table('streaming_times').filter(r.row('event').eq('start')).orderBy(r.desc('time')).limit(1).run().then(function (row) {
-        connection.client.sendMessage(channel, lang.uptime_today.format(settings.casters_display_name, connection.timeBetween(row[0].time, new Date())));
+    r.db('allmightybot').table('streaming_times').filter(r.row('event').eq('start')).orderBy(r.desc('time')).limit(1).run().then(function (start) {
+        r.db('allmightybot').table('streaming_times').filter(r.row('event').eq('end')).orderBy(r.desc('time')).limit(1).run().then(function (end) {
+            if ((start.length == 0 && end.length == 0) || ((start.length == end.length) && connection.timeBetween(start[0].time, end[0].time, true) < 0)) {
+                connection.client.sendMessage(channel, lang.uptime_offline.format(settings.casters_display_name));
+            } else {
+                connection.client.sendMessage(channel, lang.uptime_today.format(settings.casters_display_name, connection.timeBetween(new Date(), start[0].time)));
+            }
+        });
     });
 };
