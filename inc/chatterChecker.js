@@ -16,38 +16,50 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 var connection = require('./connection');
 var settings = require('../settings.json');
 var request = require('request');
 var async = require('async');
 var _ = require('lodash');
 
-var cronJob = connection.client.utils.cronjobs('*/20 * * * * *', function () {
+var users = [];
+
+module.exports.cronJob = connection.client.utils.cronjobs('*/20 * * * * *', function () {
     this.logChatters(settings.channel_to_join);
 });
 
-var users = [];
-
 module.exports.startCheckingChatters = function () {
-    process.nextTick(function () {
-        cronJob.start();
-    });
+    //var self = this;
+    //
+    //process.nextTick(function () {
+    //    self.cronJob.start();
+    //});
 };
 
 module.exports.stopCheckingChatters = function () {
-    process.nextTick(function () {
-        cronJob.stop();
-    });
+    //var self = this;
+    //
+    //process.nextTick(function () {
+    //    self.cronJob.start();
+    //});
 };
 
 module.exports.partAllUsers = function (mainCallback) {
-    async.each(users, function (username, callback) {
+    async.each(users, function (username, next) {
         console.log('User ' + username + ' parted!');
 
-        r.db('allmightybot').table('user_parts').insert({
+        connection.db.parts.insert({
             username: username,
             time: new Date()
-        }).run().finally(callback);
+        }, function (err) {
+            if (err) {
+                console.error(err);
+            }
+
+            next();
+        });
     }, function () {
         console.log('Running mainCallback()');
         mainCallback();
@@ -82,19 +94,27 @@ module.exports.logChatters = function (channel) {
         joins.forEach(function (username) {
             console.log('User ' + username + ' joined!');
 
-            r.db('allmightybot').table('user_joins').insert({
+            connection.db.joins.insert({
                 username: username,
                 time: new Date()
-            }).run();
+            }, function (err) {
+                if (err) {
+                    console.error(err);
+                }
+            });
         });
 
         parts.forEach(function (username) {
             console.log('User ' + username + ' parted!');
 
-            r.db('allmightybot').table('user_parts').insert({
+            connection.db.parts.insert({
                 username: username,
                 time: new Date()
-            }).run();
+            }, function (err) {
+                if (err) {
+                    console.error(err);
+                }
+            });
         });
 
         users = newUsers;

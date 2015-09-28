@@ -88,19 +88,16 @@ module.exports.load = function () {
 
 module.exports.save = function (callback) {
     var object = {
-        command_name: (_.isArray(module.exports.name) ? module.exports.name.join() : module.exports.name),
-        current_seed: currentSeed
+        $set: {
+            current_seed: currentSeed
+        }
     };
 
-    r.db('allmightybot').table('command_settings').filter({command_name: object.command_name}).run().then(function (res) {
-        if (res.length == 0) {
-            r.db('allmightybot').table('command_settings').insert(object).run().finally(callback);
-        } else {
-            r.db('allmightybot').table('command_settings').filter({command_name: object.command_name}).update(object).run().finally(callback);
+    connection.db.settings.update({command_name: (_.isArray(module.exports.name) ? module.exports.name.join() : module.exports.name)}, object, {upsert: true}, function (err, numReplaced, newDoc) {
+        if (err) {
+            console.error(err);
         }
-    }).error(function (err) {
-        console.error(err);
 
-        callback();
+        return callback();
     });
 };

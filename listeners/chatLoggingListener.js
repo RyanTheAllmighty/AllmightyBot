@@ -16,6 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 var settings = require('../settings.json');
 
 var connection = require('../inc/connection');
@@ -24,14 +26,32 @@ module.exports.enabled = true;
 
 module.exports.listening_for = 'chat';
 
-module.exports.callback = function (channel, user, message) {
-    if (user.username !== settings.bot_username) {
-        r.db('allmightybot').table('user_messages').insert({
-            username: user.username,
+module.exports.callback = function (channel, user, message, self) {
+    if (!self) {
+        let userId = parseInt(user['user-id']);
+
+        connection.db.users.update({id: userId}, {
+            $set: {
+                username: user.username,
+                displayName: user['display-name'],
+                subscriber: user.subscriber,
+                turbo: user.turbo
+            }
+        }, {upsert: true}, function (err) {
+            if (err) {
+                console.error(err);
+            }
+        });
+
+        connection.db.messages.insert({
+            userId,
             message: message,
-            emotes: user.emote,
-            special: user.special,
+            emotes: user.emotes,
             time: new Date()
-        }).run();
+        }, function (err) {
+            if (err) {
+                console.error(err);
+            }
+        });
     }
 };

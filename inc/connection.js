@@ -58,7 +58,8 @@ module.exports.db = {
     messages: new Datastore({filename: './data/messages.db'}),
     parts: new Datastore({filename: './data/parts.db'}),
     settings: new Datastore({filename: './data/settings.db'}),
-    times: new Datastore({filename: './data/times.db'})
+    times: new Datastore({filename: './data/times.db'}),
+    users: new Datastore({filename: './data/users.db'})
 };
 
 module.exports.client.sendMessage = function (channel, message) {
@@ -104,12 +105,14 @@ module.exports.reloadCommands = function (callback) {
     });
 };
 
+// TODO: Fix this
 module.exports.isMod = function (user) {
-    return user.special.indexOf('mod') >= 0 || user.special.indexOf('broadcaster') >= 0
+    return false;
 };
 
+// TODO: Fix this
 module.exports.isBroadcaster = function (user) {
-    return user.special.indexOf('broadcaster') >= 0
+    return false;
 };
 
 module.exports.connect = function () {
