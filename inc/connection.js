@@ -25,6 +25,11 @@ var irc = require("tmi.js");
 var async = require('async');
 var Datastore = require('nedb');
 
+var Users = require('./databases/users');
+var Events = require('./databases/events');
+var Commands = require('./databases/commands');
+var Messages = require('./databases/messages');
+
 var commands = require('./commands');
 var listeners = require('./listeners');
 
@@ -53,14 +58,25 @@ var client = new irc.client({
 
 module.exports.client = client;
 
-module.exports.db = {
-    joins: new Datastore({filename: './data/joins.db'}),
-    messages: new Datastore({filename: './data/messages.db'}),
-    parts: new Datastore({filename: './data/parts.db'}),
-    settings: new Datastore({filename: './data/settings.db'}),
-    times: new Datastore({filename: './data/times.db'}),
-    users: new Datastore({filename: './data/users.db'})
-};
+/**
+ * @type {Users}
+ */
+module.exports.users = new Users();
+
+/**
+ * @type {Commands}
+ */
+module.exports.commands = new Commands();
+
+/**
+ * @type {Events}
+ */
+module.exports.events = new Events();
+
+/**
+ * @type {Messages}
+ */
+module.exports.messages = new Messages();
 
 module.exports.client.sendMessage = function (channel, message) {
     var timeInSeconds = Math.floor(new Date().getTime() / 1000);
@@ -121,8 +137,8 @@ module.exports.connect = function () {
         return console.error(new Error('Cannot connect again as we\'re already connected!'));
     }
 
-    async.each(this.db, function (database, next) {
-        database.loadDatabase(next);
+    async.each([this.users, this.commands, this.events, this.messages], function (data, next) {
+        data.load(next);
     }, function (err) {
         if (err) {
             return console.error(err);

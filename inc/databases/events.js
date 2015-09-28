@@ -18,26 +18,20 @@
 
 'use strict';
 
-var settings = require('../settings.json');
+var Database = require('./database');
 
-var connection = require('../inc/connection');
+// Symbol for storing the objects properties
+let objectSymbol = Symbol();
 
-module.exports.enabled = true;
+module.exports = class Users extends Database {
+    /**
+     * Constructs this Database object.
+     *
+     * @param {Object} options - the options for this Database
+     */
+    constructor(options) {
+        super('events', options);
 
-module.exports.listening_for = 'chat';
-
-module.exports.callback = function (channel, user, message, self) {
-    if (!self) {
-        connection.users.update(user, function (err) {
-            if (err) {
-                console.error(err);
-            }
-        });
-
-        connection.messages.save(channel, user, message, function () {
-            if (err) {
-                console.error(err);
-            }
-        });
+        this[objectSymbol] = {};
     }
 };

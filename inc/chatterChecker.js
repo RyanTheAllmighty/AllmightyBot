@@ -91,30 +91,24 @@ module.exports.logChatters = function (channel) {
         var joins = _.difference(newUsers, users);
         var parts = _.difference(users, newUsers);
 
-        joins.forEach(function (username) {
+        async.each(joins, function(username, next) {
             console.log('User ' + username + ' joined!');
 
-            connection.db.joins.insert({
-                username: username,
-                time: new Date()
-            }, function (err) {
-                if (err) {
-                    console.error(err);
-                }
-            });
+            connection.users.join(username, next);
+        }, function(err) {
+            if (err) {
+                console.error(err);
+            }
         });
 
-        parts.forEach(function (username) {
+        async.each(parts, function(username, next) {
             console.log('User ' + username + ' parted!');
 
-            connection.db.parts.insert({
-                username: username,
-                time: new Date()
-            }, function (err) {
-                if (err) {
-                    console.error(err);
-                }
-            });
+            connection.users.part(username, next);
+        }, function(err) {
+            if (err) {
+                console.error(err);
+            }
         });
 
         users = newUsers;

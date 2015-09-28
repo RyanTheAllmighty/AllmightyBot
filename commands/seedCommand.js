@@ -77,29 +77,17 @@ module.exports.callback = function (command_name, channel, user, message) {
 };
 
 module.exports.load = function () {
-    connection.db.settings.find({command_name: (_.isArray(module.exports.name) ? module.exports.name.join() : module.exports.name)}, function (err, res) {
+    connection.commands.getSettings(this, function (err, data) {
         if (err) {
             return console.error(err);
         }
 
-        if (res.length != 0 && _.isUndefined(currentSeed)) {
-            currentSeed = res[0].current_seed;
+        if (data && _.isUndefined(currentSeed)) {
+            currentSeed = data.current_seed;
         }
     });
 };
 
 module.exports.save = function (callback) {
-    var object = {
-        $set: {
-            current_seed: currentSeed
-        }
-    };
-
-    connection.db.settings.update({command_name: (_.isArray(module.exports.name) ? module.exports.name.join() : module.exports.name)}, object, {upsert: true}, function (err, numReplaced, newDoc) {
-        if (err) {
-            console.error(err);
-        }
-
-        return callback();
-    });
+    connection.commands.setSettings(this, {current_seed: currentSeed}, callback);
 };
