@@ -19,7 +19,6 @@
 'use strict';
 
 var connection = require('./connection');
-var r = require('rethinkdbdash')();
 
 module.exports.isLive = function (callback) {
     r.db('allmightybot').table('streaming_times').filter(r.row('event').eq('start')).orderBy(r.desc('time')).limit(1).run().then(function (start) {

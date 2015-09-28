@@ -21,9 +21,9 @@
 var format = require('string-format');
 format.extend(String.prototype);
 
-var irc = require('twitch-irc');
-var twitchApi = require('twitch-irc-api');
-var r = require('rethinkdbdash')();
+var irc = require("tmi.js");
+var async = require('async');
+var Datastore = require('nedb');
 
 var commands = require('./commands');
 var listeners = require('./listeners');
@@ -40,6 +40,10 @@ var client = new irc.client({
         debug: settings.debug,
         debugDetails: settings.debug_details
     },
+    connection: {
+        random: "chat",
+        reconnect: true
+    },
     identity: {
         username: settings.bot_username,
         password: settings.bot_oauth_token
@@ -48,7 +52,14 @@ var client = new irc.client({
 });
 
 module.exports.client = client;
-module.exports.api = twitchApi;
+
+module.exports.db = {
+    joins: new Datastore({filename: './data/joins.db'}),
+    messages: new Datastore({filename: './data/messages.db'}),
+    parts: new Datastore({filename: './data/parts.db'}),
+    settings: new Datastore({filename: './data/settings.db'}),
+    times: new Datastore({filename: './data/times.db'})
+};
 
 module.exports.client.sendMessage = function (channel, message) {
     var timeInSeconds = Math.floor(new Date().getTime() / 1000);
@@ -93,24 +104,6 @@ module.exports.reloadCommands = function (callback) {
     });
 };
 
-module.exports.createTables = function () {
-    var emptyFunction = function () {
-
-    };
-
-    r.dbCreate('allmightybot').run().error(emptyFunction);
-    r.db('allmightybot').tableCreate('user_joins').run().error(emptyFunction);
-    r.db('allmightybot').table('user_joins').indexCreate('username').run().error(emptyFunction);
-    r.db('allmightybot').tableCreate('user_parts').run().error(emptyFunction);
-    r.db('allmightybot').table('user_parts').indexCreate('username').run().error(emptyFunction);
-    r.db('allmightybot').tableCreate('user_messages').run().error(emptyFunction);
-    r.db('allmightybot').table('user_messages').indexCreate('username').run().error(emptyFunction);
-    r.db('allmightybot').tableCreate('command_settings').run().error(emptyFunction);
-    r.db('allmightybot').table('command_settings').indexCreate('command_name').run().error(emptyFunction);
-    r.db('allmightybot').tableCreate('streaming_times').run().error(emptyFunction);
-    r.db('allmightybot').table('streaming_times').indexCreate('event').run().error(emptyFunction);
-};
-
 module.exports.isMod = function (user) {
     return user.special.indexOf('mod') >= 0 || user.special.indexOf('broadcaster') >= 0
 };
@@ -120,16 +113,25 @@ module.exports.isBroadcaster = function (user) {
 };
 
 module.exports.connect = function () {
+    var self = this;
+
     if (connected) {
         return console.error(new Error('Cannot connect again as we\'re already connected!'));
     }
 
-    this.createTables();
-    this.load();
+    async.each(this.db, function (database, next) {
+        database.loadDatabase(next);
+    }, function (err) {
+        if (err) {
+            return console.error(err);
+        }
 
-    client.connect();
+        self.load();
 
-    connected = true;
+        client.connect();
+
+        connected = true;
+    });
 };
 
 module.exports.disconnect = function () {

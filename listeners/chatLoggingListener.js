@@ -18,8 +18,6 @@
 
 var settings = require('../settings.json');
 
-var r = require('rethinkdbdash')();
-
 var connection = require('../inc/connection');
 
 module.exports.enabled = true;

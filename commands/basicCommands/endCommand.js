@@ -18,7 +18,6 @@
 
 var connection = require('../../inc/connection');
 var functions = require('../../inc/functions');
-var r = require('rethinkdbdash')();
 var lang = require('../../lang.json');
 
 module.exports.enabled = true;

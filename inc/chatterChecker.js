@@ -21,7 +21,6 @@ var settings = require('../settings.json');
 var request = require('request');
 var async = require('async');
 var _ = require('lodash');
-var r = require('rethinkdbdash')();
 
 var cronJob = connection.client.utils.cronjobs('*/20 * * * * *', function () {
     this.logChatters(settings.channel_to_join);

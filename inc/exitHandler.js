@@ -21,7 +21,11 @@ var commands = require('./commands');
 var chatterChecker = require('./chatterChecker');
 var alreadyExiting = false;
 
-module.exports = function () {
+module.exports = function (err) {
+    if (err && err instanceof Error && err.stack) {
+        console.error(err.stack);
+    }
+
     if (!alreadyExiting) {
         alreadyExiting = true;
         console.log('Program is exiting!');
@@ -30,12 +34,16 @@ module.exports = function () {
 
         chatterChecker.stopCheckingChatters();
 
-        commands.unload();
+        commands.unload(function (err) {
+            if (err) {
+                console.error(err);
+            }
 
-        console.log('Parting started!');
-        chatterChecker.partAllUsers(function () {
-            console.log('Parting finished!');
-            process.exit();
+            console.log('Parting started!');
+            chatterChecker.partAllUsers(function () {
+                console.log('Parting finished!');
+                process.exit();
+            });
         });
     }
 };
