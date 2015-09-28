@@ -105,14 +105,13 @@ module.exports.reloadCommands = function (callback) {
     });
 };
 
-// TODO: Fix this
 module.exports.isMod = function (user) {
-    return false;
+    return user['user-type'] && user['user-type'] == 'mod';
 };
 
-// TODO: Fix this
+// TODO: Figure out what this is
 module.exports.isBroadcaster = function (user) {
-    return false;
+    return user['user-type'] && user['user-type'] == 'mod';
 };
 
 module.exports.connect = function () {
