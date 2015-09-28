@@ -21,66 +21,65 @@
 var connection = require('./connection');
 
 module.exports.isLive = function (callback) {
-    r.db('allmightybot').table('streaming_times').filter(r.row('event').eq('start')).orderBy(r.desc('time')).limit(1).run().then(function (start) {
-        r.db('allmightybot').table('streaming_times').filter(r.row('event').eq('end')).orderBy(r.desc('time')).limit(1).run().then(function (end) {
-            var live = !((start.length == 0 && end.length == 0) || ((start.length == end.length) && this.timeBetween(start[0].time, end[0].time, true) < 0));
+    connection.db.times.find({}).sort({time: -1}).limit(1).exec(function (err, res) {
+        if (err) {
+            return callback(err);
+        }
 
-            callback(null, live, (live ? start[0].time : null));
-        }).error(function (err) {
-            callback(err);
-        });
-    }).error(function (err) {
-        callback(err);
+        let live = res.length != 0 && res[0].event == 'start';
+
+        callback(null, live, live ? res[0].time : null);
     });
 };
 
+// TODO: Fix this
 module.exports.calculateEyetime = function (username, callback) {
-    r.db('allmightybot').table('user_parts').filter(r.row('username').eq(username)).orderBy(r.asc('time')).run().then(function (parts) {
-            r.db('allmightybot').table('user_joins').filter(r.row('username').eq(username)).orderBy(r.asc('time')).run().then(function (joins) {
-                var joinTimes = [];
-                var partTimes = [];
-                var secondsInChannel = 0;
-
-                joins.forEach(function (join) {
-                    joinTimes.push(join.time);
-                });
-
-                parts.forEach(function (part) {
-                    partTimes.push(part.time);
-                });
-
-                for (var i = 0; i < partTimes.length; i++) {
-                    var partTime = partTimes[i];
-                    var theJoin = null;
-
-                    if (partTimes.length - 1 > i) {
-                        for (var j = 0; j < joinTimes.length; j++) {
-                            var joinTime = joinTimes[j];
-
-                            if (joinTime < partTime) {
-                                theJoin = joinTime;
-                            } else {
-                                break;
-                            }
-                        }
-                    } else {
-                        theJoin = joinTimes[joinTimes.length - 1];
-                        partTime = new Date();
-                    }
-
-                    if (theJoin != null) {
-                        secondsInChannel += this.timeBetween(partTime, theJoin, true);
-                    }
-                }
-
-                callback(null, secondsInChannel);
-            }).error(function (err) {
-                callback(err);
-            });
-        }
-    ).error(function (err) {
-            callback(err);
-        });
+    //r.db('allmightybot').table('user_parts').filter(r.row('username').eq(username)).orderBy(r.asc('time')).run().then(function (parts) {
+    //        r.db('allmightybot').table('user_joins').filter(r.row('username').eq(username)).orderBy(r.asc('time')).run().then(function (joins) {
+    //            var joinTimes = [];
+    //            var partTimes = [];
+    //            var secondsInChannel = 0;
+    //
+    //            joins.forEach(function (join) {
+    //                joinTimes.push(join.time);
+    //            });
+    //
+    //            parts.forEach(function (part) {
+    //                partTimes.push(part.time);
+    //            });
+    //
+    //            for (var i = 0; i < partTimes.length; i++) {
+    //                var partTime = partTimes[i];
+    //                var theJoin = null;
+    //
+    //                if (partTimes.length - 1 > i) {
+    //                    for (var j = 0; j < joinTimes.length; j++) {
+    //                        var joinTime = joinTimes[j];
+    //
+    //                        if (joinTime < partTime) {
+    //                            theJoin = joinTime;
+    //                        } else {
+    //                            break;
+    //                        }
+    //                    }
+    //                } else {
+    //                    theJoin = joinTimes[joinTimes.length - 1];
+    //                    partTime = new Date();
+    //                }
+    //
+    //                if (theJoin != null) {
+    //                    secondsInChannel += this.timeBetween(partTime, theJoin, true);
+    //                }
+    //            }
+    //
+    //            callback(null, secondsInChannel);
+    //        }).error(function (err) {
+    //            callback(err);
+    //        });
+    //    }
+    //).error(function (err) {
+    //        callback(err);
+    //    });
 };
 
 module.exports.timeBetween = function (this_date, and_this_date, return_seconds) {

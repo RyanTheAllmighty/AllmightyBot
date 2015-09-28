@@ -35,10 +35,14 @@ module.exports.callback = function (command_name, channel, user, message) {
         if (live) {
             connection.client.sendMessage(channel, lang.stream_already_started);
         } else {
-            r.db('allmightybot').table('streaming_times').insert({
+            connection.db.times.insert({
                 event: 'start',
                 time: new Date()
-            }).run();
+            }, function (err) {
+                if (err) {
+                    console.error(err);
+                }
+            });
 
             connection.client.sendMessage(channel, lang.stream_started);
         }

@@ -33,10 +33,14 @@ module.exports.callback = function (command_name, channel, user, message) {
 
     functions.isLive(function (err, live, since) {
         if (live) {
-            r.db('allmightybot').table('streaming_times').insert({
+            connection.db.times.insert({
                 event: 'end',
                 time: new Date()
-            }).run();
+            }, function (err) {
+                if (err) {
+                    console.error(err);
+                }
+            });
 
             connection.client.sendMessage(channel, lang.stream_ended);
         } else {

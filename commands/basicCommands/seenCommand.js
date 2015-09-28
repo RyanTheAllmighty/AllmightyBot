@@ -18,6 +18,8 @@
 
 'use strict';
 
+// TODO: Fix this
+
 var connection = require('../../inc/connection');
 var functions = require('../../inc/functions');
 
@@ -29,27 +31,27 @@ module.exports.name = 'seen';
 
 module.exports.callback = function (command_name, channel, user, message) {
     if (!connection.isMod(user)) {
-        return console.error(new Error('The purge command can only be run by a mod!'));
+        return console.error(new Error('The seen command can only be run by a mod!'));
     }
 
     if (message.split(' ').length != 2) {
-        return console.error(new Error('No username was passed in to the purge command!'));
+        return console.error(new Error('No username was passed in to the seen command!'));
     }
 
-    r.db('allmightybot').table('user_parts').filter(r.row('username').eq(message.split(' ')[1])).orderBy(r.desc('time')).limit(1).run().then(function (part) {
-            r.db('allmightybot').table('user_joins').filter(r.row('username').eq(message.split(' ')[1])).orderBy(r.desc('time')).limit(1).run().then(function (join) {
-                r.db('allmightybot').table('user_messages').filter(r.row('username').eq(message.split(' ')[1])).orderBy(r.desc('time')).limit(1).run().then(function (message1) {
-                    if ((typeof part[0] != "undefined" && typeof join[0] != "undefined") && part[0].time > join[0].time) {
-                        connection.client.sendMessage(channel, lang.seen_user.format(message.split(' ')[1], functions.timeBetween(new Date(), part[0].time)));
-                    } else if ((typeof message1[0] != "undefined" && typeof join[0] != "undefined") && message1[0].time > join[0].time) {
-                        connection.client.sendMessage(channel, lang.seen_user.format(message.split(' ')[1], functions.timeBetween(new Date(), message1[0].time)));
-                    } else if (typeof join[0] != "undefined") {
-                        connection.client.sendMessage(channel, lang.seen_user.format(message.split(' ')[1], functions.timeBetween(new Date(), join[0].time)));
-                    } else {
-                        connection.client.sendMessage(channel, lang.not_seen_user.format(message.split(' ')[1]));
-                    }
-                });
-            });
-        }
-    );
+    //r.db('allmightybot').table('user_parts').filter(r.row('username').eq(message.split(' ')[1])).orderBy(r.desc('time')).limit(1).run().then(function (part) {
+    //        r.db('allmightybot').table('user_joins').filter(r.row('username').eq(message.split(' ')[1])).orderBy(r.desc('time')).limit(1).run().then(function (join) {
+    //            r.db('allmightybot').table('user_messages').filter(r.row('username').eq(message.split(' ')[1])).orderBy(r.desc('time')).limit(1).run().then(function (message1) {
+    //                if ((typeof part[0] != "undefined" && typeof join[0] != "undefined") && part[0].time > join[0].time) {
+    //                    connection.client.sendMessage(channel, lang.seen_user.format(message.split(' ')[1], functions.timeBetween(new Date(), part[0].time)));
+    //                } else if ((typeof message1[0] != "undefined" && typeof join[0] != "undefined") && message1[0].time > join[0].time) {
+    //                    connection.client.sendMessage(channel, lang.seen_user.format(message.split(' ')[1], functions.timeBetween(new Date(), message1[0].time)));
+    //                } else if (typeof join[0] != "undefined") {
+    //                    connection.client.sendMessage(channel, lang.seen_user.format(message.split(' ')[1], functions.timeBetween(new Date(), join[0].time)));
+    //                } else {
+    //                    connection.client.sendMessage(channel, lang.not_seen_user.format(message.split(' ')[1]));
+    //                }
+    //            });
+    //        });
+    //    }
+    //);
 };
