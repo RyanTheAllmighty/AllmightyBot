@@ -12,3 +12,6 @@ settings.json
 
 # Lang file
 lang.json
+
+# Any log files
+*.log
