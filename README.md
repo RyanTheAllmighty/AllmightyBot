@@ -46,8 +46,7 @@ Firstly the event it's listening for:
 module.exports.listening_for = 'chat';
 ```
 
-You can find a list of all the events possible to listen to [here](https://github.com/twitch-irc/documentation/tree/master/03_Events) making sure to go into the page for the event and using the first
-parameter.
+You can find a list of all the events possible to listen to [here](http://www.tmijs.org/docs/Events.html) making sure to go into the page for the event and using the first parameter.
 
 Secondly you'll need to specify a callback to run when the event happens:
 
