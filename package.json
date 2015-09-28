@@ -1,29 +1,37 @@
 {
-  "name": "AllmightyBot-Node",
-  "version": "1.0.0",
-  "description": "Rewrite of AllmightyBot in NodeJS.",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/RyanTheAllmighty/AllmightyBot-Node.git"
-  },
-  "author": "RyanTheAllmighty <ryantheallmighty@atlauncher.com> (http://www.ryandowling.me/)",
-  "license": "GNU GPLv3",
-  "bugs": {
-    "url": "https://github.com/RyanTheAllmighty/AllmightyBot-Node/issues"
-  },
-  "homepage": "https://github.com/RyanTheAllmighty/AllmightyBot-Node",
-  "dependencies": {
-    "async": "^0.9.0",
-    "lodash": "^3.6.0",
-    "request": "^2.54.0",
-    "rethinkdbdash": "^1.16.13",
-    "string-format": "^0.5.0",
-    "twitch-irc": "^1.2.5",
-    "twitch-irc-api": "^1.0.1",
-    "twitch-irc-db": "^1.0.0"
-  }
+    "name": "AllmightyBot",
+    "version": "0.0.1",
+    "description": "AllmightyBot is a bot written for use on Twitch.",
+    "main": "app.js",
+    "scripts": {
+        "test": "node_modules/.bin/mocha"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/RyanTheAllmighty/AllmightyBot.git"
+    },
+    "author": "Ryan Dowling <ryan@ryandowling.me>",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/RyanTheAllmighty/AllmightyBot/issues"
+    },
+    "homepage": "https://github.com/RyanTheAllmighty/AllmightyBot",
+    "dependencies": {
+        "async": "^1.4.2",
+        "lodash": "^3.10.1",
+        "nedb": "^1.2.1",
+        "request": "^2.64.0",
+        "string-format": "^0.5.0",
+        "tmi.js": "0.0.23"
+    },
+    "devDependencies": {
+        "chai": "^3.3.0",
+        "grunt": "^0.4.5",
+        "grunt-cli": "^0.1.13",
+        "grunt-contrib-jshint": "^0.11.3",
+        "grunt-mocha-test": "^0.12.7",
+        "jshint": "^2.8.0",
+        "mocha": "^2.3.0",
+        "sinon": "^1.17.1"
+    }
 }
