@@ -16,6 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 // From http://stackoverflow.com/a/14801711
 
 /**

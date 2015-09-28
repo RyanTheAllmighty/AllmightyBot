@@ -16,6 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 var connection = require('../inc/connection');
 
 module.exports.enabled = true;

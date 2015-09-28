@@ -16,6 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 var settings = require('../../settings.json');
 var functions = require('../../inc/functions');
 var lang = require('../../lang.json');

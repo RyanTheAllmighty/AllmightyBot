@@ -16,6 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 // WARNING: The join listener is useless, only counts the first join by the bot
 
 var settings = require('../settings.json');

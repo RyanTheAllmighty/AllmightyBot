@@ -16,6 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+'use strict';
+
 var fs = require('fs');
 var requireHacks = require('./requireHacks');
 var connection = require('./connection');
