@@ -34,17 +34,12 @@ module.exports = class StartCommand extends Command {
 
         functions.isLive(function (err, live, since) {
             if (live) {
-                this.sendMessage(channel, this.language.stream_already_started);
+                self.sendMessage(channel, self.language.stream_already_started);
             } else {
-                this.connection.db.times.insert({
-                    event: 'start',
-                    time: new Date()
-                }, function (err) {
+                self.connection.events.start(function (err, res) {
                     if (err) {
-                        console.error(err);
+                        return console.error(err);
                     }
-
-                    self.sendMessage(channel, self.language.stream_started);
                 });
             }
         });

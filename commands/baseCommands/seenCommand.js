@@ -18,8 +18,8 @@
 
 'use strict';
 
+let functions = require('../../inc/functions');
 
-var functions = require('../../inc/functions');
 let Command = require('../../inc/classes/command');
 
 module.exports = class SeenCommand extends Command {

@@ -34,4 +34,28 @@ module.exports = class Users extends Database {
 
         this[objectSymbol] = {};
     }
+
+    /**
+     * Ends the stream.
+     *
+     * @param callback
+     */
+    end(callback) {
+        this.db.insert({
+            event: 'end',
+            date: new Date()
+        }, callback);
+    }
+
+    /**
+     * Starts the stream.
+     *
+     * @param callback
+     */
+    start(callback) {
+        this.db.insert({
+            event: 'start',
+            date: new Date()
+        }, callback);
+    }
 };

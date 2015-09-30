@@ -18,10 +18,11 @@
 
 'use strict';
 
-let request = require('request');
-
 let functions = require('../../inc/functions');
+
 let Command = require('../../inc/classes/command');
+
+let request = require('request');
 
 module.exports = class StrawpollCommand extends Command {
     constructor() {

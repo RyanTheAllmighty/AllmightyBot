@@ -18,7 +18,8 @@
 
 'use strict';
 
-var functions = require('../../inc/functions');
+let functions = require('../../inc/functions');
+
 let Command = require('../../inc/classes/command');
 
 module.exports = class UptimeCommand extends Command {

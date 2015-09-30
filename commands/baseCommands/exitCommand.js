@@ -18,9 +18,9 @@
 
 'use strict';
 
-let Command = require('../../inc/classes/command');
+let exitHandler = require('../../inc/exitHandler');
 
-var exitHandler = require('../../inc/exitHandler');
+let Command = require('../../inc/classes/command');
 
 module.exports = class ExitCommand extends Command {
     constructor() {

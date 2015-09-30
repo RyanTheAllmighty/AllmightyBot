@@ -19,6 +19,7 @@
 'use strict';
 
 let functions = require('../../inc/functions');
+
 let Command = require('../../inc/classes/command');
 
 module.exports = class EndCommand extends Command {
@@ -27,24 +28,23 @@ module.exports = class EndCommand extends Command {
     }
 
     run(command_name, channel, user, message) {
+        let self = this;
+
         if (this.isBroadcaster(user)) {
             return console.error(new Error('The end command can only be run by the broadcaster!'));
         }
 
         functions.isLive(function (err, live, since) {
             if (live) {
-                this.connection.db.times.insert({
-                    event: 'end',
-                    time: new Date()
-                }, function (err) {
+                this.connection.db.events.end(function (err, res) {
                     if (err) {
-                        console.error(err);
+                        return console.error(err);
                     }
                 });
 
-                this.sendMessage(channel, this.language.stream_ended);
+                self.sendMessage(channel, self.language.stream_ended);
             } else {
-                this.sendMessage(channel, this.language.stream_not_started);
+                self.sendMessage(channel, self.language.stream_not_started);
             }
         });
     }

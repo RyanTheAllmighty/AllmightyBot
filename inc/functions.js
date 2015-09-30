@@ -21,7 +21,7 @@
 var connection = require('./connection');
 
 module.exports.isLive = function (callback) {
-    connection.db.times.find({}).sort({time: -1}).limit(1).exec(function (err, res) {
+    connection.events.db.find({event: {$or: ['start', 'end']}}).sort({time: -1}).limit(1).exec(function (err, res) {
         if (err) {
             return callback(err);
         }

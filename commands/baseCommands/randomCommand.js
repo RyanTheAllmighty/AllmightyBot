@@ -18,9 +18,10 @@
 
 'use strict';
 
+let Command = require('../../inc/classes/command');
+
 let _ = require('lodash');
 let request = require('request');
-let Command = require('../../inc/classes/command');
 
 module.exports = class RandomCommand extends Command {
     constructor() {

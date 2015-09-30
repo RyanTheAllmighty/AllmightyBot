@@ -18,8 +18,9 @@
 
 'use strict';
 
-let _ = require('lodash');
 let Command = require('../../inc/classes/command');
+
+let _ = require('lodash');
 
 let seeds = [];
 let currentSeed;
