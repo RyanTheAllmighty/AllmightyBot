@@ -38,6 +38,7 @@ For details on JSDoc used for all JavaScript files, see [this website](http://us
 + When needing to access this in a callback of a method, the variable to store this should be called self. For example (let self = this;).
 + All files should be saved with lowercamelCase names.
 + All classes should be UpperCamelCase with no spaces or other non alphanumeric characters.
++ All callback variable names in methods should be named callback and any inner callback variable names should be named cb if callback is taken.
 
 ## Example
     // Some comment. Which doesn't end in a period

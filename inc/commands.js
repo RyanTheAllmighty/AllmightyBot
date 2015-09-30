@@ -61,19 +61,19 @@ var loadCommandsFromDir = function (dir) {
 
                 var command = require('../' + thisFile);
 
-                if (!_.isUndefined(command.load)) {
-                    console.log('Loading the command ' + (_.isArray(command.name) ? command.name.join() : command.name));
-                    command.load();
+                var inst = new command();
+
+                if (!_.isUndefined(inst.load)) {
+                    console.log('Loading the command ' + (_.isArray(inst.name) ? inst.name.join() : inst.name));
+                    inst.load();
                 }
 
-                if (command.enabled) {
-                    if (_.isArray(command.name)) {
-                        command.name.forEach(function (name) {
-                            commands[name] = command;
-                        });
-                    } else {
-                        commands[command.name] = command;
-                    }
+                if (_.isArray(inst.name)) {
+                    inst.name.forEach(function (name) {
+                        commands[name] = inst;
+                    });
+                } else {
+                    commands[inst.name] = inst;
                 }
             }
         }

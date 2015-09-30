@@ -18,16 +18,28 @@
 
 'use strict';
 
-var connection = require('../../inc/connection');
+let Command = require('../../inc/classes/command');
 
-module.exports.enabled = true;
-
-module.exports.name = 'r9k';
-
-module.exports.callback = function (command_name, channel, user, message) {
-    if (!connection.isMod(user)) {
-        return console.error(new Error('The r9k command can only be run by a mod!'));
+module.exports = class TitleCommand extends Command {
+    constructor() {
+        super(['title', 'topic']);
     }
 
-    connection.client.r9kbeta(channel);
+    run(command_name, channel, user, message) {
+        this.connection.api.call({
+            method: 'GET',
+            path: '/channels/' + this.settings.channel_to_join,
+            options: {}
+        }, function (err, statusCode, response) {
+            if (err) {
+                return console.log(err);
+            }
+
+            if (statusCode != 200) {
+                return console.log(new Error('Response code was ' + statusCode + '!'));
+            }
+
+            this.sendMessage(channel, this.language.title.format(response.status, response.game));
+        });
+    }
 };

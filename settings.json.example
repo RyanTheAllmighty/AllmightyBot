@@ -8,8 +8,6 @@
     "casters_display_name": "",
 
     "bot_says_welcome": false,
-    "default_timeout": 600,
-    "default_slowmode_time": 30,
 
     "bot_speak_limit_per_30s": 80,
     "link_timeout_length": 600

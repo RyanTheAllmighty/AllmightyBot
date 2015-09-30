@@ -18,16 +18,20 @@
 
 'use strict';
 
-var connection = require('../../inc/connection');
+let Command = require('../../inc/classes/command');
 
-module.exports.enabled = true;
-
-module.exports.name = 'subonly';
-
-module.exports.callback = function (command_name, channel, user, message) {
-    if (!connection.isMod(user)) {
-        return console.error(new Error('The subonly command can only be run by a mod!'));
+module.exports = class TimeCommand extends Command {
+    constructor() {
+        super('time');
     }
 
-    connection.client.subscribers(channel);
+    run(command_name, channel, user, message) {
+        var currentdate = new Date();
+
+        var datetime = ((currentdate.getHours() < 10) ? "0" : "") + ((currentdate.getHours() > 12) ? (currentdate.getHours() - 12) : currentdate.getHours()) + ":"
+            + ((currentdate.getMinutes() < 10) ? "0" : "") + currentdate.getMinutes() + ":" + ((currentdate.getSeconds() < 10) ? "0" : "") + currentdate.getSeconds()
+            + ((currentdate.getHours() > 12) ? (' PM') : ' AM');
+
+        this.sendMessage(channel, this.language.current_time.format(this.settings.casters_display_name, datetime));
+    }
 };

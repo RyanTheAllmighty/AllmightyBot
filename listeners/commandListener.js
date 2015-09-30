@@ -40,7 +40,7 @@ module.exports.callback = function (channel, user, message) {
                 return console.error(err);
             }
 
-            res.callback(name, channel, user, message);
+            res.run(name, channel, user, message);
         });
     }
 };

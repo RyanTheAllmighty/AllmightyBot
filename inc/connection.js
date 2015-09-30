@@ -121,12 +121,11 @@ module.exports.reloadCommands = function (callback) {
     });
 };
 
-module.exports.isMod = function (user) {
-    return user['user-type'] && user['user-type'] == 'mod';
+module.exports.isBroadcaster = function(user) {
+    return user['user-type'] && user.username == settings.channel_to_join;
 };
 
-// TODO: Figure out what this is
-module.exports.isBroadcaster = function (user) {
+module.exports.isModerator = function(user) {
     return user['user-type'] && user['user-type'] == 'mod';
 };
 

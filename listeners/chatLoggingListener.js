@@ -34,7 +34,7 @@ module.exports.callback = function (channel, user, message, self) {
             }
         });
 
-        connection.messages.save(channel, user, message, function () {
+        connection.messages.save(channel, user, message, function (err) {
             if (err) {
                 console.error(err);
             }

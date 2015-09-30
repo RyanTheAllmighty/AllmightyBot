@@ -18,24 +18,21 @@
 
 'use strict';
 
-var settings = require('../../settings.json');
+var functions = require('../../inc/functions');
+let Command = require('../../inc/classes/command');
 
-var connection = require('../../inc/connection');
-
-module.exports.enabled = true;
-
-module.exports.name = 'slow';
-
-module.exports.callback = function (command_name, channel, user, message) {
-    if (!connection.isMod(user)) {
-        return console.error(new Error('The slow command can only be run by a mod!'));
+module.exports = class UptimeCommand extends Command {
+    constructor() {
+        super('uptime');
     }
 
-    var length = settings.default_slowmode_time;
-
-    if (message.split(' ').length == 2) {
-        length = message.split(' ')[1];
+    run(command_name, channel, user, message) {
+        functions.isLive(function (err, live, since) {
+            if (live) {
+                this.sendMessage(channel, this.language.uptime_today.format(this.settings.casters_display_name, functions.timeBetween(new Date(), since)));
+            } else {
+                this.sendMessage(channel, this.language.uptime_offline.format(this.settings.casters_display_name));
+            }
+        });
     }
-
-    connection.client.slow(channel, length);
 };

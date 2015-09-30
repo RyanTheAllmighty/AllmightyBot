@@ -18,16 +18,20 @@
 
 'use strict';
 
-var connection = require('../../inc/connection');
+let Command = require('../../inc/classes/command');
 
-module.exports.enabled = true;
-
-module.exports.name = 'slowoff';
-
-module.exports.callback = function (command_name, channel, user, message) {
-    if (!connection.isMod(user)) {
-        return console.error(new Error('The slowoff command can only be run by a mod!'));
+module.exports = class ReloadCommand extends Command {
+    constructor() {
+        super(['reload', 'refresh']);
     }
 
-    connection.client.slowoff(channel);
+    run(command_name, channel, user, message) {
+        if (this.isBroadcaster(user)) {
+            this.connection.reloadListeners();
+
+            this.connection.reloadCommands(function () {
+                this.sendMessage(channel, this.language.reloaded);
+            });
+        }
+    }
 };

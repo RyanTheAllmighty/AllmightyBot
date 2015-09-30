@@ -18,21 +18,20 @@
 
 'use strict';
 
-var lang = require('../lang.json');
+let Command = require('../../inc/classes/command');
 
-var connection = require('../inc/connection');
+var exitHandler = require('../../inc/exitHandler');
 
-module.exports.enabled = true;
+module.exports = class ExitCommand extends Command {
+    constructor() {
+        super('exit');
+    }
 
-module.exports.name = ['reload', 'refresh'];
+    run(command_name, channel, user, message) {
+        if (this.isBroadcaster(user)) {
+            this.sendMessage(channel, this.language.exit_message);
 
-module.exports.callback = function (command_name, channel, user, message) {
-    if (connection.isBroadcaster(user)) {
-        
-        connection.reloadListeners();
-
-        connection.reloadCommands(function () {
-            connection.client.sendMessage(channel, lang.reloaded);
-        });
+            exitHandler();
+        }
     }
 };
