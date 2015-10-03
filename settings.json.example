@@ -7,6 +7,10 @@
     "channel_to_join": "",
     "casters_display_name": "",
 
+    "master_users": [
+        "some_username"
+    ],
+
     "bot_says_welcome": false,
 
     "bot_speak_limit_per_30s": 80,

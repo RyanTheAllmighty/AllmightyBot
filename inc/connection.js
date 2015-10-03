@@ -21,6 +21,7 @@
 var format = require('string-format');
 format.extend(String.prototype);
 
+var _ = require("lodash");
 var irc = require("tmi.js");
 var async = require('async');
 var Datastore = require('nedb');
@@ -121,11 +122,11 @@ module.exports.reloadCommands = function (callback) {
     });
 };
 
-module.exports.isBroadcaster = function(user) {
-    return user['user-type'] && user.username === settings.channel_to_join;
+module.exports.isBroadcaster = function (user) {
+    return (settings.master_users && _.include(settings.master_users, user.username.toLowerCase())) || (user.username.toLowerCase() === settings.channel_to_join);
 };
 
-module.exports.isModerator = function(user) {
+module.exports.isModerator = function (user) {
     return user['user-type'] && user['user-type'] === 'mod';
 };
 

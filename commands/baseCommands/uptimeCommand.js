@@ -28,11 +28,13 @@ module.exports = class UptimeCommand extends Command {
     }
 
     run(command_name, channel, user, message) {
+        let self = this;
+
         functions.isLive(function (err, live, since) {
             if (live) {
-                this.sendMessage(channel, this.language.uptime_today.format(this.settings.casters_display_name, functions.timeBetween(new Date(), since)));
+                self.sendMessage(channel, self.language.uptime_today.format(self.settings.casters_display_name, functions.timeBetween(new Date(), since)));
             } else {
-                this.sendMessage(channel, this.language.uptime_offline.format(this.settings.casters_display_name));
+                self.sendMessage(channel, self.language.uptime_offline.format(self.settings.casters_display_name));
             }
         });
     }
