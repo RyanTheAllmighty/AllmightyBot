@@ -20,6 +20,8 @@
 
 let Command = require('../../inc/classes/command');
 
+let functions = require('../../inc/functions');
+
 module.exports = class StartCommand extends Command {
     constructor() {
         super(['live', 'start']);

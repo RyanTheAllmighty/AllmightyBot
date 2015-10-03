@@ -40,7 +40,7 @@ module.exports.unload = function (mainCallback) {
                 delete commands[key];
                 callback();
             }
-        })
+        });
     });
 
     async.series(toDo, function () {
@@ -53,9 +53,9 @@ var loadCommandsFromDir = function (dir) {
         var thisFile = dir + file;
 
         if (fs.statSync(thisFile).isDirectory()) {
-            loadCommandsFromDir(thisFile + '/')
+            loadCommandsFromDir(thisFile + '/');
         } else {
-            if (thisFile.slice(-3) == '.js') {
+            if (thisFile.slice(-3) === '.js') {
                 // Remove from the require cache so we can reload it's information
                 requireHacks.uncache('../' + thisFile);
 
@@ -86,7 +86,7 @@ module.exports.loadCommands = function () {
 
 module.exports.findCommand = function (name, callback) {
     if (commands[name] === undefined) {
-        return callback(new Error('No command found with that name!'))
+        return callback(new Error('No command found with that name!'));
     }
 
     return callback(null, commands[name]);

@@ -49,7 +49,7 @@ module.exports = class Commands extends Database {
                 return callback(err);
             }
 
-            if (data.length == 0) {
+            if (data.length === 0) {
                 return callback();
             }
 

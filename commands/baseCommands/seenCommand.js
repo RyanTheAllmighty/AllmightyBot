@@ -32,7 +32,7 @@ module.exports = class SeenCommand extends Command {
             return console.error(new Error('The seen command can only be run by a moderator!'));
         }
 
-        if (message.split(' ').length != 2) {
+        if (message.split(' ').length !== 2) {
             return console.error(new Error('No username was passed in to the seen command!'));
         }
 

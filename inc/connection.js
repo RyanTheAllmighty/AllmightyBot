@@ -81,7 +81,7 @@ module.exports.messages = new Messages();
 module.exports.client.sendMessage = function (channel, message) {
     var timeInSeconds = Math.floor(new Date().getTime() / 1000);
 
-    if (firstMessageSent == 0) {
+    if (firstMessageSent === 0) {
         firstMessageSent = timeInSeconds;
         messagesSent = 0;
     } else if ((firstMessageSent + 30) <= timeInSeconds) {
@@ -122,11 +122,11 @@ module.exports.reloadCommands = function (callback) {
 };
 
 module.exports.isBroadcaster = function(user) {
-    return user['user-type'] && user.username == settings.channel_to_join;
+    return user['user-type'] && user.username === settings.channel_to_join;
 };
 
 module.exports.isModerator = function(user) {
-    return user['user-type'] && user['user-type'] == 'mod';
+    return user['user-type'] && user['user-type'] === 'mod';
 };
 
 module.exports.connect = function () {
@@ -152,7 +152,7 @@ module.exports.connect = function () {
 };
 
 module.exports.disconnect = function () {
-    if (typeof client == 'undefined' || !connected) {
+    if (typeof client === 'undefined' || !connected) {
         return console.error(new Error('Cannot disconnect as we\'re not connected!'));
     }
 

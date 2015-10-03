@@ -26,10 +26,10 @@ module.exports.enabled = true;
 module.exports.listening_for = 'chat';
 
 module.exports.callback = function (channel, user, message) {
-    if (message[0] == '!') {
+    if (message[0] === '!') {
         var name = message;
 
-        if (name.indexOf(" ") != 0) {
+        if (name.indexOf(" ") !== 0) {
             name = message.split(" ")[0];
         }
 

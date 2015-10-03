@@ -53,7 +53,7 @@ module.exports = class StrawpollCommand extends Command {
 
         request(options, function (err, req, res) {
             if (err) {
-                return console.log(err)
+                return console.log(err);
             }
 
             this.sendMessage(channel, this.language.strawpoll.format(res.id));

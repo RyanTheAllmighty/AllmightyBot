@@ -31,7 +31,7 @@ module.exports = class EyeTimeCommand extends Command {
             return console.error(new Error('The eyetime command can only be run by the broadcaster!'));
         }
 
-        if (message.split(' ').length != 2) {
+        if (message.split(' ').length !== 2) {
             return console.error(new Error('No username was passed in to the eyetime command!'));
         }
 
@@ -40,7 +40,7 @@ module.exports = class EyeTimeCommand extends Command {
                 return console.error(err);
             }
 
-            if (time == 0) {
+            if (time === 0) {
                 this.sendMessage(channel, this.language.eyetime_not_found.format(message.split(' ')[1]));
             } else {
                 this.sendMessage(channel, this.language.eyetime.format(message.split(' ')[1], functions.secondsToString(time)));

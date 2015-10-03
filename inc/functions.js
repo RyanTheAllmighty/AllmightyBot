@@ -26,7 +26,7 @@ module.exports.isLive = function (callback) {
             return callback(err);
         }
 
-        let live = res.length != 0 && res[0].event == 'start';
+        let live = res.length !== 0 && res[0].event === 'start';
 
         callback(null, live, live ? res[0].time : null);
     });
@@ -83,7 +83,7 @@ module.exports.calculateEyetime = function (username, callback) {
 };
 
 module.exports.timeBetween = function (this_date, and_this_date, return_seconds) {
-    if (typeof return_seconds != "boolean") {
+    if (typeof return_seconds !== "boolean") {
         return_seconds = false;
     }
 
@@ -114,33 +114,33 @@ module.exports.secondsToString = function (totalSeconds) {
 
     var days = Math.floor(totalHours / HOURS_IN_A_DAY);
 
-    if (days != 0) {
-        return days + " day" + (days == 1 ? "" : "s") + ", " + hours + " hour" + (hours == 1 ? "" : "s") + ", " + minutes + " minute" + (hours == 1 ? "" : "s") + " and " + seconds + " second" +
-            (hours == 1 ? "" : "s");
+    if (days !== 0) {
+        return days + " day" + (days === 1 ? "" : "s") + ", " + hours + " hour" + (hours === 1 ? "" : "s") + ", " + minutes + " minute" + (hours === 1 ? "" : "s") + " and " + seconds + " second" +
+            (hours === 1 ? "" : "s");
     } else {
-        if (hours != 0) {
-            if (minutes != 0) {
-                if (seconds == 0) {
-                    return hours + " hour" + (hours == 1 ? "" : "s") + ", " + minutes + " minute" + (minutes == 1 ? "" : "s");
+        if (hours !== 0) {
+            if (minutes !== 0) {
+                if (seconds === 0) {
+                    return hours + " hour" + (hours === 1 ? "" : "s") + ", " + minutes + " minute" + (minutes === 1 ? "" : "s");
                 } else {
-                    return hours + " hour" + (hours == 1 ? "" : "s") + ", " + minutes + " minute" + (minutes == 1 ? "" : "s") + " and " + seconds + " second" + (seconds == 1 ? "" : "s");
+                    return hours + " hour" + (hours === 1 ? "" : "s") + ", " + minutes + " minute" + (minutes === 1 ? "" : "s") + " and " + seconds + " second" + (seconds === 1 ? "" : "s");
                 }
             } else {
-                if (seconds == 0) {
-                    return hours + " hour" + (hours == 1 ? "" : "s");
+                if (seconds === 0) {
+                    return hours + " hour" + (hours === 1 ? "" : "s");
                 } else {
-                    return hours + " hour" + (hours == 1 ? "" : "s") + ", " + seconds + " second" + (seconds == 1 ? "" : "s");
+                    return hours + " hour" + (hours === 1 ? "" : "s") + ", " + seconds + " second" + (seconds === 1 ? "" : "s");
                 }
             }
         } else {
-            if (minutes != 0) {
-                if (seconds == 0) {
-                    return minutes + " minute" + (minutes == 1 ? "" : "s");
+            if (minutes !== 0) {
+                if (seconds === 0) {
+                    return minutes + " minute" + (minutes === 1 ? "" : "s");
                 } else {
-                    return minutes + " minute" + (minutes == 1 ? "" : "s") + " and " + seconds + " second" + (seconds == 1 ? "" : "s");
+                    return minutes + " minute" + (minutes === 1 ? "" : "s") + " and " + seconds + " second" + (seconds === 1 ? "" : "s");
                 }
             } else {
-                return seconds + " second" + (seconds == 1 ? "" : "s");
+                return seconds + " second" + (seconds === 1 ? "" : "s");
             }
         }
     }
@@ -155,11 +155,11 @@ module.exports.getMessageParts = function (message) {
     do {
         m = re.exec(message);
         if (m) {
-            if (m[1][0] == '"') {
+            if (m[1][0] === '"') {
                 m[1] = m[1].slice(1);
             }
 
-            if (m[1][m[1].length - 1] == '"') {
+            if (m[1][m[1].length - 1] === '"') {
                 m[1] = m[1].slice(0, m[1].length - 1);
             }
 

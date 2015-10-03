@@ -28,9 +28,8 @@ module.exports = class TimeCommand extends Command {
     run(command_name, channel, user, message) {
         var curDate = new Date();
 
-        var datetime = ((curDate.getHours() < 10) ? "0" : "") + ((curDate.getHours() > 12) ? (curDate.getHours() - 12) : curDate.getHours()) + ":"
-            + ((curDate.getMinutes() < 10) ? "0" : "") + curDate.getMinutes() + ":" + ((curDate.getSeconds() < 10) ? "0" : "") + curDate.getSeconds()
-            + ((curDate.getHours() > 12) ? (' PM') : ' AM');
+        var datetime = ((curDate.getHours() < 10) ? "0" : "") + ((curDate.getHours() > 12) ? (curDate.getHours() - 12) : curDate.getHours()) + ":" + ((curDate.getMinutes() < 10) ? "0" : "") +
+            curDate.getMinutes() + ":" + ((curDate.getSeconds() < 10) ? "0" : "") + curDate.getSeconds() + ((curDate.getHours() > 12) ? (' PM') : ' AM');
 
         this.sendMessage(channel, this.language.current_time.format(this.settings.casters_display_name, datetime));
     }

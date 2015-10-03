@@ -33,7 +33,7 @@ module.exports.listening_for = 'chat';
 module.exports.callback = function (channel, user, message, self) {
     if (!self && !connection.isModerator(user)) {
         var matches = message.match(/[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&/=]*)/);
-        if (matches != null) {
+        if (matches !== null) {
             if (_.includes(warnings, user.username)) {
                 connection.client.sendMessage(channel, lang.posting_link_timeout.format((settings.link_timeout_length / 60) + ' minutes'));
 

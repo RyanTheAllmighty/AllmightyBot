@@ -29,7 +29,7 @@ module.exports = class RandomCommand extends Command {
     }
 
     run(command_name, channel, user, message) {
-        if (!connection.isBroadcaster(user)) {
+        if (!this.connection.isBroadcaster(user)) {
             return console.error(new Error('The random command can only be run by the broadcaster!'));
         }
 

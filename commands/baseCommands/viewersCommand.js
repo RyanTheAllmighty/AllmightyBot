@@ -39,7 +39,7 @@ module.exports = class ViewersCommand extends Command {
                 return console.log(err);
             }
 
-            if (statusCode != 200) {
+            if (statusCode !== 200) {
                 return console.log(new Error('Response code was ' + statusCode + '!'));
             }
 

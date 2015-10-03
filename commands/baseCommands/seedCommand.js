@@ -48,7 +48,7 @@ module.exports = class SeedCommand extends Command {
                 }
                 break;
             case 'newseed':
-                if (connection.isBroadcaster(user)) {
+                if (this.connection.isBroadcaster(user)) {
                     if (!pickingSeeds) {
                         pickingSeeds = true;
 
@@ -59,7 +59,7 @@ module.exports = class SeedCommand extends Command {
             case 'pickseed':
                 if (this.connection.isBroadcaster(user)) {
                     if (pickingSeeds) {
-                        if (seeds.length == 0) {
+                        if (seeds.length === 0) {
                             this.sendMessage(channel, this.language.seed_pick_none);
                         } else {
                             currentSeed = _.shuffle(seeds)[0];
