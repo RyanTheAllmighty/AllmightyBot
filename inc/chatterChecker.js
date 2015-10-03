@@ -50,10 +50,7 @@ module.exports.partAllUsers = function (mainCallback) {
     async.each(users, function (username, next) {
         console.log('User ' + username + ' parted!');
 
-        connection.db.parts.insert({
-            username: username,
-            time: new Date()
-        }, function (err) {
+        connection.users.part(username, function (err) {
             if (err) {
                 console.error(err);
             }
