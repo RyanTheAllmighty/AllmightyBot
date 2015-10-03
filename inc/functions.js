@@ -20,18 +20,6 @@
 
 var connection = require('./connection');
 
-module.exports.isLive = function (callback) {
-    connection.events.db.find({event: {$or: ['start', 'end']}}).sort({time: -1}).limit(1).exec(function (err, res) {
-        if (err) {
-            return callback(err);
-        }
-
-        let live = res.length !== 0 && res[0].event === 'start';
-
-        callback(null, live, live ? res[0].time : null);
-    });
-};
-
 // TODO: Fix this
 module.exports.calculateEyetime = function (username, callback) {
     //r.db('allmightybot').table('user_parts').filter(r.row('username').eq(username)).orderBy(r.asc('time')).run().then(function (parts) {

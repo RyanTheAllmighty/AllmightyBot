@@ -48,6 +48,23 @@ module.exports = class Users extends Database {
     }
 
     /**
+     * Checks to see if the stream is live or not.
+     *
+     * @param callback
+     */
+    isLive(callback) {
+        this.db.find({$or: [{event: 'start'}, {event: 'end'}]}).sort({date: -1}).limit(1).exec(function (err, res) {
+            if (err) {
+                return callback(err);
+            }
+
+            let live = res.length !== 0 && res[0].event === 'start';
+
+            callback(null, live, live ? res[0].date : null);
+        });
+    }
+
+    /**
      * Starts the stream.
      *
      * @param callback

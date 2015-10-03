@@ -20,8 +20,6 @@
 
 let Command = require('../../inc/classes/command');
 
-let functions = require('../../inc/functions');
-
 module.exports = class StartCommand extends Command {
     constructor() {
         super(['live', 'start']);
@@ -34,14 +32,20 @@ module.exports = class StartCommand extends Command {
             return console.error(new Error('The start command can only be run by the broadcaster!'));
         }
 
-        functions.isLive(function (err, live, since) {
+        this.connection.events.isLive(function (err, live, since) {
+            if (err) {
+                return console.error(err);
+            }
+
             if (live) {
                 self.sendMessage(channel, self.language.stream_already_started);
             } else {
-                self.connection.events.start(function (err, res) {
+                self.connection.events.start(function (err) {
                     if (err) {
                         return console.error(err);
                     }
+
+                    self.sendMessage(channel, self.language.stream_started);
                 });
             }
         });

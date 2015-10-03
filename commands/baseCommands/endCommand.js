@@ -18,8 +18,6 @@
 
 'use strict';
 
-let functions = require('../../inc/functions');
-
 let Command = require('../../inc/classes/command');
 
 module.exports = class EndCommand extends Command {
@@ -34,9 +32,9 @@ module.exports = class EndCommand extends Command {
             return console.error(new Error('The end command can only be run by the broadcaster!'));
         }
 
-        functions.isLive(function (err, live, since) {
+        this.connection.events.isLive(function (err, live, since) {
             if (live) {
-                this.connection.db.events.end(function (err, res) {
+                self.connection.events.end(function (err, res) {
                     if (err) {
                         return console.error(err);
                     }
