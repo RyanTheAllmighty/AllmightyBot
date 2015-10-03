@@ -26,11 +26,13 @@ module.exports = class ReloadCommand extends Command {
     }
 
     run(command_name, channel, user, message) {
+        let self = this;
+        
         if (this.isBroadcaster(user)) {
             this.connection.reloadListeners();
 
             this.connection.reloadCommands(function () {
-                this.sendMessage(channel, this.language.reloaded);
+                self.sendMessage(channel, self.language.reloaded);
             });
         }
     }

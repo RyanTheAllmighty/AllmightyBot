@@ -63,17 +63,26 @@ var loadCommandsFromDir = function (dir) {
 
                 var inst = new command();
 
-                if (!_.isUndefined(inst.load)) {
-                    console.log('Loading the command ' + (_.isArray(inst.name) ? inst.name.join() : inst.name));
-                    inst.load();
-                }
+                let addCommand = function () {
+                    if (_.isArray(inst.name)) {
+                        inst.name.forEach(function (name) {
+                            commands[name] = inst;
+                        });
+                    } else {
+                        commands[inst.name] = inst;
+                    }
+                };
 
-                if (_.isArray(inst.name)) {
-                    inst.name.forEach(function (name) {
-                        commands[name] = inst;
+                if (!_.isUndefined(inst.load)) {
+                    inst.load(function (err) {
+                        if (err) {
+                            console.error(err);
+                        }
+
+                        addCommand();
                     });
                 } else {
-                    commands[inst.name] = inst;
+                    addCommand();
                 }
             }
         }

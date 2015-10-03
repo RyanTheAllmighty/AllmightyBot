@@ -76,15 +76,17 @@ module.exports = class SeedCommand extends Command {
         }
     }
 
-    load() {
+    load(callback) {
         this.connection.commands.getSettings(this, function (err, data) {
             if (err) {
-                return console.error(err);
+                return callback(err);
             }
 
             if (data && _.isUndefined(currentSeed)) {
                 currentSeed = data.current_seed;
             }
+
+            callback();
         });
     }
 
