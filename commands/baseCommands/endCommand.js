@@ -30,7 +30,7 @@ module.exports = class EndCommand extends Command {
     run(command_name, channel, user, message) {
         let self = this;
 
-        if (this.isBroadcaster(user)) {
+        if (!this.isBroadcaster(user)) {
             return console.error(new Error('The end command can only be run by the broadcaster!'));
         }
 
