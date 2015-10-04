@@ -30,6 +30,8 @@ module.exports = class StrawpollCommand extends Command {
     }
 
     run(command_name, channel, user, message) {
+        let self = this;
+
         if (!this.isBroadcaster(user)) {
             return console.error(new Error('The strawpoll command can only be run by the broadcaster!'));
         }
@@ -56,7 +58,7 @@ module.exports = class StrawpollCommand extends Command {
                 return console.log(err);
             }
 
-            this.sendMessage(channel, this.language.strawpoll.format(res.id));
+            self.sendMessage(channel, self.language.strawpoll.format(res.id));
         });
     }
 };
