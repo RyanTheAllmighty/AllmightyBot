@@ -59,6 +59,8 @@ var client = new irc.client({
 
 module.exports.client = client;
 
+module.exports.api = client.api;
+
 /**
  * @type {Users}
  */

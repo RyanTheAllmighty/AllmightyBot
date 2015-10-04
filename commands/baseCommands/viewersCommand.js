@@ -26,27 +26,33 @@ module.exports = class ViewersCommand extends Command {
     }
 
     run(command_name, channel, user, message) {
+        let self = this;
+
         if (!this.isModerator(user)) {
             return console.error(new Error('The viewers command can only be run by a moderator!'));
         }
 
-        this.connection.api.call({
+        this.connection.api({
+            url: 'https://api.twitch.tv/kraken/streams/' + this.settings.channel_to_join,
             method: 'GET',
-            path: '/streams/' + this.settings.channel_to_join,
-            options: {}
-        }, function (err, statusCode, response) {
+            headers: {
+                Accept: 'application/vnd.twitchtv.v3+json',
+                Authorization: 'OAuth ' + this.settings.api_access_token,
+                'Client-ID': this.settings.api_client_id
+            }
+        }, function (err, res, body) {
             if (err) {
                 return console.log(err);
             }
 
-            if (statusCode !== 200) {
-                return console.log(new Error('Response code was ' + statusCode + '!'));
+            if (res.statusCode !== 200) {
+                return console.log(new Error('Response code was ' + res.statusCode + '!'));
             }
 
-            if (!response.stream) {
-                this.sendMessage(channel, this.not_online);
+            if (!body.stream) {
+                self.sendMessage(channel, self.language.not_online);
             } else {
-                this.sendMessage(channel, this.viewers.format(response.stream.viewers.toLocaleString()));
+                self.sendMessage(channel, self.language.viewers.format(body.stream.viewers.toLocaleString()));
             }
         });
     }

@@ -26,20 +26,26 @@ module.exports = class TitleCommand extends Command {
     }
 
     run(command_name, channel, user, message) {
-        this.connection.api.call({
+        let self = this;
+
+        this.connection.api({
+            url: 'https://api.twitch.tv/kraken/channels/' + this.settings.channel_to_join,
             method: 'GET',
-            path: '/channels/' + this.settings.channel_to_join,
-            options: {}
-        }, function (err, statusCode, response) {
+            headers: {
+                Accept: 'application/vnd.twitchtv.v3+json',
+                Authorization: 'OAuth ' + this.settings.api_access_token,
+                'Client-ID': this.settings.api_client_id
+            }
+        }, function (err, res, body) {
             if (err) {
                 return console.log(err);
             }
 
-            if (statusCode !== 200) {
-                return console.log(new Error('Response code was ' + statusCode + '!'));
+            if (res.statusCode !== 200) {
+                return console.log(new Error('Response code was ' + res.statusCode + '!'));
             }
 
-            this.sendMessage(channel, this.language.title.format(response.status, response.game));
+            self.sendMessage(channel, self.language.title.format(body.status, body.game));
         });
     }
 };

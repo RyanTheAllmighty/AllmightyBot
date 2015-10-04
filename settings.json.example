@@ -11,6 +11,9 @@
         "some_username"
     ],
 
+    "api_client_id": "",
+    "api_access_token": "",
+
     "bot_says_welcome": false,
 
     "bot_speak_limit_per_30s": 80,
