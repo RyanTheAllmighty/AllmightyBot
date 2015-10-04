@@ -28,28 +28,29 @@ var requireHacks = require('./requireHacks');
 
 module.exports.unload = function (mainCallback) {
     let done = [];
-    let toDo = [];
 
-    Object.keys(commands).forEach(function (key) {
+    async.eachSeries(Object.keys(commands), function (key, next) {
         if (done.indexOf(commands[key].constructor.name) === -1) {
             done.push(commands[key].constructor.name);
 
-            toDo.push(function (callback) {
-                let remove = function () {
-                    delete commands[key];
-                    callback();
-                };
+            let remove = function () {
+                delete commands[key];
+                next();
+            };
 
-                if (!_.isUndefined(commands[key].save)) {
-                    commands[key].save(remove);
-                } else {
-                    remove();
-                }
-            });
+            if (!_.isUndefined(commands[key].save)) {
+                commands[key].save(remove);
+            } else {
+                remove();
+            }
+        } else {
+            next();
         }
-    });
+    }, function (err) {
+        if (err) {
+            console.error(err);
+        }
 
-    async.series(toDo, function () {
         mainCallback();
     });
 };
