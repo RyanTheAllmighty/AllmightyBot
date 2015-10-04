@@ -29,12 +29,14 @@ module.exports = class RandomCommand extends Command {
     }
 
     run(command_name, channel, user, message) {
+        let self = this;
+
         if (!this.connection.isBroadcaster(user)) {
             return console.error(new Error('The random command can only be run by the broadcaster!'));
         }
 
         request({
-            url: 'http://tmi.twitch.tv/group/user/' + channel + '/chatters',
+            url: 'http://tmi.twitch.tv/group/user/' + channel.substr(1) + '/chatters',
             json: true,
             method: 'GET'
         }, function (err, req, body) {
@@ -42,17 +44,21 @@ module.exports = class RandomCommand extends Command {
                 return console.error(err);
             }
 
+            if (!body || body.chatter_count === 0) {
+                return console.error(new Error('There are no chatters in the channel!'));
+            }
+
             let users = [];
 
             Object.keys(body.chatters).forEach(function (key) {
                 body.chatters[key].forEach(function (username) {
-                    if (username !== this.settings.bot_username) {
+                    if (username !== self.settings.bot_username) {
                         users.push(username);
                     }
                 });
             });
 
-            this.sendMessage(channel, this.language.random_user.format(_.shuffle(users)[0]));
+            self.sendMessage(channel, self.language.random_user.format(_.shuffle(users)[0]));
         });
     }
 };
