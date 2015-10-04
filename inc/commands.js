@@ -19,28 +19,34 @@
 'use strict';
 
 var fs = require('fs');
-var async = require('async');
 var _ = require('lodash');
+var async = require('async');
 
 var commands = {};
 
 var requireHacks = require('./requireHacks');
 
 module.exports.unload = function (mainCallback) {
-    var toDo = [];
+    let done = [];
+    let toDo = [];
 
     Object.keys(commands).forEach(function (key) {
-        toDo.push(function (callback) {
-            if (!_.isUndefined(commands[key].save)) {
-                commands[key].save(function () {
+        if (done.indexOf(commands[key].constructor.name) === -1) {
+            done.push(commands[key].constructor.name);
+
+            toDo.push(function (callback) {
+                let remove = function () {
                     delete commands[key];
                     callback();
-                });
-            } else {
-                delete commands[key];
-                callback();
-            }
-        });
+                };
+
+                if (!_.isUndefined(commands[key].save)) {
+                    commands[key].save(remove);
+                } else {
+                    remove();
+                }
+            });
+        }
     });
 
     async.series(toDo, function () {

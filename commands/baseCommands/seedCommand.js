@@ -32,6 +32,8 @@ module.exports = class SeedCommand extends Command {
     }
 
     run(command_name, channel, user, message) {
+        let self = this;
+
         switch (command_name) {
             case 'seed':
                 if (pickingSeeds) {
@@ -65,7 +67,7 @@ module.exports = class SeedCommand extends Command {
                             currentSeed = _.shuffle(seeds)[0];
 
                             this.save(function () {
-                                this.sendMessage(channel, this.language.seed_pick.format(currentSeed.username, currentSeed.seed));
+                                self.sendMessage(channel, self.language.seed_pick.format(currentSeed.username, currentSeed.seed));
                             });
                         }
 
@@ -82,9 +84,12 @@ module.exports = class SeedCommand extends Command {
                 return callback(err);
             }
 
+            console.log(data);
             if (data && _.isUndefined(currentSeed)) {
                 currentSeed = data.current_seed;
             }
+
+            console.log(currentSeed);
 
             callback();
         });
