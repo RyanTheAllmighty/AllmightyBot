@@ -30,16 +30,18 @@ module.exports.unload = function (mainCallback) {
     let done = [];
 
     async.eachSeries(Object.keys(commands), function (key, next) {
-        if (done.indexOf(commands[key].constructor.name) === -1) {
-            done.push(commands[key].constructor.name);
+        let command = commands[key];
+
+        if (done.indexOf(command.constructor.name) === -1) {
+            done.push(command.constructor.name);
 
             let remove = function () {
                 delete commands[key];
                 next();
             };
 
-            if (!_.isUndefined(commands[key].save)) {
-                commands[key].save(remove);
+            if (!_.isUndefined(command.save)) {
+                command.save(remove);
             } else {
                 remove();
             }

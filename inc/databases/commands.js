@@ -53,7 +53,7 @@ module.exports = class Commands extends Database {
                 return callback();
             }
 
-            return callback(data[0].settings);
+            return callback(null, data[0].settings);
         });
     }
 
@@ -65,6 +65,7 @@ module.exports = class Commands extends Database {
      * @param callback
      */
     setSettings(command, data, callback) {
+        console.log(data);
         this.db.update({name: _.isArray(command.name) ? command.name.join() : command.name}, {$set: {settings: data}}, {upsert: true}, callback);
     }
 };

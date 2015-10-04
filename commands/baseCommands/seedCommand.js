@@ -22,13 +22,12 @@ let Command = require('../../inc/classes/command');
 
 let _ = require('lodash');
 
-let seeds = [];
-let currentSeed;
-let pickingSeeds = false;
-
 module.exports = class SeedCommand extends Command {
     constructor() {
         super(['seed', 'newseed', 'pickseed']);
+        this.seeds = [];
+        this.currentSeed = undefined;
+        this.pickingSeeds = false;
     }
 
     run(command_name, channel, user, message) {
@@ -36,23 +35,23 @@ module.exports = class SeedCommand extends Command {
 
         switch (command_name) {
             case 'seed':
-                if (pickingSeeds) {
-                    seeds.push({
+                if (this.pickingSeeds) {
+                    this.seeds.push({
                         username: user.username,
                         seed: message.split(" ")[1]
                     });
 
                     this.sendMessage(channel, this.language.seed_added);
                 } else {
-                    if (!_.isUndefined(currentSeed)) {
-                        this.sendMessage(channel, this.language.seed_details.format(currentSeed.username, currentSeed.seed));
+                    if (!_.isUndefined(this.currentSeed)) {
+                        this.sendMessage(channel, this.language.seed_details.format(this.currentSeed.username, this.currentSeed.seed));
                     }
                 }
                 break;
             case 'newseed':
                 if (this.connection.isBroadcaster(user)) {
-                    if (!pickingSeeds) {
-                        pickingSeeds = true;
+                    if (!this.pickingSeeds) {
+                        this.pickingSeeds = true;
 
                         this.sendMessage(channel, this.language.new_seed);
                     }
@@ -61,17 +60,17 @@ module.exports = class SeedCommand extends Command {
             case 'pickseed':
                 if (this.connection.isBroadcaster(user)) {
                     if (pickingSeeds) {
-                        if (seeds.length === 0) {
+                        if (this.seeds.length === 0) {
                             this.sendMessage(channel, this.language.seed_pick_none);
                         } else {
-                            currentSeed = _.shuffle(seeds)[0];
+                            this.currentSeed = _.shuffle(this.seeds)[0];
 
                             this.save(function () {
-                                self.sendMessage(channel, self.language.seed_pick.format(currentSeed.username, currentSeed.seed));
+                                self.sendMessage(channel, self.language.seed_pick.format(self.currentSeed.username, self.currentSeed.seed));
                             });
                         }
 
-                        pickingSeeds = false;
+                        this.pickingSeeds = false;
                     }
                 }
                 break;
@@ -79,23 +78,22 @@ module.exports = class SeedCommand extends Command {
     }
 
     load(callback) {
+        let self = this;
+
         this.connection.commands.getSettings(this, function (err, data) {
             if (err) {
                 return callback(err);
             }
 
-            console.log(data);
-            if (data && _.isUndefined(currentSeed)) {
-                currentSeed = data.current_seed;
+            if (data && _.isUndefined(self.currentSeed)) {
+                self.currentSeed = data.current_seed;
             }
-
-            console.log(currentSeed);
 
             callback();
         });
     }
 
     save(callback) {
-        this.connection.commands.setSettings(this, {current_seed: currentSeed}, callback);
+        this.connection.commands.setSettings(this, {current_seed: this.currentSeed}, callback);
     }
 };
