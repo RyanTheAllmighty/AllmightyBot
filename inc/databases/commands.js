@@ -65,7 +65,6 @@ module.exports = class Commands extends Database {
      * @param callback
      */
     setSettings(command, data, callback) {
-        console.log(data);
         this.db.update({name: _.isArray(command.name) ? command.name.join() : command.name}, {$set: {settings: data}}, {upsert: true}, callback);
     }
 };
