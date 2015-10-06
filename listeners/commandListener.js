@@ -25,8 +25,8 @@ module.exports.enabled = true;
 
 module.exports.listening_for = 'chat';
 
-module.exports.callback = function (channel, user, message) {
-    if (message[0] === '!') {
+module.exports.callback = function (channel, user, message, self) {
+    if (!self && message[0] === '!') {
         var name = message;
 
         if (name.indexOf(" ") !== 0) {
