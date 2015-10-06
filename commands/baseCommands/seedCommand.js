@@ -37,14 +37,22 @@ module.exports = class SeedCommand extends Command {
             case 'seed':
                 if (this.pickingSeeds) {
                     this.seeds.push({
-                        username: user.username,
+                        userId: parseInt(user['user-id']),
                         seed: message.split(" ")[1]
                     });
 
                     this.sendMessage(channel, this.language.seed_added);
                 } else {
                     if (!_.isUndefined(this.currentSeed)) {
-                        this.sendMessage(channel, this.language.seed_details.format(this.currentSeed.username, this.currentSeed.seed));
+                        this.connection.users.get(this.currentSeed.userId, function (err, user) {
+                            if (err) {
+                                self.sendMessage(channel, self.language.seed_details.format('Unknown', self.currentSeed.seed));
+
+                                return console.error(err);
+                            }
+
+                            self.sendMessage(channel, self.language.seed_details.format(user.display_name, self.currentSeed.seed));
+                        });
                     }
                 }
                 break;
@@ -59,14 +67,20 @@ module.exports = class SeedCommand extends Command {
                 break;
             case 'pickseed':
                 if (this.connection.isBroadcaster(user)) {
-                    if (pickingSeeds) {
+                    if (this.pickingSeeds) {
                         if (this.seeds.length === 0) {
                             this.sendMessage(channel, this.language.seed_pick_none);
                         } else {
                             this.currentSeed = _.shuffle(this.seeds)[0];
 
                             this.save(function () {
-                                self.sendMessage(channel, self.language.seed_pick.format(self.currentSeed.username, self.currentSeed.seed));
+                                self.connection.users.get(self.currentSeed.userId, function (err, user) {
+                                    if (err) {
+                                        return console.error(err);
+                                    }
+
+                                    self.sendMessage(channel, self.language.seed_pick.format(user.display_name, self.currentSeed.seed));
+                                });
                             });
                         }
 

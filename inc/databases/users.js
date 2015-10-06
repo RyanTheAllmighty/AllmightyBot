@@ -131,6 +131,7 @@ module.exports = class Users extends Database {
     update(user, callback) {
         this.db.update({$or: [{id: parseInt(user['user-id'])}, {username: user.username}, {display_name: user['display-name']}]}, {
             $set: {
+                id: parseInt(user['user-id']),
                 username: user.username,
                 display_name: user['display-name'],
                 subscriber: user.subscriber,
