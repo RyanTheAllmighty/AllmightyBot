@@ -162,6 +162,10 @@ module.exports = class User {
         callback(null, secondsInChannel);
     }
 
+    is(data) {
+        return parseInt(data['user-id']) === this.id && data.username === this.username;
+    }
+
     /**
      * Updates this users details.
      *

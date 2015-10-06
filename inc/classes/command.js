@@ -90,4 +90,14 @@ module.exports = class Command {
     sendMessage(channel, message) {
         this.connection.client.sendMessage(channel, message);
     }
+
+    /**
+     * Sends a whisper to a user.
+     *
+     * @param {String} username - the username of the user to send a whisper to
+     * @param {String} message - the message to whisper to the user
+     */
+    sendWhisper(username, message) {
+        this.connection.client.sendWhisper(username, message);
+    }
 };

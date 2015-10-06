@@ -36,24 +36,33 @@ module.exports = class EyeTimeCommand extends Command {
             return console.error(new Error('The eyetime command can only be run by the broadcaster!'));
         }
 
-        if (message.split(' ').length !== 2) {
-            return console.error(new Error('No username was passed in to the eyetime command!'));
+        let hasUser = message.split(' ').length === 2;
+        let userIdentifier;
+
+        if (hasUser) {
+            userIdentifier = message.split(' ')[1];
+        } else {
+            userIdentifier = user['user-id'] ? parseInt(user['user-id']) : user.username;
         }
 
-        this.connection.users.get(message.split(' ')[1], function (err, user) {
+        this.connection.users.get(userIdentifier, function (err, theUser) {
             if (err) {
                 return console.error(err);
             }
 
-            user.calculateEyeTime(function (err, seconds) {
+            theUser.calculateEyeTime(function (err, seconds) {
                 if (err) {
                     return console.error(err);
                 }
-                
+
                 if (seconds === 0) {
-                    self.sendMessage(channel, self.language.eyetime_not_found.format(user.display_name));
+                    self.sendMessage(channel, self.language.eyetime_not_found.format(theUser.display_name));
                 } else {
-                    self.sendMessage(channel, self.language.eyetime.format(user.display_name, functions.secondsToString(seconds)));
+                    if (!hasUser || theUser.is(user)) {
+                        self.sendWhisper(theUser.display_name, self.language.eyetime_whisper.format(functions.secondsToString(seconds)));
+                    } else {
+                        self.sendMessage(channel, self.language.eyetime.format(theUser.display_name, functions.secondsToString(seconds)));
+                    }
                 }
             });
         });

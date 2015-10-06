@@ -43,8 +43,7 @@ var firstMessageSent = 0;
 
 var client = new irc.client({
     options: {
-        debug: settings.debug,
-        debugDetails: settings.debug_details
+        debug: settings.debug
     },
     connection: {
         random: "chat",
@@ -57,7 +56,23 @@ var client = new irc.client({
     channels: [settings.channel_to_join]
 });
 
+var whispersClient = new irc.client({
+    options: {
+        debug: settings.debug
+    },
+    connection: {
+        random: "group",
+        reconnect: true
+    },
+    identity: {
+        username: settings.bot_username,
+        password: settings.bot_oauth_token
+    },
+    channels: [settings.channel_to_join]
+});
+
 module.exports.client = client;
+module.exports.whispersClient = whispersClient;
 
 module.exports.api = client.api;
 
@@ -107,6 +122,26 @@ module.exports.client.sendMessage = function (channel, message) {
     }
 };
 
+module.exports.client.sendWhisper = function (username, message) {
+    var timeInSeconds = Math.floor(new Date().getTime() / 1000);
+
+    if (firstMessageSent === 0) {
+        firstMessageSent = timeInSeconds;
+        messagesSent = 0;
+    } else if ((firstMessageSent + 30) <= timeInSeconds) {
+        firstMessageSent = timeInSeconds;
+        messagesSent = 0;
+    } else {
+        messagesSent = messagesSent + 1;
+    }
+
+    if (messagesSent <= settings.bot_speak_limit_per_30s) {
+        whispersClient.whisper(username, message);
+    } else {
+        console.error(new Error('The bot has already spoken over it\'s limit in the past 30 seconds so not sending whisper so we don\'t get globally banned!'));
+    }
+};
+
 module.exports.load = function () {
     console.log('Loading all the commands!');
     commands.loadCommands();
@@ -138,25 +173,43 @@ module.exports.isModerator = function (user) {
     return user['user-type'] && user['user-type'] === 'mod';
 };
 
-module.exports.connect = function () {
+module.exports.connect = function (callback) {
     var self = this;
 
     if (connected) {
-        return console.error(new Error('Cannot connect again as we\'re already connected!'));
+        return callback(new Error('Cannot connect again as we\'re already connected!'));
     }
 
     async.each([this.users, this.commands, this.events, this.messages], function (data, next) {
         data.load(next);
     }, function (err) {
         if (err) {
-            return console.error(err);
+            return callback(err);
         }
 
         self.load();
 
-        client.connect();
+        whispersClient.connect();
 
-        connected = true;
+        whispersClient.once('connecting', function () {
+            console.log('Connecting to group server!');
+        });
+
+        whispersClient.once('connected', function () {
+            console.log('Connected to group server!');
+
+            client.connect();
+            client.once('connecting', function () {
+                console.log('Connecting to chat server!');
+            });
+            client.once('connected', function () {
+                console.log('Connected to chat server!');
+
+                connected = true;
+            });
+        });
+
+        callback();
     });
 };
 
@@ -166,4 +219,5 @@ module.exports.disconnect = function () {
     }
 
     client.disconnect();
+    whispersClient.disconnect();
 };

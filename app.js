@@ -16,6 +16,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+"use strict";
+
 var connection = require('./inc/connection');
 var exitHandler = require('./inc/exitHandler');
 
@@ -23,4 +25,9 @@ process.on('exit', exitHandler);
 process.on('SIGINT', exitHandler);
 process.on('uncaughtException', exitHandler);
 
-connection.connect();
+connection.connect(function (err) {
+    if (err) {
+        console.error(err);
+        exitHandler();
+    }
+});
