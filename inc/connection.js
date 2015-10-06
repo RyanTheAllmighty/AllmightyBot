@@ -64,7 +64,10 @@ module.exports.api = client.api;
 /**
  * @type {Users}
  */
-module.exports.users = new Users();
+module.exports.users = new Users({
+    autoCompact: true,
+    autoCompactInterval: 10000
+});
 
 /**
  * @type {Commands}
@@ -74,7 +77,10 @@ module.exports.commands = new Commands();
 /**
  * @type {Events}
  */
-module.exports.events = new Events();
+module.exports.events = new Events({
+    autoCompact: true,
+    autoCompactInterval: 5000
+});
 
 /**
  * @type {Messages}
