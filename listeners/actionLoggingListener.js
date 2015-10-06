@@ -18,33 +18,26 @@
 
 'use strict';
 
-var _ = require('lodash');
+var settings = require('../settings.json');
 
-var Database = require('./database');
+var connection = require('../inc/connection');
 
-// Symbol for storing the objects properties
-let objectSymbol = Symbol();
+module.exports.enabled = true;
 
-module.exports = class Messages extends Database {
-    /**
-     * Constructs this Database object.
-     *
-     * @param {Object} options - the options for this Database
-     */
-    constructor(options) {
-        super('messages', options);
+module.exports.listening_for = 'action';
 
-        this[objectSymbol] = {};
-    }
+module.exports.callback = function (channel, user, message, self) {
+    if (!self) {
+        connection.users.update(user, function (err) {
+            if (err) {
+                console.error(err);
+            }
+        });
 
-    save(channel, user, message, action, callback) {
-        this.db.insert({
-            channel,
-            user: parseInt(user['user-id']),
-            message,
-            emotes: user.emotes,
-            action,
-            date: new Date()
-        }, callback);
+        connection.messages.save(channel, user, message, true, function (err) {
+            if (err) {
+                console.error(err);
+            }
+        });
     }
 };
