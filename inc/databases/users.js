@@ -51,10 +51,26 @@ module.exports = class Users extends Database {
      * @param callback
      */
     get(user, callback) {
+        let execCallback = function (err, res) {
+            if (err) {
+                return callback(err);
+            }
+
+            if (res.length == 0) {
+                return callback(new Error('No user found!'));
+            }
+
+            if (res.length > 1) {
+                return callback(new Error('Too many users found!'));
+            }
+
+            callback(null, res[0]);
+        };
+
         if (Number.isInteger(user)) {
-            this.db.find({id: user}).limit(1).exec(callback);
+            this.db.find({id: user}).limit(1).exec(execCallback);
         } else {
-            this.db.find({$or: [{display_name: user}, {username: user}]}).limit(1).exec(callback);
+            this.db.find({$or: [{display_name: user}, {username: user}]}).limit(1).exec(execCallback);
         }
     }
 

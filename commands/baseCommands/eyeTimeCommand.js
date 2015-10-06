@@ -18,8 +18,11 @@
 
 'use strict';
 
-var functions = require('../../inc/functions');
 let Command = require('../../inc/classes/command');
+
+let functions = require('../../inc/functions');
+
+let _ = require('lodash');
 
 module.exports = class EyeTimeCommand extends Command {
     constructor() {
@@ -37,17 +40,55 @@ module.exports = class EyeTimeCommand extends Command {
             return console.error(new Error('No username was passed in to the eyetime command!'));
         }
 
-        let username = message.split(' ')[1];
-
-        functions.calculateEyetime(username, function (err, time) {
+        this.connection.users.get(message.split(' ')[1], function (err, user) {
             if (err) {
                 return console.error(err);
             }
 
-            if (time === 0) {
-                self.sendMessage(channel, self.language.eyetime_not_found.format(username));
+            if (!user || (!user.parts && !user.joins)) {
+                return console.error(new Error('That user hasn\'t been to the channel!'));
+            }
+
+            let joinTimes = [];
+            let partTimes = [];
+            let secondsInChannel = 0;
+
+            _.forEach(user.joins, function (joined) {
+                joinTimes.push(joined);
+            });
+
+            _.forEach(user.parts, function (parted) {
+                partTimes.push(parted);
+            });
+
+            for (var i = 0; i < partTimes.length; i++) {
+                var partTime = partTimes[i];
+                var theJoin = null;
+
+                if (partTimes.length - 1 > i) {
+                    for (var j = 0; j < joinTimes.length; j++) {
+                        var joinTime = joinTimes[j];
+
+                        if (joinTime < partTime) {
+                            theJoin = joinTime;
+                        } else {
+                            break;
+                        }
+                    }
+                } else {
+                    theJoin = joinTimes[joinTimes.length - 1];
+                    partTime = new Date();
+                }
+
+                if (theJoin !== null) {
+                    secondsInChannel += functions.timeBetween(partTime, theJoin, true);
+                }
+            }
+
+            if (secondsInChannel === 0) {
+                self.sendMessage(channel, self.language.eyetime_not_found.format(user.display_name));
             } else {
-                self.sendMessage(channel, self.language.eyetime.format(username, functions.secondsToString(time)));
+                self.sendMessage(channel, self.language.eyetime.format(user.display_name, functions.secondsToString(secondsInChannel)));
             }
         });
     }

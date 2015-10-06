@@ -22,59 +22,6 @@ var connection = require('./connection');
 
 let _ = require('lodash');
 
-// TODO: Fix this
-module.exports.calculateEyetime = function (username, callback) {
-    let self = this;
-
-    connection.users.get(username, function (err, res) {
-        if (err) {
-            return callback(err);
-        }
-
-        if (!res[0] || (!res[0].parts && !res[0].joins)) {
-            return callback(new Error('That user hasn\'t been to the channel!'));
-        }
-
-        let joinTimes = [];
-        let partTimes = [];
-        let secondsInChannel = 0;
-
-        _.forEach(res[0].joins, function (joined) {
-            joinTimes.push(joined);
-        });
-
-        _.forEach(res[0].parts, function (parted) {
-            partTimes.push(parted);
-        });
-
-        for (var i = 0; i < partTimes.length; i++) {
-            var partTime = partTimes[i];
-            var theJoin = null;
-
-            if (partTimes.length - 1 > i) {
-                for (var j = 0; j < joinTimes.length; j++) {
-                    var joinTime = joinTimes[j];
-
-                    if (joinTime < partTime) {
-                        theJoin = joinTime;
-                    } else {
-                        break;
-                    }
-                }
-            } else {
-                theJoin = joinTimes[joinTimes.length - 1];
-                partTime = new Date();
-            }
-
-            if (theJoin !== null) {
-                secondsInChannel += self.timeBetween(partTime, theJoin, true);
-            }
-        }
-
-        callback(null, secondsInChannel);
-    });
-};
-
 module.exports.timeBetween = function (this_date, and_this_date, return_seconds) {
     if (typeof return_seconds !== "boolean") {
         return_seconds = false;
