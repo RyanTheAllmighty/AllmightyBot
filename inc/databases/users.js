@@ -40,6 +40,16 @@ module.exports = class Users extends Database {
     }
 
     /**
+     * Adds a user to the database.
+     *
+     * @param {Object} data
+     * @param callback
+     */
+    add(data, callback) {
+        this.db.insert(data, callback);
+    }
+
+    /**
      * Gets all the users in the database.
      *
      * @param callback
@@ -57,6 +67,30 @@ module.exports = class Users extends Database {
     }
 
     /**
+     * Checks if a user exists with the given user id or username.
+     *
+     * @param {String|Number} user
+     * @param callback
+     */
+    exists(user, callback) {
+        let execCallback = function (err, res) {
+            if (err) {
+                console.error(err);
+
+                return callback(false);
+            }
+
+            return callback(res.length === 1);
+        };
+
+        if (Number.isInteger(user)) {
+            this.db.find({id: user}).limit(1).exec(execCallback);
+        } else {
+            this.db.find({$or: [{display_name: user}, {username: user}]}).limit(1).exec(execCallback);
+        }
+    }
+
+    /**
      * Gets a single user by name or id from the database if exists.
      *
      * @param {String|Number} user
@@ -68,7 +102,7 @@ module.exports = class Users extends Database {
                 return callback(err);
             }
 
-            if (res.length == 0) {
+            if (res.length === 0) {
                 return callback(new Error('No user found!'));
             }
 
@@ -129,14 +163,28 @@ module.exports = class Users extends Database {
      * @param callback
      */
     update(user, callback) {
-        this.db.update({$or: [{id: parseInt(user['user-id'])}, {username: user.username}, {display_name: user['display-name']}]}, {
-            $set: {
-                id: parseInt(user['user-id']),
-                username: user.username,
-                display_name: user['display-name'],
-                subscriber: user.subscriber,
-                turbo: user.turbo
+        let self = this;
+
+        this.exists((user['user-id'] ? parseInt(user['user-id']) : user.username), function (exists) {
+            if (exists) {
+                self.get((user['user-id'] ? parseInt(user['user-id']) : user.username), function (err, theUser) {
+                    if (err) {
+                        return callback(err);
+                    }
+
+                    theUser.update(self, user, (err) => callback(err));
+                });
+            } else {
+                let theUser = {
+                    id: parseInt(user['user-id']),
+                    username: user.username,
+                    display_name: user['display-name'],
+                    subscriber: user.subscriber,
+                    turbo: user.turbo
+                };
+
+                self.add(theUser, (err) => callback(err));
             }
-        }, {upsert: true}, callback);
+        });
     }
 };

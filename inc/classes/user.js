@@ -161,4 +161,56 @@ module.exports = class User {
 
         callback(null, secondsInChannel);
     }
+
+    /**
+     * Updates this users details.
+     *
+     * @param {Users} db
+     * @param {Object} data
+     * @param callback
+     */
+    update(db, data, callback) {
+        let haveToUpdate = false;
+
+        data = {
+            id: parseInt(data['user-id']),
+            username: data.username,
+            display_name: data['display-name'],
+            subscriber: data.subscriber,
+            turbo: data.turbo
+        };
+
+        if (data.id !== this.id) {
+            haveToUpdate = true;
+            this[objectSymbol].id = data.id;
+        }
+
+        if (data.username !== this.username) {
+            haveToUpdate = true;
+            this[objectSymbol].username = data.username;
+        }
+
+        if (data.display_name !== this.display_name) {
+            haveToUpdate = true;
+            this[objectSymbol].display_name = data.display_name;
+        }
+
+        if (data.subscriber !== this.subscriber) {
+            haveToUpdate = true;
+            this[objectSymbol].subscriber = data.subscriber;
+        }
+
+        if (data.turbo !== this.turbo) {
+            haveToUpdate = true;
+            this[objectSymbol].turbo = data.turbo;
+        }
+
+        if (haveToUpdate) {
+            console.log('Updating!');
+            db.db.update({$or: [{id: this.id}, {username: this.username}, {display_name: this.display_name}]}, {$set: data}, (err) => callback(err || null, this));
+        } else {
+            console.log('No need to update!');
+            callback(null, this);
+        }
+    }
 };
