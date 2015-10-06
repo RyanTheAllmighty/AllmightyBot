@@ -206,10 +206,8 @@ module.exports = class User {
         }
 
         if (haveToUpdate) {
-            console.log('Updating!');
             db.db.update({$or: [{id: this.id}, {username: this.username}, {display_name: this.display_name}]}, {$set: data}, (err) => callback(err || null, this));
         } else {
-            console.log('No need to update!');
             callback(null, this);
         }
     }
