@@ -18,23 +18,15 @@
 
 'use strict';
 
-var fs = require('fs');
-var requireHacks = require('./requireHacks');
-var connection = require('./connection');
+var connection = require('../inc/connection');
+var commands = require('../inc/commands');
 
-module.exports.loadListeners = function () {
-    fs.readdirSync('listeners/').forEach(function (file) {
-        // Remove from the require cache so we can reload it's information
-        requireHacks.uncache('../listeners/' + file);
+module.exports.enabled = true;
 
-        var listener = require('../listeners/' + file);
+module.exports.groupChat = true;
 
-        if (listener.enabled) {
-            if (listener.groupChat) {
-                connection.whispersClient.addListener(listener.listening_for, listener.callback);
-            } else {
-                connection.client.addListener(listener.listening_for, listener.callback);
-            }
-        }
-    });
+module.exports.listening_for = 'whisper';
+
+module.exports.callback = function (username, message) {
+    console.log(username + ': ' + message);
 };
