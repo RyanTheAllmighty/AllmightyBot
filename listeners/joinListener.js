@@ -28,9 +28,9 @@ var chatterChecker = require('../inc/chatterChecker');
 
 module.exports.enabled = true;
 
-module.exports.listening_for = 'join';
+module.exports.listening_for = 'roomstate';
 
-module.exports.callback = function (channel, username) {
+module.exports.callback = function (channel, state) {
     if (settings.bot_says_welcome) {
         connection.client.sendMessage(channel, lang.join_message);
     }
