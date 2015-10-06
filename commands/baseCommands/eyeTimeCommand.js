@@ -45,51 +45,17 @@ module.exports = class EyeTimeCommand extends Command {
                 return console.error(err);
             }
 
-            if (!user || (!user.parts && !user.joins)) {
-                return console.error(new Error('That user hasn\'t been to the channel!'));
-            }
-
-            let joinTimes = [];
-            let partTimes = [];
-            let secondsInChannel = 0;
-
-            _.forEach(user.joins, function (joined) {
-                joinTimes.push(joined);
-            });
-
-            _.forEach(user.parts, function (parted) {
-                partTimes.push(parted);
-            });
-
-            for (var i = 0; i < partTimes.length; i++) {
-                var partTime = partTimes[i];
-                var theJoin = null;
-
-                if (partTimes.length - 1 > i) {
-                    for (var j = 0; j < joinTimes.length; j++) {
-                        var joinTime = joinTimes[j];
-
-                        if (joinTime < partTime) {
-                            theJoin = joinTime;
-                        } else {
-                            break;
-                        }
-                    }
+            user.calculateEyeTime(function (err, seconds) {
+                if (err) {
+                    return console.error(err);
+                }
+                
+                if (seconds === 0) {
+                    self.sendMessage(channel, self.language.eyetime_not_found.format(user.display_name));
                 } else {
-                    theJoin = joinTimes[joinTimes.length - 1];
-                    partTime = new Date();
+                    self.sendMessage(channel, self.language.eyetime.format(user.display_name, functions.secondsToString(seconds)));
                 }
-
-                if (theJoin !== null) {
-                    secondsInChannel += functions.timeBetween(partTime, theJoin, true);
-                }
-            }
-
-            if (secondsInChannel === 0) {
-                self.sendMessage(channel, self.language.eyetime_not_found.format(user.display_name));
-            } else {
-                self.sendMessage(channel, self.language.eyetime.format(user.display_name, functions.secondsToString(secondsInChannel)));
-            }
+            });
         });
     }
 };

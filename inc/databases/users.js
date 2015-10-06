@@ -20,6 +20,10 @@
 
 var Database = require('./database');
 
+let User = require('../classes/user');
+
+let _ = require('lodash');
+
 // Symbol for storing the objects properties
 let objectSymbol = Symbol();
 
@@ -41,7 +45,15 @@ module.exports = class Users extends Database {
      * @param callback
      */
     all(callback) {
-        this.db.find({}).exec(callback);
+        this.db.find({}).exec(function (err, res) {
+            if (err) {
+                return callback(err);
+            }
+
+            callback(null, _.map(res, function (data) {
+                return new User(data);
+            }));
+        });
     }
 
     /**
@@ -64,7 +76,7 @@ module.exports = class Users extends Database {
                 return callback(new Error('Too many users found!'));
             }
 
-            callback(null, res[0]);
+            callback(null, new User(res[0]));
         };
 
         if (Number.isInteger(user)) {
