@@ -27,23 +27,23 @@ var _ = require('lodash');
 var users = [];
 
 module.exports.cronJob = connection.client.utils.cronjobs('*/20 * * * * *', function () {
-    this.logChatters(settings.channel_to_join);
+    module.exports.logChatters(settings.channel_to_join);
 });
 
 module.exports.startCheckingChatters = function () {
-    //var self = this;
-    //
-    //process.nextTick(function () {
-    //    self.cronJob.start();
-    //});
+    var self = this;
+
+    process.nextTick(function () {
+        self.cronJob.start();
+    });
 };
 
 module.exports.stopCheckingChatters = function () {
-    //var self = this;
-    //
-    //process.nextTick(function () {
-    //    self.cronJob.start();
-    //});
+    var self = this;
+
+    process.nextTick(function () {
+        self.cronJob.start();
+    });
 };
 
 module.exports.partAllUsers = function (mainCallback) {
