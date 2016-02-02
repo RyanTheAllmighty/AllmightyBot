@@ -1,5 +1,5 @@
 {
-    "name": "AllmightyBot",
+    "name": "allmightybot",
     "version": "0.0.1",
     "description": "AllmightyBot is a bot written for use on Twitch.",
     "main": "app.js",
