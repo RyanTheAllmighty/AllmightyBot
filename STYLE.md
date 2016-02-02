@@ -6,6 +6,8 @@ This is a simple style guide of how I style and present my code (at least try to
 + All JSON documents should use 4 space indentation.
 + Don't do large code commits. My preference is a single commit for a single fix/addition rather than bundled up commits.
 + Document appropriately. While there is no need to put single line comments in for everything, having doc blocks and comments where necessary helps others see what the code does.
++ Make sure all code adheres to the provided JSHint and JSCS standards. Running 'gulp style' will run both checkers and check for any issues
++ Increment the version in the package.json before the last commit before release. Nothing worse than having to question if it's already been incremented or not
 
 # Classes
 Since this application is using ECMAScript 6, we have access to classes.
@@ -33,12 +35,12 @@ For details on JSDoc used for all JavaScript files, see [this website](http://us
 + Make sure all comments not in doc blocks don't end in a period.
 + Make sure there is a blank line between any main doc block information and any @elements.
 + Make sure all callbacks are documented at the very bottom of the file.
++ Make sure all JS files included with script tags are wrapped in IIFE's.
 + Make sure there are no multi line variables. All variables should be declared one per line with no multi line declarations.
 + Make sure to use let instead of var wherever possible.
 + When needing to access this in a callback of a method, the variable to store this should be called self. For example (let self = this;).
 + All files should be saved with lowercamelCase names.
 + All classes should be UpperCamelCase with no spaces or other non alphanumeric characters.
-+ All callback variable names in methods should be named callback and any inner callback variable names should be named cb if callback is taken.
 
 ## Example
     // Some comment. Which doesn't end in a period

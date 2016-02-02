@@ -1,62 +1,51 @@
-AllmightyBot
-====================================
+# AllmightyBot
+AllmightyBot is a bot written for use on Twitch.
 
-### What is it?
-This is a rewrite of my old [AllmightyBot](https://github.com/RyanTheAllmighty/AllmightyBot---Java) application written in Java. Simply put, AllmightyBot is a Twitch bot with commands and stuff.
+## Features
+AllmightyBot has the following features:
 
-It's only really intended for my own personal use, mainly due to the documentation will be completely lacking and the application will be buggy and mostly unsupported, but of course it's open source
-under GNU GPLv3 license so anybody can feel free to download it, use it, modify it, etc.
+- Extensible through custom commands and event listeners.
+- Global application allowing easy startup of bots for multiple channels without having to have the entire application bloat in each directory.
 
-### How to install
-Make sure you have installed [NodeJS](https://nodejs.org/). Then run the below command to install all required modules:
+## Requirements
+AllmightyBot was created using [NodeJS](https://nodejs.org/) version 4.2 and as such we don't support any versions of NodeJS below version 4.2.
 
-```
-npm install
-```
-
-Then after that's finished you must copy the settings.json.example to settings.json and fill it out, and do the same for the lang.json.example file, then run:
+## How to install
+Run the below command to install the global application:
 
 ```
-node app.js
+npm install -g allmightybot
 ```
 
-And voila you're all done. Of course you may want to look at the other json files such as the lang.json and also start to setup all your commands and listeners.
+Once done you'll have access to the `allmightybot` command. Switch to a directory you want to be the base of all your files for the bot and run the following command:
 
-# Vagrant Development Setup
-To setup a development environment for AllmightyBot simply download the Vagrantfile in the root of this project to a folder and then edit it to change the path to where this cloned repository is and
-then run a 'vagrant up' to start a development environment for AllmightyBot.
-
-You could always use Vagrant as a way to run the bot for real world/production use if needed, but it's intended for development only.
-
-### Listeners
-The listeners folder contains all the listeners for the bot and is loaded when started up. There is no need to do anything else other than make the .js files in the listeners folder for them to start
-working.
-
-If you wish to disable/enable a listener, simply edit the listener you want to disable in the listeners folder and change the below to enable/disable a listener:
-
-```javascript
-module.exports.enabled = true;
+```
+allmightybot init
 ```
 
-To make your own listener you only need to supply 2 things.
+This will initialize the folder with a base set of files and directories to get you up and running. For details on what goes where and what does what in the files made, see the **Files** section below.
 
-Firstly the event it's listening for:
+Once you've set up all your files you can then run the bot with the following command:
 
-```javascript
-module.exports.listening_for = 'chat';
+```
+allmightybot start
 ```
 
-You can find a list of all the events possible to listen to [here](http://www.tmijs.org/docs/Events.html) making sure to go into the page for the event and using the first parameter.
+This will start the bot and read the files in the current directory to initialize and configure the bot.
 
-Secondly you'll need to specify a callback to run when the event happens:
+## Files
+On initialisation the program will create 2 files explained below.
 
-```javascript
-module.exports.callback = function (channel, user, message) {
-    connection.client.sendMessage(channel, user.username + ': ' + message);
-};
-```
+### settings.json
+This is the settings file and contains all the information needed by the bot to connect to Twitch and how to behave.
 
-For best results, take a look at the existing listeners and go from there.
+More information will be put here as to what each setting is at a later date before 1.0.0 release.``
+
+### lang.json
+This contains all the strings used by the bot allowing you to change them or localize them to your own language.
+
+## Extending the bot
+You can extend the bot by providing custom Commands and Listeners. See the sections below for details on how to do that.
 
 ### Commands
 The commands folder contains all the commands that the bot can respond to. There is no need to do anything else other than make the .js files in the commands folder for them to start working.
@@ -88,7 +77,37 @@ module.exports.callback = function (command_name, channel, user, message) {
 
 For best results, take a look at the existing commands and go from there.
 
-### FAQ
+### Listeners
+The listeners folder contains all the listeners for the bot and is loaded when started up. There is no need to do anything else other than make the .js files in the listeners folder for them to start
+working.
+
+If you wish to disable/enable a listener, simply edit the listener you want to disable in the listeners folder and change the below to enable/disable a listener:
+
+```javascript
+module.exports.enabled = true;
+```
+
+To make your own listener you only need to supply 2 things.
+
+Firstly the event it's listening for:
+
+```javascript
+module.exports.listening_for = 'chat';
+```
+
+You can find a list of all the events possible to listen to [here](http://www.tmijs.org/docs/Events.html) making sure to go into the page for the event and using the first parameter.
+
+Secondly you'll need to specify a callback to run when the event happens:
+
+```javascript
+module.exports.callback = function (channel, user, message) {
+    connection.client.sendMessage(channel, user.username + ': ' + message);
+};
+```
+
+For best results, take a look at the existing listeners and go from there.
+
+## FAQ
 > Why make your own bot and not use one of the many many existing ones?
 
 Well because I didn't want to :P I wanted to be able to have full control to add/remove/change anything I wanted to and I also wanted to increase my programming skills a bit by doing this.
@@ -102,5 +121,5 @@ NPM so stuck with it.
 
 This is how I prefer to have it to make it easier to see exactly what each command is and does and overall provide alot of flexibility in the way commands are called.
 
-### Help/Support
+## Help/Support
 If you have any issues/questions/suggestions, please make an issue [here](https://github.com/RyanTheAllmighty/AllmightyBot/issues)
