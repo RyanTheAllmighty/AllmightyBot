@@ -19,16 +19,24 @@
 (function () {
     'use strict';
 
-    function validateTwitchTVUsername(value) {
-        if (value.match(/^[a-zA-Z0-9][a-zA-Z0-9_]{3,24}$/i)) {
-            return true;
-        } else {
-            return 'Invalid username provided!';
-        }
+    function validateUsername(value) {
+        return value.match(/^[a-zA-Z0-9][a-zA-Z0-9_]{3,24}$/i) || 'Invalid username provided!';
+    }
+
+    function validateOAuthToken(value) {
+        return value.match(/^oauth:[a-z0-9]{30}$/i) || 'Invalid OAuth token provided!';
+    }
+
+    function validateAPIDetails(value) {
+        return value.match(/^[a-z0-9]{30,31}$/i) || 'Invalid API details provided!';
+    }
+
+    function validateBotSpeakLimit(value) {
+        return !isNaN(parseInt(value)) && parseInt(value) > 0 || 'Invalid message limit provided!';
     }
 
     function processAnswers(answers) {
-        console.log(JSON.stringify(answers));
+        console.log(JSON.stringify(answers, null, '    '));
     }
 
     module.exports = {
@@ -38,13 +46,45 @@
                 type: 'input',
                 name: 'username',
                 message: 'What\'s YOUR Twitch.tv username?',
-                validate: validateTwitchTVUsername
+                validate: validateUsername
             },
             {
                 type: 'input',
                 name: 'bot_username',
                 message: 'What\'s THE BOT\'S Twitch.tv username?',
-                validate: validateTwitchTVUsername
+                validate: validateUsername
+            },
+            {
+                type: 'input',
+                name: 'bot_oauth_token',
+                message: 'What\'s THE BOT\'S OAuth token?',
+                validate: validateOAuthToken
+            },
+            {
+                type: 'input',
+                name: 'api_client_id',
+                message: 'What\'s your Twitch API client id?',
+                validate: validateAPIDetails
+            },
+            {
+                type: 'input',
+                name: 'api_access_token',
+                message: 'What\'s your Twitch API access token?',
+                validate: validateAPIDetails
+            },
+            {
+                type: 'confirm',
+                name: 'bot_says_welcome',
+                message: 'Should the bot introduce itself when it joins?',
+                default: true
+            },
+            {
+                type: 'input',
+                name: 'bot_speak_limit_per_30s',
+                message: 'How many messages should the bot send maximum per 30 seconds?',
+                validate: validateBotSpeakLimit,
+                filter: Number,
+                default: 80
             }
         ]
     };

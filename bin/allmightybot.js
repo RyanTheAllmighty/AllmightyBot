@@ -28,7 +28,7 @@
     commander.version(packageJson.version);
 
     // Init command
-    commander.command('init', 'initialize an AllmightyBot instance in this directory');
+    commander.command('init', 'initialize an AllmightyBot instance in this directory and go through the setup');
 
     // Start command
     commander.command('start', 'start the AllmightyBot instance in this directory');
