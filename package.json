@@ -3,8 +3,14 @@
     "version": "0.0.1",
     "description": "AllmightyBot is a bot written for use on Twitch.",
     "main": "app.js",
+    "engines": {
+        "node": ">=4.2.0"
+    },
+    "bin": {
+        "allmightybot": "./bin/allmightybot.js"
+    },
     "scripts": {
-        "test": "node_modules/.bin/mocha"
+        "test": "gulp"
     },
     "repository": {
         "type": "git",
@@ -25,13 +31,17 @@
         "tmi.js": "0.0.23"
     },
     "devDependencies": {
-        "chai": "^3.3.0",
+        "chai": "^3.5.0",
         "grunt": "^0.4.5",
         "grunt-cli": "^0.1.13",
         "grunt-contrib-jshint": "^0.11.3",
         "grunt-mocha-test": "^0.12.7",
-        "jshint": "^2.8.0",
-        "mocha": "^2.3.0",
-        "sinon": "^1.17.1"
+        "gulp": "^3.9.0",
+        "gulp-jscs": "^3.0.2",
+        "gulp-jshint": "^2.0.0",
+        "gulp-mocha": "^2.2.0",
+        "jshint": "^2.9.1",
+        "mocha": "^2.4.5",
+        "sinon": "^1.17.3"
     }
 }

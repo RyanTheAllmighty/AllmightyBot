@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /*
  * AllmightyBot - https://github.com/RyanTheAllmighty/AllmightyBot
  * Copyright (C) 2015 RyanTheAllmighty
@@ -16,29 +18,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-module.exports = function (grunt) {
+(function () {
     'use strict';
 
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-mocha-test');
+    let allmightybot = require('../app');
 
-    grunt.initConfig({
-        jshint: {
-            options: {
-                node: true,
-                esnext: true
-            },
-            src: ['commands/**/*.js', 'inc/**/*.js', 'listeners/*.js']
-        },
-        mochaTest: {
-            test: {
-                options: {
-                    reporter: 'spec'
-                },
-                src: ['test/**/*.js']
-            }
-        }
-    });
-
-    grunt.registerTask('default', ['jshint', 'mochaTest']);
-};
+    allmightybot(process.argv.slice(2));
+})();

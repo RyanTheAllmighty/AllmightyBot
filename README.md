@@ -39,7 +39,7 @@ On initialisation the program will create 2 files explained below.
 ### settings.json
 This is the settings file and contains all the information needed by the bot to connect to Twitch and how to behave.
 
-More information will be put here as to what each setting is at a later date before 1.0.0 release.``
+More information will be put here as to what each setting is at a later date before 1.0.0 release.
 
 ### lang.json
 This contains all the strings used by the bot allowing you to change them or localize them to your own language.
