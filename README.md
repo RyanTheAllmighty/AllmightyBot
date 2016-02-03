@@ -5,13 +5,20 @@
 [![Issues](https://img.shields.io/github/issues/RyanTheAllmighty/AllmightyBot.svg?style=flat-square)](https://github.com/RyanTheAllmighty/AllmightyBot/issues)
 [![License](https://img.shields.io/badge/license-GPLv3-blue.svg?style=flat-square)](https://raw.githubusercontent.com/RyanTheAllmighty/AllmightyBot/master/LICENSE)
 
-AllmightyBot is a bot written for use on Twitch.
+AllmightyBot is a bot written for use on multiple different sites/servers including Twitch, LiveCoding, Beam and plain IRC.
+
+## WARNING
+This repository is currently undergoing reworking to version 1.0.0 and as such may not work at any point in time.
+
+If you wish to get a working version [0.0.1](https://github.com/RyanTheAllmighty/AllmightyBot/releases/tag/v0.0.1).
 
 ## Features
 AllmightyBot has the following features:
 
+- Choice of several core 'modules' for different sites/servers such as Twitch, Beam etc.
 - Extensible through custom commands and event listeners.
 - Global application allowing easy startup of bots for multiple channels without having to have the entire application bloat in each directory.
+- Interactive command prompt for issues commands, administration tasks and checking the status of the bot without having to pollute the chat on the service being used.
 
 ## Requirements
 AllmightyBot was created using [NodeJS](https://nodejs.org/) version 4.2 and as such we don't support any versions of NodeJS below version 4.2.

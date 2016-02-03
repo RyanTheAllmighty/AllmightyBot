@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /*
  * AllmightyBot - https://github.com/RyanTheAllmighty/AllmightyBot
  * Copyright (C) 2015 RyanTheAllmighty
@@ -21,18 +19,7 @@
 (function () {
     'use strict';
 
-    const commander = require('commander');
-    const packageJson = require('../package.json');
-
-    // Parse the version from the package.json file
-    commander.version(packageJson.version);
-
-    // Init command
-    commander.command('init', 'initialize an AllmightyBot instance in this directory');
-
-    // Start command
-    commander.command('start', 'start the AllmightyBot instance in this directory');
-
-    // Parse the command line arguments and take action
-    commander.parse(process.argv);
+    module.exports = {
+        init: require('./init')
+    };
 })();
