@@ -1,4 +1,10 @@
 # AllmightyBot
+[![Build Status](https://img.shields.io/travis/RyanTheAllmighty/AllmightyBot.svg?style=flat-square)](https://travis-ci.org/RyanTheAllmighty/AllmightyBot)
+[![NPM Downloads](https://img.shields.io/npm/dt/allmightybot.svg?style=flat-square)](https://www.npmjs.com/package/allmightybot)
+[![NPM Version](https://img.shields.io/npm/v/allmightybot.svg?style=flat-square)](https://www.npmjs.com/package/allmightybot)
+[![Issues](https://img.shields.io/github/issues/RyanTheAllmighty/AllmightyBot.svg?style=flat-square)](https://github.com/RyanTheAllmighty/AllmightyBot/issues)
+[![License](https://img.shields.io/badge/license-GPLv3-blue.svg?style=flat-square)](https://raw.githubusercontent.com/RyanTheAllmighty/AllmightyBot/master/LICENSE)
+
 AllmightyBot is a bot written for use on Twitch.
 
 ## Features
