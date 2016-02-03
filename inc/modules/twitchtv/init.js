@@ -19,24 +19,32 @@
 (function () {
     'use strict';
 
+    const fs = require('fs');
+    const path = require('path');
+
     function validateUsername(value) {
-        return value.match(/^[a-zA-Z0-9][a-zA-Z0-9_]{3,24}$/i) || 'Invalid username provided!';
+        return !!value.match(/^[a-zA-Z0-9][a-zA-Z0-9_]{3,24}$/i) || 'Invalid username provided!';
     }
 
     function validateOAuthToken(value) {
-        return value.match(/^oauth:[a-z0-9]{30}$/i) || 'Invalid OAuth token provided!';
+        return !!value.match(/^oauth:[a-z0-9]{30}$/i) || 'Invalid OAuth token provided!';
     }
 
     function validateAPIDetails(value) {
-        return value.match(/^[a-z0-9]{30,31}$/i) || 'Invalid API details provided!';
+        return !!value.match(/^[a-z0-9]{30,31}$/i) || 'Invalid API details provided!';
     }
 
     function validateBotSpeakLimit(value) {
         return !isNaN(parseInt(value)) && parseInt(value) > 0 || 'Invalid message limit provided!';
     }
 
-    function processAnswers(answers) {
-        console.log(JSON.stringify(answers, null, '    '));
+    function processAnswers(answers, cb) {
+        let settings = {
+            module: 'twitchtv',
+            twitchtv: answers
+        };
+
+        fs.writeFile(path.join(process.cwd(), 'settings.json'), JSON.stringify(settings, null, '    '), cb);
     }
 
     module.exports = {

@@ -22,10 +22,18 @@
     'use strict';
 
     const commander = require('commander');
+
     const packageJson = require('../package.json');
+
+    function setWorkingDirectory(value) {
+        process.chdir(value);
+    }
 
     // Parse the version from the package.json file
     commander.version(packageJson.version);
+
+    // Allow setting the working directory
+    commander.option('-d, --dir [value]', 'the directory to act as the working directory', setWorkingDirectory, process.cwd());
 
     // Init command
     commander.command('init', 'initialize an AllmightyBot instance in this directory and go through the setup');

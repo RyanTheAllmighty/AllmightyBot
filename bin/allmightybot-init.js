@@ -19,6 +19,9 @@
 (function () {
     'use strict';
 
+    const fs = require('fs');
+    const path = require('path');
+    const colors = require('colors');
     const inquirer = require('inquirer');
 
     const modules = require('../inc/modules');
@@ -47,18 +50,35 @@
         ]
     };
 
-    // Prompt for the type and then run the questions and process the answers for the given module
-    inquirer.prompt(typeQuestion, function (answer) {
-        console.log();
+    // If there is a settings.json already then prompt if we should init anyway
+    if (fs.existsSync(path.join(process.cwd(), 'settings.json'))) {
+        console.log('There is already a settings.json file in this directory!'.red);
 
-        if (!modules[answer.module]) {
-            return console.error(`No module found for '${answer.module}'!`);
-        }
+        // See if we should force init
+        inquirer.prompt({
+            type: 'confirm',
+            name: 'force',
+            message: 'Continue anyway?',
+            default: false
+        }, (answer) => answer.force && fs.unlink(path.join(process.cwd(), 'settings.json'), (err) => err ? console.error(err) : init()));
+    } else {
+        init();
+    }
 
-        if (!modules[answer.module].init) {
-            return console.error(`No initialisation parameters found for module '${answer.module}'!`);
-        }
+    function init() {
+        // Prompt for the type and then run the questions and process the answers for the given module
+        inquirer.prompt(typeQuestion, function (answer) {
+            console.log();
 
-        inquirer.prompt(modules[answer.module].init.questions, modules[answer.module].init.processAnswers);
-    });
+            if (!modules[answer.module]) {
+                return console.error(`No module found for '${answer.module}'!`);
+            }
+
+            if (!modules[answer.module].init) {
+                return console.error(`No initialisation parameters found for module '${answer.module}'!`);
+            }
+
+            inquirer.prompt(modules[answer.module].init.questions, modules[answer.module].init.processAnswers);
+        });
+    }
 })();
