@@ -16,12 +16,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
-    'use strict';
+'use strict';
 
-    const exitHandler = (err) => err ? console.error(err) : console.error('Unknown error!');
+let Command = require('.././command');
 
-    process.on('exit', exitHandler);
-    process.on('SIGINT', exitHandler);
-    process.on('uncaughtException', exitHandler);
-})();
+module.exports = class JourneyToTheCoreCommand extends Command {
+    constructor() {
+        super('jttc');
+    }
+
+    run(command_name, channel, user, message) {
+        this.sendMessage(channel, this.language.journey_to_the_core);
+    }
+};

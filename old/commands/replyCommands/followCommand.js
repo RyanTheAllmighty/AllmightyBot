@@ -16,12 +16,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
-    'use strict';
+'use strict';
 
-    const exitHandler = (err) => err ? console.error(err) : console.error('Unknown error!');
+let Command = require('.././command');
 
-    process.on('exit', exitHandler);
-    process.on('SIGINT', exitHandler);
-    process.on('uncaughtException', exitHandler);
-})();
+module.exports = class FollowCommand extends Command {
+    constructor() {
+        super('follow');
+    }
+
+    run(command_name, channel, user, message) {
+        if (!this.isModerator(user)) {
+            return console.error(new Error('The follow command can only be run by a moderator!'));
+        }
+
+        if (message.split(' ').length !== 2) {
+            return console.error(new Error('No username was passed in to the follow command!'));
+        }
+
+        this.sendMessage(channel, this.language.follow.format(message.split(' ')[1]));
+    }
+};

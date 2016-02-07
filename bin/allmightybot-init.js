@@ -19,9 +19,11 @@
 (function () {
     'use strict';
 
+    // Add colour properties to string prototype to allow printing in colour
+    require('colors');
+
     const fs = require('fs');
     const path = require('path');
-    const colors = require('colors');
     const inquirer = require('inquirer');
 
     const modules = require('../inc/modules');

@@ -16,12 +16,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
-    'use strict';
+'use strict';
 
-    const exitHandler = (err) => err ? console.error(err) : console.error('Unknown error!');
+let Command = require('.././command');
 
-    process.on('exit', exitHandler);
-    process.on('SIGINT', exitHandler);
-    process.on('uncaughtException', exitHandler);
-})();
+module.exports = class TimeCommand extends Command {
+    constructor() {
+        super('time');
+    }
+
+    run(command_name, channel, user, message) {
+        var curDate = new Date();
+
+        var datetime = ((curDate.getHours() < 10) ? "0" : "") + ((curDate.getHours() > 12) ? (curDate.getHours() - 12) : curDate.getHours()) + ":" + ((curDate.getMinutes() < 10) ? "0" : "") +
+            curDate.getMinutes() + ":" + ((curDate.getSeconds() < 10) ? "0" : "") + curDate.getSeconds() + ((curDate.getHours() > 12) ? (' PM') : ' AM');
+
+        this.sendMessage(channel, this.language.current_time.format(this.settings.casters_display_name, datetime));
+    }
+};

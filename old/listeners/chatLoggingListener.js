@@ -16,12 +16,28 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
-    'use strict';
+'use strict';
 
-    const exitHandler = (err) => err ? console.error(err) : console.error('Unknown error!');
+var settings = require('../settings.json');
 
-    process.on('exit', exitHandler);
-    process.on('SIGINT', exitHandler);
-    process.on('uncaughtException', exitHandler);
-})();
+var connection = require('../old/inc/connection');
+
+module.exports.enabled = true;
+
+module.exports.listening_for = 'chat';
+
+module.exports.callback = function (channel, user, message, self) {
+    if (!self) {
+        connection.users.update(user, function (err) {
+            if (err) {
+                console.error(err);
+            }
+        });
+
+        connection.messages.save(channel, user, message, false, function (err) {
+            if (err) {
+                console.error(err);
+            }
+        });
+    }
+};

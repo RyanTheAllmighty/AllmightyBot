@@ -16,12 +16,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
-    'use strict';
+'use strict';
 
-    const exitHandler = (err) => err ? console.error(err) : console.error('Unknown error!');
+let functions = require('../../old/inc/functions');
 
-    process.on('exit', exitHandler);
-    process.on('SIGINT', exitHandler);
-    process.on('uncaughtException', exitHandler);
-})();
+let Command = require('.././command');
+
+module.exports = class UptimeCommand extends Command {
+    constructor() {
+        super('uptime');
+    }
+
+    run(command_name, channel, user, message) {
+        let self = this;
+
+        this.connection.events.isLive(function (err, live, since) {
+            if (live) {
+                self.sendMessage(channel, self.language.uptime_today.format(self.settings.casters_display_name, functions.timeBetween(new Date(), since)));
+            } else {
+                self.sendMessage(channel, self.language.uptime_offline.format(self.settings.casters_display_name));
+            }
+        });
+    }
+};

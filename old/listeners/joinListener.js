@@ -16,12 +16,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
-    'use strict';
+'use strict';
 
-    const exitHandler = (err) => err ? console.error(err) : console.error('Unknown error!');
+// WARNING: The join listener is useless, only counts the first join by the bot
 
-    process.on('exit', exitHandler);
-    process.on('SIGINT', exitHandler);
-    process.on('uncaughtException', exitHandler);
-})();
+var settings = require('../settings.json');
+var lang = require('../lang.json');
+
+var connection = require('../old/inc/connection');
+var chatterChecker = require('../old/inc/chatterChecker');
+
+module.exports.enabled = true;
+
+module.exports.listening_for = 'roomstate';
+
+module.exports.callback = function (channel, state) {
+    if (settings.bot_says_welcome) {
+        connection.client.sendMessage(channel, lang.join_message);
+    }
+
+    chatterChecker.logChatters(settings.channel_to_join);
+    chatterChecker.startCheckingChatters();
+};

@@ -24,34 +24,38 @@
     const mocha = require('gulp-mocha');
     const jshint = require('gulp-jshint');
 
-    const srcFiles = ['app.js', 'inc/**/*', 'bin/**/*', 'test/**/*'];
+    const options = {
+        source: {
+            js: ['app.js', 'gulpfile.js', 'inc/**/*', 'bin/**/*', 'test/**/*']
+        },
+        tests: ['test/**/*']
+    };
 
     gulp.task('jshint', function () {
-        return gulp.src(srcFiles)
+        return gulp.src(options.source.js)
             .pipe(jshint())
             .pipe(jshint.reporter())
             .pipe(jshint.reporter('fail'));
     });
 
     gulp.task('jscs', function () {
-        return gulp.src(srcFiles)
+        return gulp.src(options.source.js)
             .pipe(jscs())
             .pipe(jscs.reporter())
             .pipe(jscs.reporter('fail'));
     });
 
     gulp.task('test', function () {
-        return gulp.src(['test/**/*'])
+        return gulp.src(options.tests)
             .pipe(mocha({
                 reporter: 'min',
                 clearRequireCache: true,
-                ignoreLeaks: true,
-                require: ['./test/common']
+                ignoreLeaks: true
             }));
     });
 
     gulp.task('watch', function () {
-        gulp.watch(srcFiles, ['jshint', 'jscs', 'test']);
+        gulp.watch(options.source.js, ['jshint', 'jscs', 'test']);
         gulp.start('default');
     });
 

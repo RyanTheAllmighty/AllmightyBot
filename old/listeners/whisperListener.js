@@ -16,12 +16,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
-    'use strict';
+'use strict';
 
-    const exitHandler = (err) => err ? console.error(err) : console.error('Unknown error!');
+var connection = require('../old/inc/connection');
+var commands = require('../old/inc/commands');
 
-    process.on('exit', exitHandler);
-    process.on('SIGINT', exitHandler);
-    process.on('uncaughtException', exitHandler);
-})();
+module.exports.enabled = true;
+
+module.exports.groupChat = true;
+
+module.exports.listening_for = 'whisper';
+
+module.exports.callback = function (username, message) {
+    console.log(username + ': ' + message);
+};

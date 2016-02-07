@@ -16,12 +16,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-(function () {
-    'use strict';
+'use strict';
 
-    const exitHandler = (err) => err ? console.error(err) : console.error('Unknown error!');
+let exitHandler = require('../../old/inc/exitHandler');
 
-    process.on('exit', exitHandler);
-    process.on('SIGINT', exitHandler);
-    process.on('uncaughtException', exitHandler);
-})();
+let Command = require('.././command');
+
+module.exports = class ExitCommand extends Command {
+    constructor() {
+        super('exit');
+    }
+
+    run(command_name, channel, user, message) {
+        if (this.isBroadcaster(user)) {
+            this.sendMessage(channel, this.language.exit_message);
+
+            exitHandler();
+        }
+    }
+};
