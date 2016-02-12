@@ -1,62 +1,62 @@
 {
-  "name": "allmightybot",
-  "version": "0.0.1",
-  "description": "AllmightyBot is a bot written for use on Twitch.",
-  "main": "app.js",
-  "engines": {
-    "node": ">=4.2.0"
-  },
-  "bin": {
-    "allmightybot": "./bin/allmightybot.js"
-  },
-  "scripts": {
-    "test": "gulp"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/RyanTheAllmighty/AllmightyBot.git"
-  },
-  "author": "Ryan Dowling <ryan@ryandowling.me>",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/RyanTheAllmighty/AllmightyBot/issues"
-  },
-  "contributors": [
-    {
-      "name": "Ryan Dowling",
-      "email": "ryan@ryandowling.me",
-      "url": "https://github.com/RyanTheAllmighty"
+    "name": "allmightybot",
+    "version": "0.0.1",
+    "description": "AllmightyBot is a bot written for use on Twitch.",
+    "main": "app.js",
+    "engines": {
+        "node": ">=4.2.0"
+    },
+    "bin": {
+        "allmightybot": "./bin/allmightybot.js"
+    },
+    "scripts": {
+        "test": "gulp"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/RyanTheAllmighty/AllmightyBot.git"
+    },
+    "author": "Ryan Dowling <ryan@ryandowling.me>",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/RyanTheAllmighty/AllmightyBot/issues"
+    },
+    "contributors": [
+        {
+            "name": "Ryan Dowling",
+            "email": "ryan@ryandowling.me",
+            "url": "https://github.com/RyanTheAllmighty"
+        }
+    ],
+    "keywords": [
+        "twitch",
+        "livecoding",
+        "beam",
+        "bot",
+        "irc",
+        "chat bot"
+    ],
+    "homepage": "https://github.com/RyanTheAllmighty/AllmightyBot",
+    "dependencies": {
+        "async": "^1.5.2",
+        "colors": "^1.1.2",
+        "commander": "^2.9.0",
+        "inquirer": "^0.11.4",
+        "lodash": "^3.10.1",
+        "nedb": "^1.2.1",
+        "request": "^2.64.0",
+        "string-format": "^0.5.0",
+        "tmi.js": ">=0.0.26 <1.0.0",
+        "vorpal": "^1.7.7"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "gulp": "^3.9.0",
+        "mocha": "^2.4.5",
+        "jshint": "~2.8.0",
+        "sinon": "^1.17.3",
+        "gulp-jscs": "^3.0.2",
+        "gulp-mocha": "^2.2.0",
+        "gulp-jshint": "^2.0.0"
     }
-  ],
-  "keywords": [
-    "twitch",
-    "livecoding",
-    "beam",
-    "bot",
-    "irc",
-    "chat bot"
-  ],
-  "homepage": "https://github.com/RyanTheAllmighty/AllmightyBot",
-  "dependencies": {
-    "async": "^1.5.2",
-    "colors": "^1.1.2",
-    "commander": "^2.9.0",
-    "inquirer": "^0.11.4",
-    "lodash": "^3.10.1",
-    "nedb": "^1.2.1",
-    "request": "^2.64.0",
-    "string-format": "^0.5.0",
-    "tmi.js": ">=0.0.26 <1.0.0",
-    "vorpal": "^1.7.7"
-  },
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "gulp": "^3.9.0",
-    "mocha": "^2.4.5",
-    "jshint": "^2.9.1",
-    "sinon": "^1.17.3",
-    "gulp-jscs": "^3.0.2",
-    "gulp-mocha": "^2.2.0",
-    "gulp-jshint": "^2.0.0"
-  }
 }

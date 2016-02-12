@@ -19,8 +19,68 @@
 (function () {
     'use strict';
 
-    module.exports = {
-        name: 'Twitch TV',
-        init: require('./init')
-    };
+    // Modify String prototype to add colours
+    require('colors');
+
+    const Module = require('../../classes/module');
+
+    const objectSymbol = Symbol();
+
+    class TwitchTV extends Module {
+        constructor(vorpal) {
+            super(vorpal, 'twitchtv');
+
+            this[objectSymbol] = {
+                init: require('./init'),
+                clients: {
+                    chat: null,
+                    whispers: null
+                }
+            };
+        }
+
+        get chatClient() {
+            return this[objectSymbol].clients.chat;
+        }
+
+        get name() {
+            return 'TwitchTV';
+        }
+
+        get whispersClient() {
+            return this[objectSymbol].clients.whispers;
+        }
+
+        connect() {
+            return new Promise(function (resolve) {
+                this.vorpal.log('Not yet implemented'.red);
+                resolve();
+            }.bind(this));
+        }
+
+        disconnect() {
+            return new Promise(function (resolve) {
+                this.vorpal.log('Not yet implemented'.red);
+                resolve();
+            }.bind(this));
+        }
+
+        sendMessage(message) {
+            return new Promise(function (resolve) {
+                this.vorpal.log(`Sending message '${message}'`);
+                this.vorpal.log('Not yet implemented'.red);
+                resolve();
+            }.bind(this));
+        }
+
+        sendWhisper(user, message) {
+            return new Promise(function (resolve) {
+                this.vorpal.log(`Sending whisper '${message}' to '${user}'`);
+                this.vorpal.log('Not yet implemented'.red);
+                resolve();
+            }.bind(this));
+        }
+    }
+
+    module.exports = TwitchTV;
 })();

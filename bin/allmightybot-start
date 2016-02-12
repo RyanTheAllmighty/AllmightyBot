@@ -24,11 +24,27 @@
     const path = require('path');
     const vorpal = require('vorpal')();
 
-    const modules = require('../inc/modules');
+    // This is the module for the bot to be run
+    const module = new (require('../inc/modules')[require(path.join(process.cwd(), 'settings.json')).module])(vorpal);
 
-    const settingsJson = require(path.join(process.cwd(), 'settings.json'));
+    vorpal.delimiter(`[${module.name}] ${module.settings.bot_username}@${module.settings.username}:`);
 
-    const moduleSettings = settingsJson[settingsJson.module];
+    // Add in the connect command to connect to the modules service
+    vorpal.command('connect')
+        .description('connects the bot to the service')
+        .alias('c')
+        .action(function (args, callback) {
+            module.connect(this).then(callback).catch(callback);
+        });
 
-    vorpal.delimiter(`[${modules[settingsJson.module].name}] ${moduleSettings.bot_username}@${moduleSettings.username}:`).show();
+    // Add in the connect command to connect to the modules service
+    vorpal.command('disconnect')
+        .description('disconnects the bot from the service')
+        .alias('d')
+        .action(function (args, callback) {
+            module.disconnect(this).then(callback).catch(callback);
+        });
+
+    // Show the console
+    vorpal.show();
 })();
