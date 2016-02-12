@@ -20,6 +20,7 @@
     'use strict';
 
     module.exports = {
+        name: 'Twitch TV',
         init: require('./init')
     };
 })();

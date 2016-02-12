@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /*
  * AllmightyBot - https://github.com/RyanTheAllmighty/AllmightyBot
  * Copyright (C) 2015 RyanTheAllmighty
@@ -19,7 +21,14 @@
 (function () {
     'use strict';
 
+    const path = require('path');
     const vorpal = require('vorpal')();
 
-    vorpal.delimiter('allmightybot$').show();
+    const modules = require('../inc/modules');
+
+    const settingsJson = require(path.join(process.cwd(), 'settings.json'));
+
+    const moduleSettings = settingsJson[settingsJson.module];
+
+    vorpal.delimiter(`[${modules[settingsJson.module].name}] ${moduleSettings.bot_username}@${moduleSettings.username}:`).show();
 })();
